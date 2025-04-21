@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="game-container">
+    <div class="game-interface">
+        <div class="top-bar">
+            <h1 class="pixel-font">CaféCraft</h1>
+            <div class="navigation">
+                <a href="{{ url_for('home') }}" class="nav-icon">
+                    <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home">
+                </a>
+                <a href="{{ url_for('introduction_backpack') }}" class="nav-icon">
+                    <img src="{{ url_for('static', filename='images/backpack.png') }}" alt="Backpack">
+                </a>
+                <a href="{{ url_for('recipes') }}" class="nav-icon">
+                    <img src="{{ url_for('static', filename='images/recipe.png') }}" alt="Recipes">
+                </a>
+                <a href="#" class="nav-icon">
+                    <img src="{{ url_for('static', filename='images/notebook.png') }}" alt="Notebook">
+                </a>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <!-- Left side - Character -->
+            <div class="character-section">
+                <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Fiona" class="character-img">
+                <div class="character-name pixel-font">{{ name }}</div>
+                <div class="energy-meter">
+                    {% for i in range(6) %}
+                    {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee-full.png') }}"
+                        alt="Coffee Cup" class="coffee-icon">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/coffee-empty.png') }}" alt="Empty Cup"
+                            class="coffee-icon">
+                        {% endif %}
+                        {% endfor %}
+                </div>
+
+                <div class="backpack">
+                    <h3 class="pixel-font">BACKPACK</h3>
+                    <div class="backpack-grid">
+                        {% for i in range(7) %}
+                        <div class="backpack-slot"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center - Recipe Info -->
+            <div class="recipe-section">
+                <h2 class="pixel-font">RECIPES</h2>
+                <div class="recipe-info">
+                    <div class="recipe-item">
+                        <span class="recipe-name">{{ recipe.name }}</span>
+                        <div class="recipe-ingredients">
+                            {% for ingredient in recipe.ingredients %}
+                            <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
+                                alt="{{ items[ingredient].name }}" class="ingredient-icon">
+                            {% if not loop.last %}
+                            <span class="plus">+</span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side - Dr. Coffee -->
+            <div class="dr-coffee-section">
+                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
+                    class="dr-coffee-img">
+                <div class="character-name pixel-font">Dr. Coffee</div>
+                <div class="speech-bubble">
+                    <p class="pixel-font">{{ recipe.description }}</p>
+                </div>
+                <div class="continue-button">
+                    <a href="{{ url_for('craft', recipe_id=recipe_id) }}" class="pixel-button">Start Crafting!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .game-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+    }
+
+    .game-interface {
+        width: 1000px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .navigation {
+        display: flex;
+        gap: 20px;
+    }
+
+    .nav-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .nav-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .content-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 20px;
+    }
+
+    .pixel-font {
+        font-family: 'Press Start 2P', cursive;
+        color: #4a4a4a;
+    }
+
+    .character-img,
+    .dr-coffee-img {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 10px;
+        image-rendering: pixelated;
+    }
+
+    .character-name {
+        font-size: 16px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .energy-meter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .coffee-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .backpack {
+        margin-top: 20px;
+    }
+
+    .backpack-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        padding: 10px;
+        background: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .backpack-slot {
+        aspect-ratio: 1;
+        background: #fff;
+        border: 1px solid #ccc;
+    }
+
+    .recipe-section {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .recipe-info {
+        margin-top: 20px;
+    }
+
+    .recipe-item {
+        background: #f5f5f5;
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    .recipe-name {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .recipe-ingredients {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .ingredient-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .plus {
+        color: #4a4a4a;
+    }
+
+    .dr-coffee-section {
+        text-align: center;
+    }
+
+    .speech-bubble {
+        background: #fff;
+        border: 3px solid #4a4a4a;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .speech-bubble:after {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 0 15px 15px;
+        border-style: solid;
+        border-color: #4a4a4a transparent;
+    }
+
+    .continue-button {
+        margin-top: 20px;
+    }
+
+    .pixel-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: white;
+        border: 3px solid #4a4a4a;
+        color: #4a4a4a;
+        text-decoration: none;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .pixel-button:hover {
+        background-color: #4a4a4a;
+        color: white;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
