@@ -1,0 +1,76 @@
+{
+    "recipes": {
+        "espresso": {
+            "name": "Espresso",
+            "ingredients": ["coffee_beans", "water"],
+            "description": "Espresso is made with finely ground coffee and hot water, brewed under high pressure.",
+            "additional_info": "It's strong, bitter, and very high in caffeine. It also serves as the base for many other drinks."
+        },
+        "americano": {
+            "name": "Americano",
+            "ingredients": ["espresso", "water"],
+            "description": "It smooths out the bitterness while keeping the caffeine level high.",
+            "additional_info": "It's a good pick when you want to stay alert for longer."
+        },
+        "macchiato": {
+            "name": "Macchiato",
+            "ingredients": ["espresso", "milk_foam"],
+            "description": "It's an espresso marked with a spoonful of milk foam.",
+            "additional_info": "Macchiato keeps the espresso's strength but adds a touch of creaminess without diluting the flavor."
+        },
+        "latte": {
+            "name": "Café Latte",
+            "ingredients": ["espresso", "steamed_milk", "milk_foam"],
+            "description": "Let's mix espresso with plenty of steamed milk and foam.",
+            "additional_info": "This can be your go-to drink when you want something mild, warm, and smooth."
+        },
+        "mocha": {
+            "name": "Mocha",
+            "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream"],
+            "description": "It is a sweet mix of espresso, milk, chocolate syrup, and whipped cream.",
+            "additional_info": "It's both a dessert and a drink. A great option when you want flavor and focus together."
+        }
+    },
+    "items": {
+        "coffee_beans": {
+            "name": "Coffee Beans",
+            "icon": "coffee_beans.png"
+        },
+        "water": {
+            "name": "Water",
+            "icon": "water.png"
+        },
+        "espresso": {
+            "name": "Espresso",
+            "icon": "espresso.png"
+        },
+        "milk_foam": {
+            "name": "Milk Foam",
+            "icon": "milk_foam.png"
+        },
+        "steamed_milk": {
+            "name": "Steamed Milk",
+            "icon": "steamed_milk.png"
+        },
+        "chocolate_syrup": {
+            "name": "Chocolate Syrup",
+            "icon": "chocolate_syrup.png"
+        },
+        "whipped_cream": {
+            "name": "Whipped Cream",
+            "icon": "whipped_cream.png"
+        }
+    },
+    "characters": {
+        "fiona": {
+            "name": "Fiona",
+            "max_caffeine": 6,
+            "initial_caffeine": 1
+        },
+        "dr_coffee": {
+            "name": "Dr. Coffee",
+            "title": "Dr. Coffee",
+            "initial_message": "Welcome! I'm Dr. Coffee, your caffeinated professor with a PhD in Espressology. Let me help you regain your energy!"
+        }
+    }
+} 

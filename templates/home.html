@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="game-container">
+    <div class="welcome-screen">
+        <h2 class="pixel-font">Welcome to CaféCraft!</h2>
+        <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Tired User" class="character-img">
+        <a href="{{ url_for('enter_name') }}" class="pixel-button">START</a>
+    </div>
+</div>
+
+<style>
+    .game-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+    }
+
+    .welcome-screen {
+        text-align: center;
+        padding: 40px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pixel-font {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 24px;
+        margin-bottom: 30px;
+        color: #4a4a4a;
+    }
+
+    .character-img {
+        width: 150px;
+        height: 150px;
+        margin: 20px auto;
+        image-rendering: pixelated;
+    }
+
+    .pixel-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: white;
+        border: 3px solid #4a4a4a;
+        color: #4a4a4a;
+        text-decoration: none;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .pixel-button:hover {
+        background-color: #4a4a4a;
+        color: white;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

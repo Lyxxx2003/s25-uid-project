@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="quiz-container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="character-container">
+                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character">
+                <h3 class="pixel-font text-center mt-2">Dr. Coffee</h3>
+                <p class="text-center">Question {{ question_id }} of {{ total_questions }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="quiz-content">
+                <h2 class="pixel-font mb-4">Coffee Quiz</h2>
+                <div class="question-card">
+                    <h3 class="mb-4">{{ question.question }}</h3>
+
+                    <form action="{{ url_for('quiz', question_id=question_id) }}" method="POST">
+                        {% for option in question.options %}
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="answer" value="{{ option }}"
+                                id="option{{ loop.index }}" required>
+                            <label class="form-check-label pixel-font" for="option{{ loop.index }}">
+                                {{ option }}
+                            </label>
+                        </div>
+                        {% endfor %}
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary pixel-font">Next Question</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
