@@ -80,6 +80,12 @@
                     </div>
                     {% endfor %}
                 </div>
+                <!-- Quiz Button -->
+                {% if all_unlocked %}
+                <div class="quiz-button">
+                    <a href="{{ url_for('quiz') }}" class="pixel-button">Take the Quiz!</a>
+                </div>
+                {% endif %}
             </div>
 
             <!-- Right side - Dr. Coffee -->

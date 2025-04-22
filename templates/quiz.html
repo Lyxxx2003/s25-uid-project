@@ -1,40 +1,132 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="quiz-container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="character-container">
-                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character">
-                <h3 class="pixel-font text-center mt-2">Dr. Coffee</h3>
-                <p class="text-center">Question {{ question_id }} of {{ total_questions }}</p>
-            </div>
+<div class="game-content" style="display: flex; gap: 40px; justify-content: center;">
+    <!-- Left: Fiona and Backpack -->
+    <div class="player-section" style="width: 30%;">
+        <div class="character-sprite text-center">
+            <img src="{{ url_for('static', filename='images/user_happy.png') }}" width="120">
+            <p class="pixel-font">{{ name }}</p>
         </div>
-
-        <div class="col-md-8">
-            <div class="quiz-content">
-                <h2 class="pixel-font mb-4">Coffee Quiz</h2>
-                <div class="question-card">
-                    <h3 class="mb-4">{{ question.question }}</h3>
-
-                    <form action="{{ url_for('quiz', question_id=question_id) }}" method="POST">
-                        {% for option in question.options %}
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="answer" value="{{ option }}"
-                                id="option{{ loop.index }}" required>
-                            <label class="form-check-label pixel-font" for="option{{ loop.index }}">
-                                {{ option }}
-                            </label>
-                        </div>
-                        {% endfor %}
-
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary pixel-font">Next Question</button>
-                        </div>
-                    </form>
-                </div>
+        <h4 class="pixel-font text-center">Backpack</h4>
+        <div class="inventory-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate_syrup', 'water'] %}
+            <div class="inventory-slot" draggable="true">
+                <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon" alt="{{ item }}">
             </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Center: Crafting Table with Submit Button -->
+    <div class="crafting-section text-center" style="width: 30%;">
+        <h4 class="pixel-font">Crafting Table</h4>
+        <div class="crafting-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+            {% for i in range(7) %}
+            <div class="crafting-slot" data-slot="{{ i }}"></div>
+            {% endfor %}
+        </div>
+        <div class="crafting-arrow my-2">➜</div>
+        <div class="result-slot" style="width: 60px; height: 60px; border: 2px solid #4a4a4a; margin: auto;"></div>
+        <div class="text-center mt-4">
+            <button id="submit-craft" class="pixel-button">Submit</button>
+        </div>
+    </div>
+
+    <!-- Right: Dr. Coffee and Question -->
+    <div class="professor-section" style="width: 30%;">
+        <div class="professor-sprite text-center">
+            <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" width="120">
+            <p class="pixel-font">Dr. Coffee</p>
+        </div>
+        <div class="speech-bubble mt-3 pixel-font" style="font-size: 12px;">
+            {{ question.prompt }}
         </div>
     </div>
 </div>
+
+<script>
+const questionId = {{ current_qid }};
+const totalQuestions = {{ total_questions }};
+document.addEventListener('DOMContentLoaded', function () {
+    const inventorySlots = document.querySelectorAll('.inventory-slot');
+    const craftingSlots = document.querySelectorAll('.crafting-slot');
+    const resultSlot = document.querySelector('.result-slot');
+    const responseText = document.createElement('p');
+    const heartIcon = document.createElement('img');
+    heartIcon.src = "/static/images/heart.png";
+    heartIcon.style.width = "30px";
+    heartIcon.style.display = "none";
+    heartIcon.style.marginTop = "10px";
+
+    document.querySelector('.professor-section').appendChild(heartIcon);
+    document.querySelector('.professor-section').appendChild(responseText);
+
+    let selectedIngredients = [];
+
+    inventorySlots.forEach(slot => {
+        slot.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', slot.querySelector('img').alt);
+        });
+    });
+
+    craftingSlots.forEach(slot => {
+        slot.addEventListener('dragover', e => e.preventDefault());
+        slot.addEventListener('drop', e => {
+            e.preventDefault();
+            const ingredient = e.dataTransfer.getData('text/plain');
+            slot.innerHTML = `<img src="/static/images/${ingredient}.png" class="item-icon" alt="${ingredient}">`;
+        });
+    });
+
+    document.getElementById('submit-craft').addEventListener('click', function () {
+        selectedIngredients = Array.from(craftingSlots).map(slot => {
+            const img = slot.querySelector('img');
+            return img ? img.alt : null;
+        });
+
+        fetch('/submit_quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ingredients: selectedIngredients,
+                question_id: questionId
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" width="50">`;
+
+            // Hide the Submit button
+            const submitBtn = document.getElementById("submit-craft");
+            submitBtn.style.display = "none";
+
+            // Show feedback
+            if (data.success) {
+                responseText.innerText = "Correct! You crafted the right drink!";
+                heartIcon.style.display = "inline-block";
+            } else {
+                responseText.innerText = "Oops! That’s not the right combination.";
+                heartIcon.style.display = "none";
+            }
+
+            // Replace Submit with Next
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "pixel-button mt-3";
+            nextBtn.innerText = data.finished ? "Finish Quiz" : "Next Question";
+            nextBtn.onclick = () => {
+                if (data.finished) {
+                    window.location.href = '/certificate';
+                } else {
+                    window.location.href = `/quiz/${data.next_qid}`;
+                }
+            };
+            submitBtn.parentElement.appendChild(nextBtn);
+
+        });
+    });
+});
+</script>
+    
+
 {% endblock %}

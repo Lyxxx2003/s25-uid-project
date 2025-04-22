@@ -73,11 +73,14 @@ def introduction_table():
 
 @app.route('/recipes')
 def recipes():
+    recipe_sequence = ["espresso", "americano", "macchiato", "latte", "mocha"]
+    all_unlocked = set(recipe_sequence).issubset(set(game_state.recipes_unlocked))  # Check if all recipes are unlocked
     return render_template('recipes.html',
                          name=game_state.name,
                          game_data=game_data,
                          unlocked_recipes=game_state.recipes_unlocked,
-                         caffeine_level=game_state.caffeine_level)
+                         caffeine_level=game_state.caffeine_level,
+                         all_unlocked=all_unlocked)
 
 @app.route('/learn/<recipe_id>')
 def learn(recipe_id):
@@ -170,6 +173,89 @@ def learn_more(recipe_id):
     return render_template('learn_more.html',
                          name=game_state.name,
                          caffeine_level=game_state.caffeine_level)
+
+
+
+# QUIZ
+# @app.route('/quiz')
+# def quiz():
+#     with open('static/data/quiz.json') as f:
+#         quiz_data = json.load(f)
+#     question = quiz_data['questions'][0]
+#     return render_template(
+#         'quiz.html',
+#         question=question,
+#         name=game_state.name,
+#         caffeine_level=game_state.caffeine_level,
+#         inventory=[
+#             "coffee_beans",
+#             "espresso",
+#             "steamed_milk",
+#             "milk_foam",
+#             "whipped_cream",
+#             "chocolate_syrup",
+#             "water"
+#         ]
+#     )
+@app.route('/quiz')
+@app.route('/quiz/<int:qid>')
+def quiz(qid=1):
+    with open('static/data/quiz.json') as f:
+        quiz_data = json.load(f)
+    
+    if qid == 1:
+        session['quiz_score'] = 0  # Reset score at beginning
+
+    question = next(q for q in quiz_data['questions'] if q['id'] == qid)
+    total_questions = len(quiz_data['questions'])
+    return render_template(
+        'quiz.html',
+        question=question,
+        current_qid=qid,
+        total_questions=total_questions,
+        name=game_state.name,
+        caffeine_level=game_state.caffeine_level,
+        inventory=[
+            "coffee_beans", "espresso", "steamed_milk", "milk_foam",
+            "whipped_cream", "chocolate_syrup", "water"
+        ]
+    )
+@app.route('/submit_quiz', methods=['POST'])
+def submit_quiz():
+    data = request.json
+    qid = data.get('question_id')
+    submitted_ingredients = sorted([ing for ing in data.get('ingredients', []) if ing])
+
+    with open('static/data/quiz.json') as f:
+        quiz_data = json.load(f)
+
+    question = next(q for q in quiz_data['questions'] if q['id'] == qid)
+    correct_option = next(opt for opt in question['options'] if opt['id'] == question['answer_id'])
+    correct_ingredients = sorted(correct_option['ingredients'])
+
+    is_correct = submitted_ingredients == correct_ingredients
+
+    # Update score
+    if is_correct:
+        session['quiz_score'] = session.get('quiz_score', 0) + 1
+
+    next_qid = qid + 1 if qid < len(quiz_data['questions']) else None
+
+    return jsonify({
+        'success': is_correct,
+        'result': question['success_image'] if is_correct else question['failure_image'],
+        'next_qid': next_qid,
+        'score': session.get('quiz_score', 0),
+        'finished': next_qid is None
+    })
+
+@app.route('/certificate')
+def certificate():
+    score = session.get('quiz_score', 0)
+    today = datetime.now().strftime("%B %d, %Y")
+    return render_template('certificate.html', name=game_state.name, score=score, date=today)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True) 

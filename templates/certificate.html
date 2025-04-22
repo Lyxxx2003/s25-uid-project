@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mt-5 pixel-font">
+    <h1 class="mb-4">CaféCraft</h1>
+
+    <div style="display: flex; justify-content: center; align-items: flex-start; gap: 40px;">
+        <!-- Fiona -->
+        <div>
+            <img src="{{ url_for('static', filename='images/user_happy.png') }}" width="120" alt="Fiona">
+            <p>{{ name }}</p>
+        </div>
+
+        <!-- Certificate Paper -->
+        <div style="background: white; border: 2px solid #4a4a4a; padding: 30px 40px; border-radius: 6px; width: 280px; box-shadow: 4px 4px 0 #aaa;">
+            <p>This certifies that</p>
+            <h3><u>{{ name }}</u></h3>
+            <p>has completed<br>CaféCraft’s training on</p>
+            <p><b>{{ date }}</b></p>
+            <p>with a score of <b>{{ score }}/5</b></p>
+            <p>and is now officially a<br><b>CERTIFIED COFFEE<br>CONNOISSEUR</b></p>
+            <p style="margin-top: 30px;">Dr. Coffee, PhD</p>
+        </div>
+
+        <!-- Dr. Coffee -->
+        <div>
+            <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" width="120" alt="Dr. Coffee">
+            <p>Dr. Coffee</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('quiz', qid=1) }}" class="pixel-button mt-4">Retake Quiz</a>
+</div>
+{% endblock %}
