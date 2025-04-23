@@ -59,6 +59,8 @@ cafecraft/
 │   ├── images/           # Game images
 │   └── data/
 │       └── game_data.json # Game content
+│       └── lessons.json # Lessons content
+│       └── quiz.json # Quiz content
 └── templates/
     ├── base.html         # Base template
     ├── home.html         # Home page
