@@ -7,16 +7,16 @@
             <h1 class="pixel-font">CaféCraft</h1>
             <div class="navigation">
                 <a href="{{ url_for('home') }}" class="nav-icon">
-                    <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home">
+                    <img src="{{ url_for('static', filename='images/Home.png') }}" alt="Home">
                 </a>
                 <a href="{{ url_for('introduction_backpack') }}" class="nav-icon">
-                    <img src="{{ url_for('static', filename='images/backpack.png') }}" alt="Backpack">
+                    <img src="{{ url_for('static', filename='images/Backpack.png') }}" alt="Backpack">
                 </a>
                 <a href="{{ url_for('recipes') }}" class="nav-icon">
-                    <img src="{{ url_for('static', filename='images/recipe.png') }}" alt="Recipes">
+                    <img src="{{ url_for('static', filename='images/Recipe.png') }}" alt="Recipes">
                 </a>
                 <a href="#" class="nav-icon">
-                    <img src="{{ url_for('static', filename='images/notebook.png') }}" alt="Notebook">
+                    <img src="{{ url_for('static', filename='images/Notebook.png') }}" alt="Notebook">
                 </a>
             </div>
         </div>
@@ -24,14 +24,14 @@
         <div class="content-container">
             <!-- Left side - Character -->
             <div class="character-section">
-                <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Fiona" class="character-img">
+                <img src="{{ url_for('static', filename='images/User_tired.png') }}" alt="Fiona" class="character-img">
                 <div class="character-name pixel-font">{{ name }}</div>
                 <div class="energy-meter">
                     {% for i in range(6) %}
                     {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee-full.png') }}"
                         alt="Coffee Cup" class="coffee-icon">
                         {% else %}
-                        <img src="{{ url_for('static', filename='images/coffee-empty.png') }}" alt="Empty Cup"
+                        <img src="{{ url_for('static', filename='images/CoffeeBeans.png') }}" alt="Empty Cup"
                             class="coffee-icon">
                         {% endif %}
                         {% endfor %}
