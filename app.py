@@ -13,7 +13,7 @@ with open('static/data/game_data.json', 'r') as f:
 # Game state
 class GameState:
     def __init__(self):
-        self.caffeine_level = 0
+        self.caffeine_level = 1
         self.recipes_unlocked = ["espresso"]  # Start with espresso unlocked
         self.inventory = {
             "coffee_beans": 5,
@@ -50,11 +50,10 @@ def loading():
     return render_template('loading.html')
 
 @app.route('/introduction')
-def introduction():
+def introduction(): 
     return render_template('introduction.html',
                          name=game_state.name,
-                         caffeine_level=game_state.caffeine_level,
-                         dr_coffee=game_data["characters"]["dr_coffee"])
+                         caffeine_level=game_state.caffeine_level)
 
 @app.route('/introduction_backpack')
 def introduction_backpack():
