@@ -10,7 +10,7 @@
         </div>
         <h4 class="pixel-font text-center">Backpack</h4>
         <div class="inventory-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate_syrup', 'water'] %}
+            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate', 'water'] %}
             <div class="inventory-slot" draggable="true">
                 <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon" alt="{{ item }}">
             </div>

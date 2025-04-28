@@ -10,12 +10,12 @@
         <div class="main-content">
             <div class="left-section">
                 <div class="player-character">
-                    <img src="{{ url_for('static', filename='images/User_tired.png') }}" alt="User"
+                    <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User"
                         class="character-img">
                     <div class="character-name pixel-font">{{ name }}</div>
                     <div class="energy-meter">
                         {% for i in range(caffeine_level) %}
-                        <img src="{{ url_for('static', filename='images/CoffeeBeans.png') }}" alt="Coffee Beans"
+                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Coffee Beans"
                         {% endfor %}
                     </div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="right-section">
                 <div class="dr-coffee-container">
                     <div class="dr-coffee-section">
-                        <img src="{{ url_for('static', filename='images/Dr.Coffee.png') }}" alt="Dr. Coffee"
+                        <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
                             class="dr-coffee-img">
                         <div class="character-name pixel-font">Dr. Coffee</div>
                     </div>

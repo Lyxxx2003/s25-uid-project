@@ -34,7 +34,7 @@
     },
     {
       "name": "Mocha",
-      "components": ["Espresso", "Steamed Milk", "Chocolate Syrup", "Whipped Cream"],
+      "components": ["Espresso", "Steamed Milk", "Chocolate", "Whipped Cream"],
       "description": "Sweet and energizing mix of espresso, chocolate, and whipped cream."
     }
   ],

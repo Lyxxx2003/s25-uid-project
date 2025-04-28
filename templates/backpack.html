@@ -27,7 +27,7 @@
                     </div>
                     <div class="character-name">{{ name }}</div>
                     <div class="energy-meter">
-                        <img src="{{ url_for('static', filename='images/espresso.png') }}" class="energy-icon">
+                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" class="energy-icon">
                         <div class="energy-dots">
                             {% for i in range(6) %}
                             <div class="dot {% if i < caffeine_level %}filled{% endif %}"></div>

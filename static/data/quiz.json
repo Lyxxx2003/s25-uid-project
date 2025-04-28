@@ -8,7 +8,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
         ],
         "answer_id": "americano",
         "success_image": "americano",
@@ -22,7 +22,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
         ],
         "answer_id": "mocha",
         "success_image": "mocha",
@@ -36,7 +36,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
         ],
         "answer_id": "espresso",
         "success_image": "espresso",
@@ -50,7 +50,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
         ],
         "answer_id": "macchiato",
         "success_image": "macchiato",
@@ -64,7 +64,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
         ],
         "answer_id": "latte",
         "success_image": "latte",

@@ -13,10 +13,10 @@
                 <div class="character-name pixel-font">{{ name }}</div>
                 <div class="energy-meter">
                     {% for i in range(6) %}
-                    {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee-full.png') }}"
+                    {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee_beans.png') }}"
                         alt="Coffee Cup" class="coffee-icon">
                         {% else %}
-                        <img src="{{ url_for('static', filename='images/coffee-empty.png') }}" alt="Empty Cup"
+                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Cup"
                             class="coffee-icon">
                         {% endif %}
                         {% endfor %}

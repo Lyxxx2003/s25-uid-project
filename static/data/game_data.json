@@ -26,8 +26,8 @@
         },
         "mocha": {
             "name": "Mocha",
-            "ingredients": ["espresso", "steamed_milk", "chocolate_syrup", "whipped_cream"],
-            "description": "It is a sweet mix of espresso, milk, chocolate syrup, and whipped cream.",
+            "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"],
+            "description": "It is a sweet mix of espresso, milk, chocolate, and whipped cream.",
             "additional_info": "It's both a dessert and a drink. A great option when you want flavor and focus together."
         }
     },
@@ -52,9 +52,9 @@
             "name": "Steamed Milk",
             "icon": "steamed_milk.png"
         },
-        "chocolate_syrup": {
-            "name": "Chocolate Syrup",
-            "icon": "chocolate_syrup.png"
+        "chocolate": {
+            "name": "Chocolate",
+            "icon": "chocolate.png"
         },
         "whipped_cream": {
             "name": "Whipped Cream",
