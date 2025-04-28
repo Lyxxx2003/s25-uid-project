@@ -174,28 +174,6 @@ def learn_more(recipe_id):
                          caffeine_level=game_state.caffeine_level)
 
 
-
-# QUIZ
-# @app.route('/quiz')
-# def quiz():
-#     with open('static/data/quiz.json') as f:
-#         quiz_data = json.load(f)
-#     question = quiz_data['questions'][0]
-#     return render_template(
-#         'quiz.html',
-#         question=question,
-#         name=game_state.name,
-#         caffeine_level=game_state.caffeine_level,
-#         inventory=[
-#             "coffee_beans",
-#             "espresso",
-#             "steamed_milk",
-#             "milk_foam",
-#             "whipped_cream",
-#             "chocolate_syrup",
-#             "water"
-#         ]
-#     )
 @app.route('/quiz')
 @app.route('/quiz/<int:qid>')
 def quiz(qid=1):

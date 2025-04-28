@@ -1,214 +1,308 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="game-container">
-    <div class="game-interface">
-        <div class="top-bar">
-            <h1 class="pixel-font">CaféCraft</h1>
+<div class="full-page">
+    <div class="top-bar">
+        <h1 class="pixel-font title">CaféCraft</h1>
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="left-side">
+            <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User" class="character-img">
+            <div class="pixel-font character-name">{{ name }}</div>
+            <div class="energy-meter">
+                {% for i in range(6) %}
+                    {% if i < caffeine_level %}
+                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-icon bean-filled">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-icon bean-empty">
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="backpack">
+                <div class="pixel-font backpack-title">BACKPACK</div>
+                <div class="backpack-grid">
+                    {% for i in range(8) %}
+                        <div class="backpack-slot"></div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
 
-        <div class="main-content">
-            <div class="left-section">
-                <div class="player-character">
-                    <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Fiona"
-                        class="character-img">
-                    <div class="character-name pixel-font">{{ name }}</div>
-                    <div class="energy-meter">
-                        {% for i in range(6) %}
-                        {% if i < caffeine_level %} <img
-                            src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Coffee Cup"
-                            class="coffee-icon">
-                            {% else %}
-                            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Cup"
-                                class="coffee-icon">
-                            {% endif %}
-                            {% endfor %}
-                    </div>
-                </div>
-
-                <div class="crafting-section">
-                    <h3 class="pixel-font">CRAFTING TABLE</h3>
-                    <div class="crafting-grid">
-                        {% for i in range(9) %}
+        <div class="middle-side">
+            <div class="pixel-font crafting-title">CRAFTING TABLE</div>
+            <div class="crafting-and-result">
+                <div class="crafting-grid">
+                    {% for i in range(9) %}
                         <div class="crafting-slot"></div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
+                </div>
+                <div class="arrow-result-group">
                     <div class="arrow">➡️</div>
                     <div class="result-slot"></div>
                 </div>
             </div>
-
-            <div class="right-section">
-                <div class="dr-coffee-section">
-                    <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
-                        class="dr-coffee-img">
-                    <div class="character-name pixel-font">Dr. Coffee</div>
-                </div>
-                <div class="speech-bubble">
-                    <p class="pixel-font">Now it's your turn! Drag the ingredients into the crafting table to make your
-                        first coffee.</p>
-                </div>
-                <div class="continue-button">
-                    <a href="{{ url_for('recipes') }}" class="pixel-button">Continue</a>
-                </div>
+            <div class="pixel-font instruction-text">
+                Drag items from your backpack into the crafting table.<br>
+                Your crafted drink will appear in the result slot!
             </div>
         </div>
+
+        <div class="right-side">
+            <div class="dr-coffee-container">
+                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character-img">
+                <div class="pixel-font character-name">Dr. Coffee</div>
+            </div>
+            <div class="speech-bubble">
+                <p class="pixel-font">
+                    And this is your crafting table.<br>
+                    You’ll use it to prepare coffee<br>
+                    drinks by combining the right materials.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="continue-button">
+        <a href="{{ url_for('recipes') }}" class="pixel-button">Continue</a>
     </div>
 </div>
 
 <style>
-    .game-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
         background-color: #f5f5f5;
     }
 
-    .game-interface {
-        width: 900px;
-        padding: 20px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .full-page {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .top-bar {
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .title {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .home-icon {
+        position: absolute;
+        top: 0;
+        right: 30px;
+        width: 30px;
+        height: 30px;
+        image-rendering: pixelated;
     }
 
     .main-content {
         display: flex;
-        gap: 20px;
-        align-items: center;
+        flex: 1;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 60px;
+        margin-top: 30px;
     }
 
-    .left-section {
-        width: 45%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .right-section {
-        width: 55%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .top-bar {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .pixel-font {
-        font-family: 'Press Start 2P', cursive;
-        color: #4a4a4a;
-    }
-
-    .player-character {
+    .left-side, .middle-side, .right-side {
         text-align: center;
     }
 
-    .character-img,
-    .dr-coffee-img {
+    .character-img {
         width: 100px;
         height: 100px;
-        margin: 0 auto 10px;
         image-rendering: pixelated;
     }
 
     .character-name {
         font-size: 14px;
-        margin-bottom: 10px;
+        margin-top: 10px;
     }
 
     .energy-meter {
+        margin-top: 8px;
         display: flex;
-        align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 4px;
+        margin-bottom: 20px;
     }
 
     .coffee-icon {
         width: 16px;
         height: 16px;
+        image-rendering: pixelated;
     }
 
-    .crafting-section {
-        text-align: center;
+    .bean-filled {
+        filter: brightness(100%);
+    }
+
+    .bean-empty {
+        filter: brightness(20%);
+    }
+
+    .backpack {
+        margin-top: 20px;
+        border: 3px solid #4a4a4a;
+        border-radius: 20px;
+        padding: 15px;
+        display: inline-block;
+    }
+
+    .backpack-title {
+        font-size: 14px;
+        color: #4a4a4a;
+        margin-bottom: 10px;
+    }
+
+    .backpack-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .backpack-slot {
+        width: 40px;
+        height: 40px;
+        background-color: #eeeeee;
+        border: 2px solid #cccccc;
+        border-radius: 5px;
+    }
+
+    .crafting-title {
+        font-size: 14px;
+        color: lightsalmon;
+        margin-bottom: 10px;
+    }
+
+    .crafting-and-result {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
     }
 
     .crafting-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 5px;
-        padding: 10px;
-        background: #f0f0f0;
-        border-radius: 5px;
-        margin-top: 10px;
     }
 
     .crafting-slot {
-        aspect-ratio: 1;
-        background: #fff;
-        border: 1px solid #ccc;
+        width: 40px;
+        height: 40px;
+        border: 2px solid lightsalmon;
+        background-color: #ffffff;
+    }
+
+    .arrow-result-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: 10px;
     }
 
     .arrow {
-        margin: 10px 0;
         font-size: 24px;
+        color: lightsalmon;
     }
 
     .result-slot {
-        width: 40px;
-        height: 40px;
-        background: #fff;
-        border: 1px solid #ccc;
-        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+        border: 2px solid lightsalmon;
+        background-color: #ffffff;
+        border-radius: 10px;
     }
 
-    .dr-coffee-section {
-        text-align: center;
+    .instruction-text {
+        font-size: 10px;
+        color: #4a4a4a;
+        margin-top: 15px;
+        line-height: 1.6;
+    }
+
+    .dr-coffee-container {
+        margin-bottom: 10px;
     }
 
     .speech-bubble {
-        background: #fff;
+        background: #ffffff;
         border: 3px solid #4a4a4a;
-        border-radius: 10px;
-        padding: 15px;
+        border-radius: 20px;
+        padding: 20px;
+        max-width: 300px;
+        text-align: left;
+        font-size: 12px;
+        margin-top: 10px;
         position: relative;
     }
 
-    .speech-bubble:after {
-        content: '';
+    .speech-bubble::before {
+        content: "";
         position: absolute;
-        top: -15px;
+        top: -20px;
         left: 50%;
         transform: translateX(-50%);
-        border-width: 0 15px 15px;
-        border-style: solid;
-        border-color: #4a4a4a transparent;
+        width: 0;
+        height: 0;
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 20px solid #4a4a4a;
+    }
+
+    .speech-bubble::after {
+        content: "";
+        position: absolute;
+        top: -17px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 17px solid #ffffff;
     }
 
     .continue-button {
-        text-align: center;
+        margin-bottom: 30px;
     }
 
     .pixel-button {
         display: inline-block;
-        padding: 8px 16px;
-        background-color: white;
+        padding: 8px 20px;
+        background-color: lightsalmon;
         border: 3px solid #4a4a4a;
-        color: #4a4a4a;
-        text-decoration: none;
+        color: black;
         font-family: 'Press Start 2P', cursive;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+        font-size: 12px;
+        text-decoration: none;
+        transition: all 0.2s ease;
     }
 
     .pixel-button:hover {
-        background-color: #4a4a4a;
-        color: white;
-        transform: scale(1.05);
+        background-color: #e9967a;
+        color: black;
+    }
+
+    .pixel-font {
+        font-family: 'Press Start 2P', cursive;
+        color: #4a4a4a;
     }
 </style>
 {% endblock %}

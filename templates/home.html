@@ -1,64 +1,80 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="game-container">
-    <div class="welcome-screen">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="pixel-font">Welcome to CaféCraft!</div>
-                <div class="mt-4">
-                    <a href="{{ url_for('enter_name') }}" class="pixel-button">START</a>
-                </div>
-            </div>
-            <div class="col-md-6 text-center">
-                <img src="{{ url_for('static', filename='images/User_tired.png') }}" alt="Tired User" class="character-img">
-            </div>
+<div class="full-page">
+    <div class="home-container">
+        <h1 class="pixel-font main-title">CaféCraft</h1>
+        <p class="pixel-font subtext">Explore the composition of popular coffee drinks!</p>
+        <div>
+            <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Tired User" class="character-img">
         </div>
+        <a href="{{ url_for('enter_name') }}" class="pixel-button">Start</a>
     </div>
 </div>
 
 <style>
-    .game-container {
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background-color: #fefefb;
+    }
+
+    .full-page {
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        background-color: #fefefb;
     }
 
-    .welcome-screen {
+    .home-container {
         text-align: center;
-        padding: 40px;
     }
 
     .pixel-font {
         font-family: 'Press Start 2P', cursive;
+    }
+
+    .main-title {
         font-size: 24px;
-        margin-bottom: 30px;
-        color: #4a4a4a;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .subtext {
+        font-size: 14px;
+        margin: 10px 0 20px 0;
+        color: darkgray;
     }
 
     .character-img {
-        width: 300px;
-        height: 300px;
-        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 20px;
         image-rendering: pixelated;
     }
 
     .pixel-button {
         display: inline-block;
-        padding: 10px 20px;
+        padding: 6px 12px;
+        /* corrected smaller padding */
+        background-color: lightsalmon;
         border: 3px solid #4a4a4a;
         color: #4a4a4a;
         text-decoration: none;
         font-family: 'Press Start 2P', cursive;
-        font-size: 16px;
+        font-size: 12px;
+        /* corrected smaller font */
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
     }
 
     .pixel-button:hover {
         background-color: #4a4a4a;
-        transform: scale(1.05);
+        color: white;
     }
 </style>
 {% endblock %}
