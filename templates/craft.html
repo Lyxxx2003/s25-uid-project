@@ -386,9 +386,9 @@
 
         coffeeIcons.forEach((icon, index) => {
             if (index < level) {
-                icon.src = "{{ url_for('static', filename='images/coffee-full.png') }}";
+                icon.src = "{{ url_for('static', filename='images/coffee_bean.png') }}";
             } else {
-                icon.src = "{{ url_for('static', filename='images/coffee-empty.png') }}";
+                icon.src = "{{ url_for('static', filename='images/coffee_bean.png') }}";
             }
         });
     }
