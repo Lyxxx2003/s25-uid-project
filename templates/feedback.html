@@ -5,72 +5,76 @@
     <div class="game-interface">
         <div class="top-bar">
             <h1 class="pixel-font">CaféCraft</h1>
+            <div class="navigation">
+                <a href="{{ url_for('recipes') }}" class="nav-icon">
+                    <img src="{{ url_for('static', filename='images/Home.png') }}" alt="Home">
+                </a>
+            </div>
         </div>
 
-        <div class="character-container">
-            <div class="player-character">
-                <img src="{{ url_for('static', filename='images/user_happy.png') }}" alt="Fiona" class="character-img">
-                <div class="character-name pixel-font">{{ name }}</div>
-                <div class="energy-meter">
-                    {% for i in range(6) %}
-                    {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee_beans.png') }}"
-                        alt="Coffee Cup" class="coffee-icon">
-                        {% else %}
-                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Cup"
+        <div class="content-container">
+            <div class="character-container">
+                <div class="player-character">
+                    <img src="{{ url_for('static', filename='images/user_happy.png') }}" alt="Fiona"
+                        class="character-img">
+                    <div class="character-name pixel-font">{{ name }}</div>
+                    <div class="energy-meter">
+                        {% for i in range(6) %}
+                        {% if i < caffeine_level %} <img
+                            src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Coffee Cup"
                             class="coffee-icon">
-                        {% endif %}
-                        {% endfor %}
-                </div>
-                <div class="speech-bubble">
-                    <p class="pixel-font">I did it! My first {{ recipe.name }}!</p>
-                </div>
-            </div>
-
-            <div class="result-section">
-                <div class="result-card">
-                    <img src="{{ url_for('static', filename='images/' + recipe_id + '.png') }}" alt="{{ recipe.name }}"
-                        class="result-img">
-                    <h2 class="pixel-font">{{ recipe.name }}</h2>
-                    <p class="pixel-font">{{ recipe.description }}</p>
-                </div>
-            </div>
-
-            <div class="dr-coffee-section">
-                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
-                    class="dr-coffee-img">
-                <div class="character-name pixel-font">Dr. Coffee</div>
-                <div class="speech-bubble">
-                    <p class="pixel-font">Well done! {{ recipe.additional_info }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6">
-                <div class="continue-button">
-                    <a href="{{ url_for('recipes') }}" class="pixel-button">Back to Recipes</a>
-                </div>
-            </div>
-
-
-            <div class="col-md-6">
-                <div class="continue-button">
-                    {% set recipe_sequence = ["espresso", "americano", "macchiato", "latte", "mocha"] %}
-                    {% set ns = namespace(next_recipe=None) %}
-                    {% for i in range(recipe_sequence|length) %}
-                        {% if recipe_sequence[i] == recipe_id %}
-                            {% if i+1 < recipe_sequence|length %}
-                                {% set ns.next_recipe = recipe_sequence[i+1] %}
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Cup"
+                                class="coffee-icon">
                             {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                
-                    {% if ns.next_recipe %}
-                        <a href="{{ url_for('learn', recipe_id=ns.next_recipe) }}" class="pixel-button">Next</a>
-                    {% endif %}
+                            {% endfor %}
+                    </div>
+                    <div class="speech-bubble">
+                        <p class="pixel-font">I did it! My first {{ recipe.name }}!</p>
+                    </div>
                 </div>
-                
+
+                <div class="result-section">
+                    <div class="result-card">
+                        <img src="{{ url_for('static', filename='images/' + recipe_id + '.png') }}"
+                            alt="{{ recipe.name }}" class="result-img">
+                        <h2 class="pixel-font">{{ recipe.name }}</h2>
+                        <p class="pixel-font">{{ recipe.description }}</p>
+                    </div>
+                </div>
+
+                <div class="dr-coffee-section">
+                    <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
+                        class="dr-coffee-img">
+                    <div class="character-name pixel-font">Dr. Coffee</div>
+                    <div class="speech-bubble">
+                        <p class="pixel-font">Well done! {{ recipe.additional_info }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="continue-button">
+                        <a href="{{ url_for('recipes') }}" class="pixel-button">Back to Recipes</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="continue-button">
+                        {% set recipe_sequence = ["espresso", "americano", "macchiato", "latte", "mocha"] %}
+                        {% set ns = namespace(next_recipe=None) %}
+                        {% for i in range(recipe_sequence|length) %}
+                        {% if recipe_sequence[i] == recipe_id %}
+                        {% if i+1 < recipe_sequence|length %} {% set ns.next_recipe=recipe_sequence[i+1] %} {% endif %}
+                            {% endif %} {% endfor %} {% if ns.next_recipe %} <a
+                            href="{{ url_for('learn', recipe_id=ns.next_recipe) }}" class="pixel-button">Next</a>
+                            {% endif %}
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -95,6 +99,22 @@
         .top-bar {
             text-align: center;
             margin-bottom: 30px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .pixel-font {

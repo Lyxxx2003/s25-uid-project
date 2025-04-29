@@ -154,25 +154,6 @@ def feedback(recipe_id):
                          caffeine_level=game_state.caffeine_level,
                          unlocked_recipes=game_state.recipes_unlocked)
 
-@app.route('/learn_more/<recipe_id>')
-def learn_more(recipe_id):
-    if recipe_id not in game_state.recipes_unlocked:
-        return redirect(url_for('recipes'))
-    
-    # Unlock next recipe when transitioning to learn more
-    if recipe_id == "espresso" and "americano" not in game_state.recipes_unlocked:
-        game_state.recipes_unlocked.append("americano")
-    elif recipe_id == "americano" and "macchiato" not in game_state.recipes_unlocked:
-        game_state.recipes_unlocked.append("macchiato")
-    elif recipe_id == "macchiato" and "latte" not in game_state.recipes_unlocked:
-        game_state.recipes_unlocked.append("latte")
-    elif recipe_id == "latte" and "mocha" not in game_state.recipes_unlocked:
-        game_state.recipes_unlocked.append("mocha")
-    
-    return render_template('learn_more.html',
-                         name=game_state.name,
-                         caffeine_level=game_state.caffeine_level)
-
 
 @app.route('/quiz')
 @app.route('/quiz/<int:qid>')

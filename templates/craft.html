@@ -6,7 +6,7 @@
         <div class="top-bar">
             <h1 class="pixel-font">CaféCraft</h1>
             <div class="navigation">
-                <a href="{{ url_for('home') }}" class="nav-icon">
+                <a href="{{ url_for('recipes') }}" class="nav-icon">
                     <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home">
                 </a>
             </div>
@@ -386,9 +386,9 @@
 
         coffeeIcons.forEach((icon, index) => {
             if (index < level) {
-                icon.src = "{{ url_for('static', filename='images/coffee_bean.png') }}";
+                icon.src = "{{ url_for('static', filename='images/coffee_beans.png') }}";
             } else {
-                icon.src = "{{ url_for('static', filename='images/coffee_bean.png') }}";
+                icon.src = "{{ url_for('static', filename='images/coffee_beans.png') }}";
             }
         });
     }
