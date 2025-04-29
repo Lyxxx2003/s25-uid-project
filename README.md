@@ -10,6 +10,7 @@ CaféCraft is an interactive web application that teaches users about different 
 - Energy meter to track progress
 - Responsive design that works on all devices
 - User progress tracking
+- Crafting table for creating coffee drinks
 
 ## Requirements
 
@@ -66,13 +67,12 @@ cafecraft/
     ├── home.html         # Home page
     ├── learn.html        # Learning page
     ├── quiz.html         # Quiz page
-    └── results.html      # Results page
+    ├── results.html      # Results page
+    ├── introduction.html # Introduction page
+    ├── introduction_table.html # Crafting table introduction
+    ├── introduction_backpack.html # Backpack introduction
 ```
 
 ## Contributing
 
 Feel free to submit issues and enhancement requests!
-
-## License
-
-[MIT License](LICENSE)
