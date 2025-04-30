@@ -42,6 +42,11 @@ def start():
 def enter_name():
     if request.method == 'POST':
         game_state.name = request.form.get('name', '')
+
+        # 🧹 Clear all previous quiz state
+        for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback']:
+            session.pop(key, None)
+
         return redirect(url_for('loading'))
     return render_template('enter_name.html')
 
@@ -156,16 +161,29 @@ def feedback(recipe_id):
 
 
 @app.route('/quiz')
+def quiz_redirect():
+    qid = session.get('last_qid', 1)
+    return redirect(url_for('quiz', qid=qid))
 @app.route('/quiz/<int:qid>')
 def quiz(qid=1):
     with open('static/data/quiz.json') as f:
         quiz_data = json.load(f)
-    
-    if qid == 1:
-        session['quiz_score'] = 0  # Reset score at beginning
+
+    if qid == 1 and 'quiz_progress' not in session:
+        session['quiz_score'] = 0  # Reset score at the beginning
+        session['quiz_progress'] = {}  # Store user's answers
 
     question = next(q for q in quiz_data['questions'] if q['id'] == qid)
     total_questions = len(quiz_data['questions'])
+
+    result_image = session.get('quiz_result', {}).get(str(qid))
+    if result_image in (None, 'null', 'None', ''):
+        result_image = None
+    
+    feedback_text = session.get('quiz_feedback', {}).get(str(qid))
+    hint_shown = session.get('hint_clicked', {}).get(str(qid), False)
+
+
     return render_template(
         'quiz.html',
         question=question,
@@ -173,10 +191,15 @@ def quiz(qid=1):
         total_questions=total_questions,
         name=game_state.name,
         caffeine_level=game_state.caffeine_level,
+        selected_ingredients=session['quiz_progress'].get(str(qid), []),  # Pre-fill selected ingredients
         inventory=[
             "coffee_beans", "espresso", "steamed_milk", "milk_foam",
             "whipped_cream", "chocolate_syrup", "water"
-        ]
+        ],
+        result_image = result_image,
+        feedback_text=feedback_text,
+        hint_shown=hint_shown
+
     )
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
@@ -193,6 +216,17 @@ def submit_quiz():
 
     is_correct = submitted_ingredients == correct_ingredients
 
+    # Update session with user's progress
+    session['quiz_progress'][str(qid)] = submitted_ingredients
+    session['quiz_result'] = session.get('quiz_result', {})
+    session['quiz_result'][str(qid)] = question['success_image'] if is_correct else question['failure_image']
+    session['last_qid'] = qid
+    session['quiz_feedback'] = session.get('quiz_feedback', {})
+    session['quiz_feedback'][str(qid)] = (
+        "Correct! You crafted the right drink!" if is_correct else "Oops! That’s not the right combination."
+    )
+
+
     # Update score
     if is_correct:
         session['quiz_score'] = session.get('quiz_score', 0) + 1
@@ -206,14 +240,57 @@ def submit_quiz():
         'score': session.get('quiz_score', 0),
         'finished': next_qid is None
     })
+@app.route('/save_quiz_progress', methods=['POST'])
+def save_quiz_progress():
+    data = request.json
+    qid = data.get('question_id')
+    ingredients = data.get('ingredients', [])
+    if 'quiz_progress' not in session:
+        session['quiz_progress'] = {}
+    session['quiz_progress'][str(qid)] = ingredients
+    session['last_qid'] = qid  # to support resume
+    session.modified = True
+    return '', 204
+
+@app.route('/update_last_qid', methods=['POST'])
+def update_last_qid():
+    data = request.json
+    qid = data.get('question_id')
+    session['last_qid'] = qid
+    session.modified = True
+    return '', 204
+
+@app.route('/save_hint_shown', methods=['POST'])
+def save_hint_shown():
+    data = request.json
+    qid = str(data.get('question_id'))
+    if 'hint_clicked' not in session:
+        session['hint_clicked'] = {}
+    session['hint_clicked'][qid] = True
+    session.modified = True
+    return '', 204
+
+@app.route('/clear_hint_shown', methods=['POST'])
+def clear_hint_shown():
+    data = request.json
+    qid = str(data.get('question_id'))
+    if 'hint_clicked' in session:
+        session['hint_clicked'].pop(qid, None)
+        session.modified = True
+    return '', 204
 
 @app.route('/certificate')
 def certificate():
     score = session.get('quiz_score', 0)
     today = datetime.now().strftime("%B %d, %Y")
+
+    # 🧹 Clear all quiz-related session data
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback']:
+        session.pop(key, None)
+
     return render_template('certificate.html', name=game_state.name, score=score, date=today)
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)

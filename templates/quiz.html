@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
+
 {% block content %}
+<!-- Home Button -->
+<div class="home-button">
+    <a href="{{ url_for('recipes') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" style="width: 40px; height: 40px;">
+    </a>
+</div>
 <div class="game-content" style="display: flex; gap: 40px; justify-content: center;">
     <!-- Left: Fiona and Backpack -->
     <div class="player-section" style="width: 30%;">
@@ -23,18 +30,27 @@
         <h4 class="pixel-font">Crafting Table</h4>
         <div class="crafting-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
             {% for i in range(7) %}
-            <div class="crafting-slot" data-slot="{{ i }}"></div>
+            <div class="crafting-slot" data-slot="{{ i }}">
+                {% if selected_ingredients and i < selected_ingredients|length and selected_ingredients[i] %}
+                <img src="{{ url_for('static', filename='images/' + selected_ingredients[i] + '.png') }}" class="item-icon" alt="{{ selected_ingredients[i] }}">
+                {% endif %}
+            </div>
             {% endfor %}
         </div>
         <div class="crafting-arrow my-2">➜</div>
-        <div class="result-slot" style="width: 60px; height: 60px; border: 2px solid #4a4a4a; margin: auto;"></div>
+        <div class="result-slot {% if result_image in ['None', 'null', '', None] %}empty{% endif %}">
+            {% if result_image not in ['None', 'null', '', None] %}
+            <img src="{{ url_for('static', filename='images/' + result_image + '.png') }}" width="50">
+            {% endif %}
+        </div>
+        
         <div class="text-center mt-4">
             <button id="submit-craft" class="pixel-button">Submit</button>
         </div>
     </div>
 
     <!-- Right: Dr. Coffee and Question -->
-    <div class="professor-section" style="width: 30%;">
+    <!-- <div class="professor-section" style="width: 30%;">
         <div class="professor-sprite text-center">
             <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" width="120">
             <p class="pixel-font">Dr. Coffee</p>
@@ -42,12 +58,45 @@
         <div class="speech-bubble mt-3 pixel-font" style="font-size: 12px;">
             {{ question.prompt }}
         </div>
+        <div>
+            <img id="hint-icon" src="{{ url_for('static', filename='images/hint.png') }}" alt="Hint Icon">
+        </div>
+    
+        <div id="hint-text" class="pixel-font">
+            Hint: {{ question.hint }}
+        </div>
+    </div> -->
+    <div class="professor-section">
+        <div class="professor-inner">
+            <!-- Dr. Coffee Character -->
+            <div class="professor-sprite text-center">
+                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" width="120">
+                <p class="pixel-font">Dr. Coffee</p>
+            </div>
+    
+            <!-- Dr. Coffee's Question -->
+            <div class="speech-bubble mt-3 pixel-font">
+                {{ question.prompt }}
+            </div>
+    
+            <!-- Hint Icon -->
+            <div class="hint-icon-wrapper">
+                <img id="hint-icon" src="{{ url_for('static', filename='images/hint.png') }}" alt="Hint Icon">
+            </div>
+    
+            <!-- Hint Text -->
+            <div id="hint-text" class="pixel-font">
+                Hint: {{ question.hint }}
+            </div>
+        </div>
     </div>
+    
 </div>
 
 <script>
 const questionId = {{ current_qid }};
 const totalQuestions = {{ total_questions }};
+
 document.addEventListener('DOMContentLoaded', function () {
     const inventorySlots = document.querySelectorAll('.inventory-slot');
     const craftingSlots = document.querySelectorAll('.crafting-slot');
@@ -62,8 +111,85 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.professor-section').appendChild(heartIcon);
     document.querySelector('.professor-section').appendChild(responseText);
 
-    let selectedIngredients = [];
+    let isSubmitted = false;  // Track whether submit has occurred
+    
+    // Helper: Read crafting ingredients from DOM
+    function getCraftingIngredients() {
+        return Array.from(craftingSlots).map(slot => {
+            const img = slot.querySelector('img');
+            return img ? img.alt : null;
+        });
+    }
 
+    // Restore crafting slots from Flask session data
+    const prefilledIngredients = {{ selected_ingredients | tojson }};
+    craftingSlots.forEach((slot, i) => {
+        if (prefilledIngredients[i]) {
+            slot.innerHTML = `<img src="/static/images/${prefilledIngredients[i]}.png" class="item-icon" alt="${prefilledIngredients[i]}">`;
+        }
+    });
+
+    // Restore result image from Flask session data
+    const prefilledResult = "{{ result_image }}";
+    // if (prefilledResult) {
+    //     resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" width="50">`;
+    //     document.getElementById("submit-craft").style.display = "none";
+    // }
+
+    // Restore feedback text and hint from Flask session data
+    const feedbackText = "{{ feedback_text or '' }}";
+    const hintInitiallyShown = {{ 'true' if hint_shown else 'false' }};
+
+    if (feedbackText) {
+        responseText.innerText = feedbackText;
+        responseText.classList.add('result-feedback', 'pixel-font');
+        if (feedbackText.includes("Correct")) {
+            responseText.classList.add('result-correct');
+            heartIcon.style.display = "inline-block";
+        } else {
+            responseText.classList.add('result-wrong');
+            heartIcon.style.display = "none";
+        }
+        // // 👉 Place it here:
+        // responseText.classList.add('result-feedback', 'pixel-font');
+        // responseText.classList.add(data.success ? 'result-correct' : 'result-wrong');
+    }
+
+    if (hintInitiallyShown) {
+        document.getElementById('hint-text').style.display = 'block';
+    }
+
+
+    if (prefilledResult && prefilledResult !== "null" && prefilledResult !== "None") {
+        isSubmitted = true;
+
+        resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" width="50">`;
+        document.getElementById("submit-craft").style.display = "none";
+
+        const nextQid = questionId + 1;
+
+        // Recreate Next / Finish button
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "pixel-button mt-3";
+        nextBtn.innerText = (questionId === totalQuestions) ? "Finish Quiz" : "Next Question";
+        nextBtn.onclick = () => {
+            if (questionId === totalQuestions) {
+                window.location.href = '/certificate';
+            } else {
+                fetch('/update_last_qid', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question_id: nextQid })
+                }).then(() => {
+                    window.location.href = `/quiz/${nextQid}`;
+                });
+            }
+        };
+        document.getElementById("submit-craft").parentElement.appendChild(nextBtn);
+    }
+
+
+    // Enable drag & drop
     inventorySlots.forEach(slot => {
         slot.addEventListener('dragstart', e => {
             e.dataTransfer.setData('text/plain', slot.querySelector('img').alt);
@@ -71,19 +197,55 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     craftingSlots.forEach(slot => {
-        slot.addEventListener('dragover', e => e.preventDefault());
+        slot.addEventListener('dragover', e => {
+            if (isSubmitted) return; // 🚫 Prevent drop if already submitted
+            e.preventDefault();
+        });
         slot.addEventListener('drop', e => {
+            if (isSubmitted) return; // 🚫 Prevent drop if already submitted
             e.preventDefault();
             const ingredient = e.dataTransfer.getData('text/plain');
             slot.innerHTML = `<img src="/static/images/${ingredient}.png" class="item-icon" alt="${ingredient}">`;
+
+            // Autosave to session after drop
+            const selectedIngredients = getCraftingIngredients();
+            fetch('/save_quiz_progress', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question_id: questionId,
+                    ingredients: selectedIngredients
+                })
+            });
         });
     });
 
-    document.getElementById('submit-craft').addEventListener('click', function () {
-        selectedIngredients = Array.from(craftingSlots).map(slot => {
+    // Enable click-to-remove for dropped ingredients
+    craftingSlots.forEach(slot => {
+        slot.addEventListener('click', () => {
+            if (isSubmitted) return;  // Prevent removal after submission
+
             const img = slot.querySelector('img');
-            return img ? img.alt : null;
+            if (img) {
+                slot.innerHTML = '';  // Remove the ingredient
+                // Optional: also trigger autosave after removal
+                const selectedIngredients = getCraftingIngredients();
+                fetch('/save_quiz_progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question_id: questionId,
+                        ingredients: selectedIngredients
+                    })
+                });
+            }
         });
+    });
+
+
+    // Submit button
+    document.getElementById('submit-craft').addEventListener('click', function () {
+        const selectedIngredients = getCraftingIngredients();
 
         fetch('/submit_quiz', {
             method: 'POST',
@@ -95,13 +257,23 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(res => res.json())
         .then(data => {
+            isSubmitted = true;
+
             resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" width="50">`;
 
-            // Hide the Submit button
             const submitBtn = document.getElementById("submit-craft");
             submitBtn.style.display = "none";
 
-            // Show feedback
+            // Save again after submit to capture final state
+            fetch('/save_quiz_progress', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question_id: questionId,
+                    ingredients: selectedIngredients
+                })
+            });
+
             if (data.success) {
                 responseText.innerText = "Correct! You crafted the right drink!";
                 heartIcon.style.display = "inline-block";
@@ -110,23 +282,139 @@ document.addEventListener('DOMContentLoaded', function () {
                 heartIcon.style.display = "none";
             }
 
-            // Replace Submit with Next
+            // 👉 Place it here:
+            responseText.classList.add('result-feedback', 'pixel-font');
+            responseText.classList.add(data.success ? 'result-correct' : 'result-wrong');
+
             const nextBtn = document.createElement("button");
             nextBtn.className = "pixel-button mt-3";
             nextBtn.innerText = data.finished ? "Finish Quiz" : "Next Question";
+            const nextQid = data.next_qid;
             nextBtn.onclick = () => {
                 if (data.finished) {
                     window.location.href = '/certificate';
                 } else {
-                    window.location.href = `/quiz/${data.next_qid}`;
+                    fetch('/update_last_qid', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ question_id: nextQid })
+                    }).then(() => {
+                        window.location.href = `/quiz/${nextQid}`;
+                    });
                 }
             };
             submitBtn.parentElement.appendChild(nextBtn);
-
+        })
+        .catch(err => {
+            alert("Something went wrong while submitting! Check console.");
+            console.error(err);
         });
+    });
+
+    // Hint reveal
+    const hintIcon = document.getElementById('hint-icon');
+    const hintText = document.getElementById('hint-text');
+    hintIcon.addEventListener('click', function () {
+        if (hintText.style.display === 'block') {
+            hintText.style.display = 'none';
+            // Save "hint turned off"
+            fetch('/clear_hint_shown', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question_id: questionId
+                })
+            });
+        } else {
+            hintText.style.display = 'block';
+            // Save hint click
+            fetch('/save_hint_shown', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question_id: questionId
+                })
+            });
+        }
     });
 });
 </script>
+    
+
+<style>
+    .professor-section {
+    width: 30%;
+}
+
+.professor-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align everything to the left */
+}
+
+.professor-sprite {
+    text-align: center;
+    width: 100%;
+}
+
+.speech-bubble {
+    font-size: 12px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.hint-icon-wrapper {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
+#hint-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+#hint-text {
+    font-size: 12px;
+    margin-top: 8px;
+    display: none;
+    background-color: #fffaf5;           /* soft light background */
+    padding: 10px 14px;
+    border: 2px solid #d78f46;           /* warm orange border */
+    border-radius: 12px;                 /* rounded corners */
+    color: #333;
+    width: fit-content;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05); /* optional soft shadow */
+}
+.result-slot {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    border: 2px solid #4a4a4a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-slot.empty {
+    border: 2px dashed #ccc;
+    background-color: #f8f8f8;
+}
+
+.result-correct {
+    color: #5C4033;
+}
+.result-wrong {
+    color: #FFA94D;
+}
+.result-feedback {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+</style>
+    
     
 
 {% endblock %}

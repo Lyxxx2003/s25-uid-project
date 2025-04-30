@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Home Button -->
+<div class="home-button" style="position: absolute; top: 20px; left: 20px;">
+    <a href="{{ url_for('recipes') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" style="width: 40px; height: 40px;">
+    </a>
+</div>
+<!-- Main Content -->
 <div class="text-center mt-5 pixel-font">
     <h1 class="mb-4">CaféCraft</h1>
 
