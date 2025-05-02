@@ -1,25 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="full-page">
-    <div class="home-container">
-        <h1 class="pixel-font main-title">CaféCraft</h1>
-        <p class="pixel-font subtext">Explore the composition of popular coffee drinks!</p>
-        <div>
-            <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Tired User" class="character-img">
-        </div>
-        <a href="{{ url_for('enter_name') }}" class="pixel-button">Start</a>
-    </div>
-</div>
-
 <style>
-    body,
-    html {
-        margin: 0;
-        padding: 0;
+    
+    .home-container {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         height: 100%;
-        overflow: hidden;
-        background-color: #fefefb;
+        padding: 2rem;
+        max-width: 500px;
+    }
+    
+    .main-title {
+        color: var(--font-color-black);
+        font-size: var(--font-size-xxlarge);
+        padding-bottom: 20px;
+    }
+    
+    .subtext {
+        color: var(--font-color-grey);
+        font-size: var(--font-size-large);
+        margin-bottom: 20px;
+        min-width: 100%;
+    }
+    
+    .character-img {
+        max-width: 250px;
+        margin: 1rem 0;
+    }
+    
+    .pixel-button-small {
+        display: inline-block;
+        padding: 0.5rem 2rem;
+        text-decoration: none;
+        margin-top: 1rem;
+        background-color: var(--button-color-primary);
+        border-radius: var(--border-radius);
+        transition: transform 0.2s, background-color 0.2s;
+        height: 60px;
+        width: 150px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-large);
+        font-weight: bold;
+        color: var(--font-color-black);
+    
+    }
+    
+    .pixel-button-small:hover {
+        transform: scale(1.05);
+        color: var(--font-color-black);
+        background-color: var(--button-color-primary);
     }
 
     .full-page {
@@ -27,54 +63,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #fefefb;
-    }
-
-    .home-container {
-        text-align: center;
-    }
-
-    .pixel-font {
-        font-family: 'Press Start 2P', cursive;
-    }
-
-    .main-title {
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: black;
-    }
-
-    .subtext {
-        font-size: 14px;
-        margin: 10px 0 20px 0;
-        color: darkgray;
-    }
-
-    .character-img {
-        width: 150px;
-        height: 150px;
-        margin-bottom: 20px;
-        image-rendering: pixelated;
-    }
-
-    .pixel-button {
-        display: inline-block;
-        padding: 6px 12px;
-        /* corrected smaller padding */
-        background-color: lightsalmon;
-        border: 3px solid #4a4a4a;
-        color: #4a4a4a;
-        text-decoration: none;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 12px;
-        /* corrected smaller font */
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .pixel-button:hover {
-        background-color: #4a4a4a;
-        color: white;
     }
 </style>
+
+<div class="full-page">
+    <div class="home-container">
+        <h1 class="pixel-font main-title">CaféCraft</h1>
+        <p class="pixel-font subtext">Explore the composition of popular coffee drinks!</p>
+        <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Tired User" class="character-img">
+        <div class="button-container">
+            <a href="{{ url_for('enter_name') }}" class="pixel-button pixel-button-small">Start</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

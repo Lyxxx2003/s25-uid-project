@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    .character-img {
+        max-width: 250px;
+    }
+</style>
+
 <div class="full-page">
     <div class="content-wrapper">
         <div class="left-side">
@@ -11,90 +17,9 @@
             <h2 class="pixel-font title-text">Enter Your Name:</h2>
             <form method="POST" action="{{ url_for('enter_name') }}" class="name-form">
                 <input type="text" name="name" class="pixel-input" value="" required autofocus>
-                <button type="submit" class="pixel-button">Submit</button>
+                <button type="submit" class="pixel-button pixel-button-accent">Submit</button>
             </form>
         </div>
     </div>
 </div>
-
-<style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background-color: #fefefb;
-        overflow: hidden;
-    }
-
-    .full-page {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .content-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 100px;
-    }
-
-    .left-side {
-        text-align: center;
-    }
-
-    .right-side {
-        text-align: center;
-    }
-
-    .character-img {
-        width: 150px;
-        height: 150px;
-        image-rendering: pixelated;
-    }
-
-    .pixel-font {
-        font-family: 'Press Start 2P', cursive;
-        color: #4a4a4a;
-    }
-
-    .title-text {
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-
-    .name-form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
-
-    .pixel-input {
-        width: 250px;
-        padding: 10px;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 14px;
-        text-align: center;
-        border: 3px solid lightsalmon;
-        background-color: #f8f8f8;
-    }
-
-    .pixel-button {
-        padding: 8px 20px;
-        background-color: lightsalmon;
-        border: 3px solid lightsalmon;
-        color: black;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 14px;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .pixel-button:hover {
-        background-color: #e9967a;
-        border-color: #e9967a;
-    }
-</style>
 {% endblock %}

@@ -1,30 +1,135 @@
+/* CSS Variables */
+:root {
+  /* Colors */
+  --color-background: #fdfdfa;
+
+  
+  /* Shadows */
+  --shadow-default: 0 2px 4px rgba(0,0,0,0.1);
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 6.25rem; /* 100px */
+  
+  /* Border */
+  --border-radius: 8px;
+  --border-width: 2px;
+  --border-width-accent: 3px;
+  
+  /* Typography */
+  --font-size-small: 12px;
+  --font-size-medium: 14px;
+  --font-size-large: 18px;
+  --font-size-xlarge: 20px;
+  --font-size-xxlarge: 60px;
+
+  --font-color-black: black;
+  --font-color-grey: rgb(64, 64, 64);
+
+  --button-color-primary: #d5864d;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.6;
+  background-color: var(--color-background);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-sm);
+  height: 100vh;
+  overflow-y: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+[draggable] {
+  cursor: move;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
 /* Pixel Font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 .pixel-font {
     font-family: 'Press Start 2P', cursive;
+    color: var(--color-button);
 }
 
-/* General Styles */
-body {
-    background-color: #f8f9fa;
+
+/* Name Entry Page Styles */
+.content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
 }
 
-.container {
-    max-width: 1200px;
+.left-side, .right-side {
+    text-align: center;
+}
+
+.title-text {
+    font-size: var(--font-size-xlarge);
+    margin-bottom: 20px;
+}
+
+.name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.pixel-input {
+    width: 250px;
+    padding: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: var(--font-size-medium);
+    text-align: center;
+    border: var(--border-width-accent) solid var(--color-accent);
+    background-color: var(--color-input-bg);
 }
 
 /* Header */
 header h1 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
+    color: var(--color-text);
+    margin-bottom: var(--space-md);
 }
 
 .nav-icons {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
 }
 
 .nav-icons img {
@@ -47,15 +152,15 @@ header h1 {
 
 .character-container {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-lg);
 }
 
 /* Energy Meter */
 .energy-meter {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
 }
 
 .energy-meter img {
@@ -73,31 +178,31 @@ header h1 {
 .drinks-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
+    gap: var(--space-lg);
+    margin: var(--space-lg) 0;
 }
 
 .drink-card {
     text-align: center;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: var(--space-sm);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
 }
 
 .drink-image {
     width: 80px;
     height: 80px;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-sm);
     image-rendering: pixelated;
 }
 
 /* Quiz Styles */
 .question-card {
-    background-color: #f8f9fa;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: var(--color-background);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
 }
 
 .form-check-label {
@@ -107,13 +212,13 @@ header h1 {
 /* Results Styles */
 .results-card {
     background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-default);
 }
 
 .score-display {
-    margin: 2rem 0;
+    margin: var(--space-lg) 0;
 }
 
 /* Buttons */
@@ -126,25 +231,71 @@ header h1 {
 }
 
 .btn-primary {
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 .btn-success {
-    background-color: #2ecc71;
-    border-color: #2ecc71;
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+/* Pixel Button Styles */
+.pixel-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: white;
+    border: var(--border-width-accent) solid var(--color-button);
+    color: var(--color-button);
+    text-decoration: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: var(--font-size-large);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pixel-button:hover {
+    background-color: var(--color-button);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Pixel Button Variants */
+.pixel-button-small {
+    padding: 6px 12px;
+    background-color: var(--color-accent);
+    font-size: var(--font-size-small);
+    transition: all 0.2s ease;
+}
+
+.pixel-button-small:hover {
+    transform: scale(1.02);
+}
+
+.pixel-button-accent {
+    padding: 8px 20px;
+    background-color: var(--color-accent);
+    border: var(--border-width-accent) solid var(--color-accent);
+    color: black;
+    font-size: var(--font-size-medium);
+}
+
+.pixel-button-accent:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    transform: none;
 }
 
 /* Form Controls */
 .form-control {
-    border: 2px solid #ddd;
+    border: var(--border-width) solid var(--color-border);
     border-radius: 4px;
-    padding: 1rem;
+    padding: var(--space-sm);
     font-size: 1rem;
 }
 
 .form-control:focus {
-    border-color: #3498db;
+    border-color: var(--color-primary);
     box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
 
@@ -164,29 +315,10 @@ header h1 {
     margin-top: 30px;
 }
 
-.pixel-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: white;
-    border: 3px solid #4a4a4a;
-    color: #4a4a4a;
-    text-decoration: none;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.pixel-button:hover {
-    background-color: #4a4a4a;
-    color: white;
-    transform: scale(1.05);
-}
-
 .crafting-slot, .result-slot {
     width: 60px;
     height: 60px;
-    border: 2px solid #4a4a4a;
+    border: var(--border-width) solid var(--color-button);
     background-color: #fff;
     display: flex;
     justify-content: center;
