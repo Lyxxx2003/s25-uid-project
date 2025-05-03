@@ -75,10 +75,9 @@
             </div>
             {% else %}
             <div class="recipe-content locked">
-                <div class="recipe-row">
-                    <span class="recipe-name">???</span>
+                <div class="recipe-row justify-content-center">
                     <div class="recipe-ingredients">
-                        <img src="{{ url_for('static', filename='images/locked.png') }}" alt="Locked" class="ingredient-icon">
+                        <img src="{{ url_for('static', filename='images/locked.png') }}" alt="Locked" class="locked-icon">
                     </div>
                 </div>
             </div>

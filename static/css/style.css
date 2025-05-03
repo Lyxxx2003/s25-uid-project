@@ -113,17 +113,7 @@ header h1 {
     transform: scale(1.1);
 }
 
-/* Character */
-.character {
-    width: 120px;
-    height: auto;
-    image-rendering: pixelated;
-}
 
-.character-container {
-    text-align: center;
-    margin-bottom: var(--space-lg);
-}
 
 
 /* Drinks Grid */
@@ -160,19 +150,6 @@ header h1 {
 .form-check-label {
     cursor: pointer;
 }
-
-/* Results Styles */
-.results-card {
-    background-color: #fff;
-    padding: var(--space-lg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-default);
-}
-
-.score-display {
-    margin: var(--space-lg) 0;
-}
-
 
 
 
