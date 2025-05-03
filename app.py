@@ -152,9 +152,14 @@ def feedback(recipe_id):
     if recipe_id not in game_state.recipes_unlocked:
         return redirect(url_for('recipes'))
     
+    recipe = game_data["recipes"][recipe_id]
+    # Ensure feedback is a string
+    if isinstance(recipe["feedback"], list):
+        recipe["feedback"] = recipe["feedback"][0]
+    
     return render_template('feedback.html',
                          name=game_state.name,
-                         recipe=game_data["recipes"][recipe_id],
+                         recipe=recipe,
                          recipe_id=recipe_id,
                          caffeine_level=game_state.caffeine_level,
                          unlocked_recipes=game_state.recipes_unlocked)
@@ -223,7 +228,7 @@ def submit_quiz():
     session['last_qid'] = qid
     session['quiz_feedback'] = session.get('quiz_feedback', {})
     session['quiz_feedback'][str(qid)] = (
-        "Correct! You crafted the right drink!" if is_correct else "Oops! That’s not the right combination."
+        "Correct! You crafted the right drink!" if is_correct else "Oops! That's not the right combination."
     )
 
 

@@ -3,6 +3,7 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/introduction.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 {% endblock %}
 
 {% block content %}
@@ -58,7 +59,7 @@
             <div class="recipe-ingredients">
               {% for ingredient in recipe.ingredients %}
               <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
-                  alt="{{ items[ingredient].name }}" class="ingredient-icon">
+                  alt="{{ items[ingredient].name }}" class="learn-ingredient-icon">
               {% if not loop.last %}
               <span class="plus">+</span>
               {% endif %}
@@ -66,12 +67,6 @@
             </div>
           </div>
         </div>
-        <div class="recipe-description">
-          <p class="pixel-font">{{ recipe.description }}</p>
-        </div>
-      </div>
-      <div class="quiz-button-container">
-        <a href="{{ url_for('craft', recipe_id=recipe_id) }}" class="continue-button">Start Crafting!</a>
       </div>
     </div>
     
@@ -80,13 +75,21 @@
       <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character-portrait">
       <div class="pixel-font character-name">Dr. Coffee</div>
       
-      <!-- Coffee Level (for symmetry) -->
-      <div class="coffee-level">
+      <!-- Description paragraphs -->
+      <div class="description-container justify-content-center">
+        {% for desc in recipe.description %}
+        <div class="description-slide justify-content-center" data-index="{{ loop.index0 }}">
+          <div class="recipe-description pixel-font">{{ desc }}</div>
+          {% if not loop.last %}
+          <button class="continue-btn">Continue</button>
+          {% endif %}
+        </div>
+        {% endfor %}
       </div>
-      
-      <!-- Speech Bubble -->
-      <div class="speech-bubble">
-        <p class="pixel-font typewriter-text">Now let's try making this drink! Click the button to start crafting.</p>
+
+      <!-- Start Crafting Button -->
+      <div class="start-crafting-btn">
+        <a href="{{ url_for('craft', recipe_id=recipe_id) }}" class="continue-button">Start Crafting!</a>
       </div>
     </div>
   </div>

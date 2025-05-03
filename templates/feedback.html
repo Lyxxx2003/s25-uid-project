@@ -38,10 +38,6 @@
         {% endfor %}
       </div>
       
-      <!-- User Speech Bubble -->
-      <div class="speech-bubble">
-        <p class="pixel-font typewriter-text">I did it! My first {{ recipe.name }}!</p>
-      </div>
     </div>
     
     <!-- Feedback Column (Middle) -->
@@ -49,10 +45,6 @@
       <div class="pixel-font crafting-title">{{ recipe.name }}</div>
       <div class="result-card">
         <img src="{{ url_for('static', filename='images/' + recipe_id + '.png') }}" alt="{{ recipe.name }}" class="recipe-result-img">
-        <div class="recipe-description">
-          <p class="pixel-font">{{ recipe.description }}</p>
-          <p class="pixel-font">{{ recipe.additional_info }}</p>
-        </div>
       </div>
       
       <div class="navigation-buttons">
@@ -92,7 +84,7 @@
       
       <!-- Speech Bubble -->
       <div class="speech-bubble">
-        <p class="pixel-font typewriter-text">Well done! You've successfully crafted your first {{ recipe.name }}!</p>
+        <p class="pixel-font typewriter-text">{{ recipe.feedback }}</p>
       </div>
     </div>
   </div>

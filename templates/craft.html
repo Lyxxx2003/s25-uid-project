@@ -64,11 +64,13 @@
           </div>
           {% endfor %}
         </div>
-        <div class="crafting-arrow">➡️</div>
+        <div class="crafting-arrow">
+          <img src="{{ url_for('static', filename='images/crafting-arrow.png') }}" alt="Arrow" class="arrow">
+        </div>
         <div class="result-slot" id="resultSlot"></div>
       </div>
       <div id="feedbackButton" style="display: none;" class="quiz-button-container">
-        <a href="{{ url_for('feedback', recipe_id=recipe_id) }}" class="continue-button">See Feedback!</a>
+        <a href="{{ url_for('feedback', recipe_id=recipe_id) }}" class="continue-button">Continue</a>
       </div>
     </div>
     
@@ -83,8 +85,7 @@
       
       <!-- Speech Bubble -->
       <div class="speech-bubble">
-        <p class="pixel-font typewriter-text">Now it's your turn! Drag the ingredients into the crafting table to make your first coffee.</p>
-      </div>
+        
     </div>
   </div>
 </div>

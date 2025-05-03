@@ -3,32 +3,38 @@
         "espresso": {
             "name": "Espresso",
             "ingredients": ["coffee_beans", "water"],
-            "description": "Espresso is made with finely ground coffee and hot water, brewed under high pressure.",
-            "additional_info": "It's strong, bitter, and very high in caffeine. It also serves as the base for many other drinks."
+            "description": ["Espresso is made with finely ground coffee and hot water, brewed under high pressure. It’s strong, bitter, and very high in caffeine.",
+            "It also serves as the base for many other drinks, like lattes, Americanos, Macchiatos, and mochas.",
+            "Now it’s your turn! Drag the ingredients into the crafting table to make your first coffee."],
+            "feedback": "Great! You made an espresso shot. It is small in volume, big in power. You’ll feel this one kick in fast."
         },
         "americano": {
             "name": "Americano",
             "ingredients": ["espresso", "water"],
-            "description": "It smooths out the bitterness while keeping the caffeine level high.",
-            "additional_info": "It's a good pick when you want to stay alert for longer."
+            "description": ["Nice! You’ve unlocked Americano. It’s made by adding water to espresso.",
+            "It smooths out the bitterness while keeping the caffeine level high.  It’s a good pick when you want to stay alert for longer."],
+            "feedback": "Well done! Americano offers a cleaner, slower caffeine release — less sharp than espresso, but just as effective."
         },
         "macchiato": {
             "name": "Macchiato",
             "ingredients": ["espresso", "milk_foam"],
-            "description": "It's an espresso marked with a spoonful of milk foam.",
-            "additional_info": "Macchiato keeps the espresso's strength but adds a touch of creaminess without diluting the flavor."
+            "description": ["Macchiato unlocked! It’s an espresso marked with a spoonful of milk foam.",
+            "Macchiato keeps the espresso’s strength but adds a touch of creaminess without diluting the flavor."],
+            "feedback": "Macchiato done! It’s bold and straightforward, but the foam smooths your taste."
         },
         "latte": {
             "name": "Café Latte",
             "ingredients": ["espresso", "steamed_milk", "milk_foam"],
-            "description": "Let's mix espresso with plenty of steamed milk and foam.",
-            "additional_info": "This can be your go-to drink when you want something mild, warm, and smooth."
+            "description": ["Café Latte Unlock! Let’s mix espresso with plenty of steamed milk and foam.",
+            "This can be your go-to drink when you want something mild, warm, and smooth."],
+            "feedback": "Great! Now you made a Latte. It has moderate caffeine and a comforting texture—perfect for slower mornings."
         },
         "mocha": {
             "name": "Mocha",
             "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"],
-            "description": "It is a sweet mix of espresso, milk, chocolate, and whipped cream.",
-            "additional_info": "It's both a dessert and a drink. A great option when you want flavor and focus together."
+            "description": ["Finally, let’s unlock Mocha. It is a sweet mix of espresso, milk, chocolate syrup, and whipped cream.",
+            "It's both a dessert and a drink. A great option when you want flavor and focus together."],
+            "feedback": "Mocha complete! Chocolate adds sweetness, but the espresso still carries its caffeine punch."
         }
     },
     "items": {

@@ -30,9 +30,55 @@ $(document).ready(function () {
         }
     });
     
-    // Initialize typewriter effect if element exists
-    if ($("#typewriter-text").length > 0) {
-        initTypewriter();
+    // Handle recipe descriptions
+    let currentDescIndex = 0;
+    const descriptions = $('.description-slide');
+    const startCraftingBtn = $('.start-crafting-btn');
+    
+    function showDescription(index) {
+        // Hide all descriptions
+        descriptions.removeClass('active');
+        
+        if (index < descriptions.length) {
+            const currentSlide = $(descriptions[index]);
+            currentSlide.addClass('active');
+            
+            // Get text content and clear the element
+            const textElement = currentSlide.find('.recipe-description');
+            const text = textElement.text();
+            textElement.text('');
+            
+            let charIndex = 0;
+            
+            // Typewriter effect for current description
+            function typeChar() {
+                if (charIndex < text.length) {
+                    textElement.text(textElement.text() + text[charIndex]);
+                    charIndex++;
+                    setTimeout(typeChar, 50);
+                } else {
+                    // Show continue button or start crafting button
+                    if (index === descriptions.length - 1) {
+                        startCraftingBtn.addClass('visible');
+                    } else {
+                        currentSlide.find('.continue-btn').addClass('visible');
+                    }
+                }
+            }
+            
+            typeChar();
+        }
+    }
+    
+    // Handle continue button clicks
+    $('.continue-btn').click(function() {
+        currentDescIndex++;
+        showDescription(currentDescIndex);
+    });
+    
+    // Start with the first description
+    if (descriptions.length > 0) {
+        showDescription(0);
     }
 });
 
