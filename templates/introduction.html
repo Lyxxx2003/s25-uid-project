@@ -63,13 +63,9 @@
     <div class="col-md-5 text-center">
 
     </div>
-    <div class="col-md-5 text-center">
-      <div class="speech-bubble">
-        <p class="pixel-font mb-0">
-          Welcome! I'm Dr. Coffee, <br>
-          your caffeinated professor—with a PhD in Espressology.<br>
-          Let me help you regain your energy!
-        </p>
+    <div class="col-md-5">
+      <div class="speech-bubble justify-content-center">
+        <p id="typewriter-text" class="pixel-font mb-0" data-text="Welcome! I'm Dr. Coffee, your caffeinated professor—with a PhD in Espressology. Let me help you regain your energy!"></p>
       </div>
     </div>
 
@@ -77,9 +73,13 @@
 
   <!-- Row 6: Continue button -->
   <div class="row mt-auto p-4">
-    <div class="col-12 text-center continue-button">
-      <a href="{{ url_for('introduction_backpack') }}" class="pixel-button">Continue</a>
+    <div class="col-12 d-flex justify-content-center">
+      <a href="{{ url_for('introduction_backpack') }}" class="continue-button">Continue</a>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Typewriter effect is now handled by main.js -->
 {% endblock %}

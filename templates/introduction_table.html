@@ -2,78 +2,93 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/introduction.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="full-page">
-    <div class="top-bar">
-        <h1 class="pixel-font title">CaféCraft</h1>
-        <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
-        </a>
+<div class="container">
+  <!-- Top row with title and home icon -->
+  <div class="intro-header-row">
+    <div class="home-icon-container">
+      <!-- Empty space to balance layout -->
     </div>
-
-    <div class="main-content">
-        <div class="left-side">
-            <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User" class="character-img">
-            <div class="pixel-font character-name">{{ name }}</div>
-            <div class="energy-meter">
-                {% for i in range(6) %}
-                    {% if i < caffeine_level %}
-                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-icon bean-filled">
-                    {% else %}
-                        <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-icon bean-empty">
-                    {% endif %}
-                {% endfor %}
-            </div>
-
-            <div class="backpack">
-                <div class="pixel-font backpack-title">BACKPACK</div>
-                <div class="backpack-grid">
-                    {% for i in range(8) %}
-                        <div class="backpack-slot"></div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="middle-side">
-            <div class="pixel-font crafting-title">CRAFTING TABLE</div>
-            <div class="crafting-and-result">
-                <div class="crafting-grid">
-                    {% for i in range(9) %}
-                        <div class="crafting-slot"></div>
-                    {% endfor %}
-                </div>
-                <div class="arrow-result-group">
-                    <div class="arrow">➡️</div>
-                    <div class="result-slot"></div>
-                </div>
-            </div>
-            <div class="pixel-font instruction-text">
-                Drag items from your backpack into the crafting table.<br>
-                Your crafted drink will appear in the result slot!
-            </div>
-        </div>
-
-        <div class="right-side">
-            <div class="dr-coffee-container">
-                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character-img">
-                <div class="pixel-font character-name">Dr. Coffee</div>
-            </div>
-            <div class="speech-bubble">
-                <p class="pixel-font">
-                    And this is your crafting table.<br>
-                    You'll use it to prepare coffee<br>
-                    drinks by combining the right materials.
-                </p>
-            </div>
-        </div>
+    <h1 class="pixel-font intro-title">CaféCraft</h1>
+    <div class="home-icon-container">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
+      </a>
     </div>
+  </div>
 
-    <div class="continue-button">
-        <a href="{{ url_for('recipes') }}" class="pixel-button">Continue</a>
+  <!-- Three column layout for main content -->
+  <div class="intro-content">
+    <!-- User Column (Left) -->
+    <div class="character-column">
+      <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User" class="character-portrait">
+      <div class="pixel-font character-name">{{ name }}</div>
+      
+      <!-- Coffee Level -->
+      <div class="coffee-level">
+        {% for i in range(6) %}
+          {% if i < caffeine_level %}
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-bean">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-bean bean-empty">
+          {% endif %}
+        {% endfor %}
+      </div>
+      
+      <!-- Backpack -->
+      <div class="backpack">
+        <div class="pixel-font backpack-title text-center">BACKPACK</div>
+        <div class="backpack-grid">
+          {% for i in range(8) %}
+            <div class="backpack-slot"></div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+    
+    <!-- Crafting Column (Middle) -->
+    <div class="crafting-column">
+      <div class="pixel-font crafting-title">CRAFTING TABLE</div>
+      <div class="crafting-table">
+        <div class="crafting-grid">
+          {% for i in range(9) %}
+            <div class="crafting-slot"></div>
+          {% endfor %}
+        </div>
+        <div class="crafting-arrow">➡️</div>
+        <div class="result-slot"></div>
+      </div>
+      <div class="pixel-font crafting-instructions">
+        Drag items from your backpack into the crafting table.<br>
+        Your crafted drink will appear in the result slot!
+      </div>
+    </div>
+    
+    <!-- Dr. Coffee Column (Right) -->
+    <div class="character-column">
+      <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character-portrait">
+      <div class="pixel-font character-name">Dr. Coffee</div>
+      
+      <!-- Coffee Level (for symmetry) -->
+      <div class="coffee-level">
+      </div>
+      
+      <!-- Speech Bubble -->
+      <div class="speech-bubble">
+        <p id="typewriter-text" class="pixel-font typewriter-text mb-0" data-text="And this is your crafting table. You'll use it to prepare coffee drinks by combining the right materials."></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Continue Button -->
+
+  <div class="row mt-auto p-4">
+    <div class="col-12 d-flex justify-content-center">
+      <a href="{{ url_for('recipes') }}" class="continue-button">Continue</a>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

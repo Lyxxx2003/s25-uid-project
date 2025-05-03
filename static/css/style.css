@@ -19,6 +19,7 @@
   --border-width: 2px;
   --border-width-accent: 3px;
   --border-color-primary: #d5864d;
+  --border-color-grey:rgb(64, 64, 64);
   
   /* Typography */
   --font-size-small: 12px;
@@ -124,24 +125,6 @@ header h1 {
     margin-bottom: var(--space-lg);
 }
 
-/* Energy Meter */
-.energy-meter {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-xs);
-    margin-top: var(--space-sm);
-}
-
-.energy-meter img {
-    width: 24px;
-    height: 24px;
-    opacity: 0.3;
-    transition: opacity 0.3s;
-}
-
-.energy-meter img.active {
-    opacity: 1;
-}
 
 /* Drinks Grid */
 .drinks-grid {
@@ -190,24 +173,6 @@ header h1 {
     margin: var(--space-lg) 0;
 }
 
-/* Buttons */
-/* .btn {
-    font-family: 'Press Start 2P', cursive;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-primary {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-.btn-success {
-    background-color: var(--color-success);
-    border-color: var(--color-success);
-} */
 
 
 

@@ -1,7 +1,7 @@
 {
   "player": {
     "name": "" ,
-    "caffeineLevel": 0
+    "caffeineLevel": 1
   },
   "ingredients": [
     { "name": "Coffee Beans", "symbol": "🫘"},
