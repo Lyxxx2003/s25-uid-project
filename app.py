@@ -14,7 +14,7 @@ with open('static/data/game_data.json', 'r') as f:
 class GameState:
     def __init__(self):
         self.caffeine_level = 1
-        self.recipes_unlocked = ["espresso"]  # Start with espresso unlocked
+        self.recipes_unlocked = ["espresso"]  
         self.inventory = {
             "coffee_beans": 5,
             "water": 5,

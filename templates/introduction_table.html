@@ -58,11 +58,13 @@
             <div class="crafting-slot"></div>
           {% endfor %}
         </div>
-        <div class="crafting-arrow">➡️</div>
+        <div class="crafting-arrow">
+          <img src="{{ url_for('static', filename='images/crafting-arrow.png') }}" alt="Arrow" class="arrow">
+        </div>
         <div class="result-slot"></div>
       </div>
       <div class="pixel-font crafting-instructions">
-        Drag items from your backpack into the crafting table.<br>
+        Drag items from your backpack into the crafting table.
         Your crafted drink will appear in the result slot!
       </div>
     </div>
