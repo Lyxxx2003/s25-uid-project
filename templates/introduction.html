@@ -1,210 +1,85 @@
 {% extends "base.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/introduction.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="full-page">
-    <div class="top-bar">
-        <h1 class="pixel-font title">CaféCraft</h1>
-        <a href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
-        </a>
+<div class="container-fluid vh-100 d-flex flex-column">
+  <!-- Row 1: Title and home icon -->
+  <div class="row align-items-center title-row">
+    <div class="col-2">
+    </div>
+    <div class="col-8 text-center">
+      <h1 class="pixel-font title">CaféCraft</h1>
+    </div>
+    <div class="col-2 text-end">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
+      </a>
+    </div>
+  </div>
+
+  <!-- Row 2: Character images -->
+  <div class="row justify-content-center align-items-center mt-4">
+    <div class="col-md-5 text-center">
+      <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User" class="character-img">
+    </div>
+    <div class="col-md-5 text-center">
+      <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee" class="character-img">
+    </div>
+  </div>
+
+  <!-- Row 3: Character names -->
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-5 text-center">
+      <div class="pixel-font character-name">{{ name }}</div>
+    </div>
+    <div class="col-md-5 text-center">
+      <div class="pixel-font character-name">Dr. Coffee</div>
+    </div>
+  </div>
+
+  <!-- Row 4: Energy meter -->
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-5 text-center">
+      <div class="energy-meter d-flex justify-content-center">
+        {% for i in range(6) %}
+          {% if i < caffeine_level %}
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-icon bean-filled">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-icon bean-empty">
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-5 text-center">
+
+    </div>
+  </div>
+
+  <!-- Row 5: Speech bubble -->
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-5 text-center">
+
+    </div>
+    <div class="col-md-5 text-center">
+      <div class="speech-bubble">
+        <p class="pixel-font mb-0">
+          Welcome! I'm Dr. Coffee, <br>
+          your caffeinated professor—with a PhD in Espressology.<br>
+          Let me help you regain your energy!
+        </p>
+      </div>
     </div>
 
-    <div class="main-content">
-        <div class="left-side">
-            <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="User" class="character-img">
-            <div class="pixel-font character-name">{{ name }}</div>
-            <div class="energy-meter">
-                {% for i in range(6) %}
-                {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee_beans.png') }}"
-                    alt="Filled Bean" class="coffee-icon bean-filled">
-                    {% else %}
-                    <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean"
-                        class="coffee-icon bean-empty">
-                    {% endif %}
-                    {% endfor %}
-            </div>
-        </div>
+  </div>
 
-        <div class="right-side">
-            <div class="dr-coffee-container">
-                <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Dr. Coffee"
-                    class="character-img">
-                <div class="pixel-font character-name">Dr. Coffee</div>
-            </div>
-            <div class="speech-bubble">
-                <p class="pixel-font">
-                    Welcome! I'm Dr. Coffee, <br>
-                    your caffeinated professor—with a PhD in Espressology.<br>
-                    Let me help you regain your energy!
-                </p>
-            </div>
-        </div>
+  <!-- Row 6: Continue button -->
+  <div class="row mt-auto p-4">
+    <div class="col-12 text-center continue-button">
+      <a href="{{ url_for('introduction_backpack') }}" class="pixel-button">Continue</a>
     </div>
-
-    <div class="continue-button">
-        <a href="{{ url_for('introduction_backpack') }}" class="pixel-button">Continue</a>
-    </div>
+  </div>
 </div>
-
-<style>
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-        background-color: #fefefb;
-    }
-
-    .full-page {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-    }
-
-    .top-bar {
-        width: 100%;
-        text-align: center;
-        margin-top: 20px;
-        position: relative;
-    }
-
-    .title {
-        font-size: 24px;
-        margin: 0;
-    }
-
-    .home-icon {
-        position: absolute;
-        top: 0;
-        right: 30px;
-        width: 30px;
-        height: 30px;
-        image-rendering: pixelated;
-    }
-
-    .main-content {
-        display: flex;
-        flex: 1;
-        justify-content: center;
-        align-items: center;
-        gap: 100px;
-    }
-
-    .left-side {
-        text-align: center;
-    }
-
-    .character-img {
-        width: 100px;
-        height: 100px;
-        image-rendering: pixelated;
-    }
-
-    .character-name {
-        font-size: 14px;
-        margin-top: 10px;
-    }
-
-    .energy-meter {
-        margin-top: 8px;
-        display: flex;
-        justify-content: center;
-        gap: 4px;
-    }
-
-    .coffee-icon {
-        width: 16px;
-        height: 16px;
-    }
-
-    /* For filled coffee bean */
-    .bean-filled {
-        filter: brightness(100%);
-    }
-
-    /* Empty bean = darker */
-    .bean-empty {
-        filter: brightness(20%);
-    }
-
-    .right-side {
-        text-align: center;
-        position: relative;
-    }
-
-    .dr-coffee-container {
-        margin-bottom: 10px;
-    }
-
-    .speech-bubble {
-        background: #ffffff;
-        border: 3px solid #4a4a4a;
-        border-radius: 20px;
-        padding: 20px;
-        max-width: 300px;
-        text-align: center;
-        font-size: 12px;
-        margin-top: 10px;
-        position: relative;
-    }
-
-    .speech-bubble::before {
-        content: "";
-        position: absolute;
-        top: -20px;
-        /* move up */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 13px solid transparent;
-        border-right: 13px solid transparent;
-        border-bottom: 20px solid #4a4a4a;
-        /* dark outline */
-    }
-
-    .speech-bubble::after {
-        content: "";
-        position: absolute;
-        top: -17px;
-        /* slightly below the border */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 17px solid #ffffff;
-        /* white fill */
-    }
-
-    .continue-button {
-        margin-bottom: 30px;
-    }
-
-    .pixel-button {
-        display: inline-block;
-        padding: 8px 20px;
-        background-color: lightsalmon;
-        border: 3px solid #4a4a4a;
-        color: black;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 12px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-
-    .pixel-button:hover {
-        background-color: #e9967a;
-        color: black;
-    }
-
-    .pixel-font {
-        font-family: 'Press Start 2P', cursive;
-        color: #4a4a4a;
-    }
-</style>
 {% endblock %}

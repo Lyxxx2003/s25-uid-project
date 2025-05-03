@@ -5,6 +5,79 @@
     .character-img {
         max-width: 250px;
     }
+
+    .full-page {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pixel-button-small {
+        display: inline-block;
+        padding: 0.5rem 2rem;
+        text-decoration: none;
+        margin-top: 1rem;
+        background-color: var(--button-color-primary);
+        border-radius: var(--border-radius);
+        transition: transform 0.2s, background-color 0.2s;
+        height: 60px;
+        width: 150px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--font-size-large);
+        font-weight: bold;
+        color: var(--font-color-black);
+        border: none;
+    
+    }
+    
+    .pixel-button-small:hover {
+        transform: scale(1.05);
+        color: var(--font-color-black);
+        background-color: var(--button-color-primary);
+    }
+
+    .pixel-input {
+        width: 100%;
+        height: 60px;
+        padding: 0.5rem;
+        font-size: var(--font-size-large);
+        font-weight: bold;
+        border-radius: var(--border-radius);
+        border: 2px solid var(--border-color-primary);
+        text-align: center;
+        background-color: var(--color-background);
+    }
+    
+    .pixel-input:focus {
+        outline: none;
+        border-color: var(--border-color-primary);
+    }
+
+    .content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    }
+
+    .left-side, .right-side {
+        text-align: center;
+    }
+
+    .title-text {
+        font-size: var(--font-size-xlarge);
+        margin-bottom: 20px;
+    }
+
+    .name-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
 </style>
 
 <div class="full-page">
@@ -17,7 +90,7 @@
             <h2 class="pixel-font title-text">Enter Your Name:</h2>
             <form method="POST" action="{{ url_for('enter_name') }}" class="name-form">
                 <input type="text" name="name" class="pixel-input" value="" required autofocus>
-                <button type="submit" class="pixel-button pixel-button-accent">Submit</button>
+                <button type="submit" class="pixel-button pixel-button-small">Submit</button>
             </form>
         </div>
     </div>

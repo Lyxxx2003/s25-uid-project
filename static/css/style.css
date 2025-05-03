@@ -18,6 +18,7 @@
   --border-radius: 8px;
   --border-width: 2px;
   --border-width-accent: 3px;
+  --border-color-primary: #d5864d;
   
   /* Typography */
   --font-size-small: 12px;
@@ -86,38 +87,6 @@ img {
 }
 
 
-/* Name Entry Page Styles */
-.content-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xl);
-}
-
-.left-side, .right-side {
-    text-align: center;
-}
-
-.title-text {
-    font-size: var(--font-size-xlarge);
-    margin-bottom: 20px;
-}
-
-.name-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-}
-
-.pixel-input {
-    width: 250px;
-    padding: 10px;
-    font-family: 'Press Start 2P', cursive;
-    font-size: var(--font-size-medium);
-    text-align: center;
-    border: var(--border-width-accent) solid var(--color-accent);
-    background-color: var(--color-input-bg);
-}
 
 /* Header */
 header h1 {
@@ -222,7 +191,7 @@ header h1 {
 }
 
 /* Buttons */
-.btn {
+/* .btn {
     font-family: 'Press Start 2P', cursive;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
@@ -238,76 +207,10 @@ header h1 {
 .btn-success {
     background-color: var(--color-success);
     border-color: var(--color-success);
-}
+} */
 
-/* Pixel Button Styles */
-.pixel-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: white;
-    border: var(--border-width-accent) solid var(--color-button);
-    color: var(--color-button);
-    text-decoration: none;
-    font-family: 'Press Start 2P', cursive;
-    font-size: var(--font-size-large);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
 
-.pixel-button:hover {
-    background-color: var(--color-button);
-    color: white;
-    transform: scale(1.05);
-}
 
-/* Pixel Button Variants */
-.pixel-button-small {
-    padding: 6px 12px;
-    background-color: var(--color-accent);
-    font-size: var(--font-size-small);
-    transition: all 0.2s ease;
-}
-
-.pixel-button-small:hover {
-    transform: scale(1.02);
-}
-
-.pixel-button-accent {
-    padding: 8px 20px;
-    background-color: var(--color-accent);
-    border: var(--border-width-accent) solid var(--color-accent);
-    color: black;
-    font-size: var(--font-size-medium);
-}
-
-.pixel-button-accent:hover {
-    background-color: var(--color-accent-hover);
-    border-color: var(--color-accent-hover);
-    transform: none;
-}
-
-/* Form Controls */
-.form-control {
-    border: var(--border-width) solid var(--color-border);
-    border-radius: 4px;
-    padding: var(--space-sm);
-    font-size: 1rem;
-}
-
-.form-control:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-}
-
-/* Animations */
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.character:hover {
-    animation: bounce 0.5s ease infinite;
-} 
 
 /* quiz */
 .quiz-button {
