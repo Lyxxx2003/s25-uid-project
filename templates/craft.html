@@ -46,7 +46,7 @@
           <div class="backpack-slot">
             <img src="{{ url_for('static', filename='images/' + items[ingredient].icon) }}"
                 alt="{{ items[ingredient].name }}" draggable="true" ondragstart="drag(event)"
-                data-ingredient="{{ ingredient }}" class="backpack-item">
+                data-ingredient="{{ ingredient }}" class="backpack-item" title="{{ items[ingredient].name }}" >
           </div>
           {% endfor %}
         </div>
