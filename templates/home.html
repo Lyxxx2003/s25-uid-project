@@ -15,7 +15,7 @@
     }
     
     .main-title {
-        color: var(--font-color-black);
+        color: #654321;
         font-size: var(--font-size-xxlarge);
         padding-bottom: 20px;
     }
@@ -72,7 +72,8 @@
     <div class="home-container">
         <h1 class="pixel-font main-title">CaféCraft</h1>
         <p class="pixel-font subtext">Explore the composition of popular coffee drinks!</p>
-        <img src="{{ url_for('static', filename='images/user_tired.png') }}" alt="Tired User" class="character-img">
+        <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" alt="Tired User" class="character-img">
+        <div class="pixel-font character-name">Dr. Coffee</div>
         <div class="button-container">
             <a href="{{ url_for('enter_name') }}" class="pixel-button pixel-button-small">Start</a>
         </div>

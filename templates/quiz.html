@@ -10,13 +10,13 @@
 </div> -->
 <div class="top-bar">
     <a href="{{ url_for('recipes') }}">
-      <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" style="width: 40px; height: 40px;">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" style="width: 40px; height: 40px;">
     </a>
     <div id="quiz-progress" class="pixel-font">
-      Question {{ current_qid }} of {{ total_questions }}
+        Question {{ current_qid }} of {{ total_questions }}
     </div>
-  </div>  
-  
+</div>
+
 <div class="game-content quiz-layout" style="display: flex; gap: 40px; justify-content: center;">
     <!-- Left: Fiona and Backpack -->
     <div class="player-section" style="width: 30%;">
@@ -26,9 +26,11 @@
         </div>
         <h4 class="pixel-font text-center">Backpack</h4>
         <div class="inventory-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate', 'water'] %}
+            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate',
+            'water'] %}
             <div class="inventory-slot" draggable="true">
-                <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon" alt="{{ item }}">
+                <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon"
+                    alt="{{ item }}">
             </div>
             {% endfor %}
         </div>
@@ -37,30 +39,32 @@
     <!-- Center: Crafting Table with Submit Button -->
     <div class="crafting-column">
         <div class="crafting-inner">
-          <div class="pixel-font crafting-title">CRAFTING TABLE</div>
-      
-          <div class="crafting-grid">
-            {% for i in range(9) %}
-            <div class="crafting-slot" data-slot="{{ i }}" ondrop="drop(event)" ondragover="allowDrop(event)">
-              {% if selected_ingredients and i < selected_ingredients|length and selected_ingredients[i] %}
-              <img src="{{ url_for('static', filename='images/' + selected_ingredients[i] + '.png') }}" class="item-icon" alt="{{ selected_ingredients[i] }}">
-              {% endif %}
-            </div>
-            {% endfor %}
-          </div>
-      
-          <div class="crafting-arrow">
-            <img src="{{ url_for('static', filename='images/crafting-arrow.png') }}" alt="Arrow" class="arrow">
-          </div>
-      
-          <div class="result-slot {% if result_image in ['None', 'null', '', None] %}empty{% endif %}">
-            {% if result_image not in ['None', 'null', '', None] %}
-            <img src="{{ url_for('static', filename='images/' + result_image + '.png') }}" width="50">
-            {% endif %}
-          </div>
+            <div class="pixel-font crafting-title">CRAFTING TABLE</div>
 
-          <div id="response-text" class="pixel-font result-feedback"></div>
-            <img id="heart-icon" src="{{ url_for('static', filename='images/heart.png') }}" width="30" style="display: none; margin-top: 10px;">
+            <div class="crafting-grid">
+                {% for i in range(9) %}
+                <div class="crafting-slot" data-slot="{{ i }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    {% if selected_ingredients and i < selected_ingredients|length and selected_ingredients[i] %} <img
+                        src="{{ url_for('static', filename='images/' + selected_ingredients[i] + '.png') }}"
+                        class="item-icon" alt="{{ selected_ingredients[i] }}">
+                        {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="crafting-arrow">
+                <img src="{{ url_for('static', filename='images/crafting-arrow.png') }}" alt="Arrow" class="arrow">
+            </div>
+
+            <div class="result-slot {% if result_image in ['None', 'null', '', None] %}empty{% endif %}">
+                {% if result_image not in ['None', 'null', '', None] %}
+                <img src="{{ url_for('static', filename='images/' + result_image + '.png') }}" width="50">
+                {% endif %}
+            </div>
+
+            <div id="response-text" class="pixel-font result-feedback"></div>
+            <img id="heart-icon" src="{{ url_for('static', filename='images/heart.png') }}" width="30"
+                style="display: none; margin-top: 10px;">
             <div class="text-center mt-4">
                 <button id="submit-craft" class="submit-button">Submit</button>
             </div>
@@ -76,8 +80,8 @@
                     <button id="hint-icon" class="pixel-button">Hint</button>
                 </div> -->
 
-                <!-- Hint Text Below -->
-                <!-- <div id="hint-text" class="pixel-font mt-2" style="display: none;">
+            <!-- Hint Text Below -->
+            <!-- <div id="hint-text" class="pixel-font mt-2" style="display: none;">
                     Hint: {{ question.hint }}
                 </div>
             </div> -->
@@ -85,8 +89,8 @@
 
 
         </div>
-    </div>      
-    
+    </div>
+
     <!-- Right: Dr. Coffee -->
     <div class="professor-section">
         <div class="professor-inner">
@@ -95,26 +99,26 @@
                 <img src="{{ url_for('static', filename='images/dr_coffee.png') }}" width="120">
                 <p class="pixel-font">Dr. Coffee</p>
             </div>
-    
+
             <!-- Dr. Coffee's Question -->
             <div class="speech-bubble mt-3 pixel-font">
                 {{ question.prompt }}
             </div>
-    
+
             <!-- Hint Icon -->
             <!-- <div class="hint-icon-wrapper">
                 <img id="hint-icon" src="{{ url_for('static', filename='images/hint.png') }}" alt="Hint Icon">
             </div> -->
             <button id="hint-icon" class="pixel-button hint-button">Hint</button>
 
-    
+
             <!-- Hint Text -->
             <div id="hint-text" class="pixel-font">
                 Hint: {{ question.hint }}
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <input type="hidden" id="question-id" value="{{ current_qid }}">
@@ -129,22 +133,22 @@
     function allowDrop(ev) {
         ev.preventDefault();
     }
-    
+
     function drop(ev) {
         ev.preventDefault();
         const ingredient = ev.dataTransfer.getData("text/plain");
         const slot = ev.currentTarget;
-    
+
         if (window.quizSubmitted) return;
-    
+
         slot.innerHTML = `<img src="/static/images/${ingredient}.png" class="item-icon" alt="${ingredient}">`;
-    
+
         const craftingSlots = document.querySelectorAll('.crafting-slot');
         const selectedIngredients = Array.from(craftingSlots).map(slot => {
             const img = slot.querySelector('img');
             return img ? img.alt : null;
         });
-    
+
         fetch('/save_quiz_progress', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -154,7 +158,7 @@
             })
         });
     }
-    
+
     document.addEventListener('DOMContentLoaded', function () {
         const questionId = parseInt(document.getElementById('question-id').value);
         const totalQuestions = parseInt(document.getElementById('total-questions').value);
@@ -167,29 +171,29 @@
         const hintText = document.getElementById('hint-text');
         const submitBtn = document.getElementById('submit-craft');
         let isSubmitted = false;
-    
+
         // Refill from session
         const prefilledIngredients = JSON.parse(document.getElementById('prefilled-ingredients').value);
         const prefilledResult = document.getElementById('prefilled-result').value;
         const prefilledFeedback = document.getElementById('prefilled-feedback').value;
         const prefilledHintShown = document.getElementById('prefilled-hint').value === 'true';
-    
+
         craftingSlots.forEach((slot, i) => {
             if (prefilledIngredients[i]) {
                 slot.innerHTML = `<img src="/static/images/${prefilledIngredients[i]}.png" class="item-icon" alt="${prefilledIngredients[i]}">`;
             }
-    
+
             slot.addEventListener('click', () => {
                 if (!isSubmitted) slot.innerHTML = "";
             });
         });
-    
+
         if (prefilledResult && prefilledResult !== 'None' && prefilledResult !== 'null') {
             isSubmitted = true;
             window.quizSubmitted = true;
             resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" width="50">`;
             submitBtn.style.display = 'none';
-    
+
             if (prefilledFeedback) {
                 responseText.innerText = prefilledFeedback;
                 responseText.classList.add('pixel-font', 'result-feedback');
@@ -201,7 +205,7 @@
                     responseText.classList.add('result-wrong');
                 }
             }
-    
+
             const nextBtn = document.createElement("button");
             nextBtn.className = "submit-button mt-3";
             nextBtn.innerText = (questionId === totalQuestions) ? "Finish Quiz" : "Next Question";
@@ -220,11 +224,11 @@
             };
             submitBtn.parentElement.appendChild(nextBtn);
         }
-    
+
         if (prefilledHintShown) {
             hintText.style.display = 'block';
         }
-    
+
         inventorySlots.forEach(slot => {
             slot.addEventListener('dragstart', e => {
                 if (!isSubmitted) {
@@ -232,13 +236,13 @@
                 }
             });
         });
-    
+
         submitBtn.addEventListener('click', () => {
             const selectedIngredients = Array.from(craftingSlots).map(s => {
                 const img = s.querySelector('img');
                 return img ? img.alt : null;
             });
-    
+
             fetch('/submit_quiz', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -247,43 +251,49 @@
                     ingredients: selectedIngredients
                 })
             })
-            .then(res => res.json())
-            .then(data => {
-                isSubmitted = true;
-                window.quizSubmitted = true;
-                resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" width="50">`;
-                submitBtn.style.display = 'none';
-    
-                responseText.innerText = data.success ? "Correct! You crafted the right drink!" : "Oops! That’s not the right combination.";
-                responseText.classList.add('pixel-font', 'result-feedback');
-                if (data.success) {
-                    responseText.classList.add('result-correct');
-                    heartIcon.style.display = 'inline-block';
-                } else {
-                    responseText.classList.add('result-wrong');
-                    heartIcon.style.display = 'none';
-                }
-    
-                const nextBtn = document.createElement("button");
-                nextBtn.className = "submit-button mt-3";
-                nextBtn.innerText = data.finished ? "Finish Quiz" : "Next Question";
-                nextBtn.onclick = () => {
-                    if (data.finished) {
-                        window.location.href = '/certificate';
+                .then(res => res.json())
+                .then(data => {
+                    isSubmitted = true;
+                    window.quizSubmitted = true;
+                    resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" width="50">`;
+                    submitBtn.style.display = 'none';
+
+                    if (data.success) {
+                        responseText.innerText = "Correct! You crafted the right drink!";
+                        responseText.style.color = "green";
                     } else {
-                        fetch('/update_last_qid', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ question_id: data.next_qid })
-                        }).then(() => {
-                            window.location.href = `/quiz/${data.next_qid}`;
-                        });
+                        responseText.innerText = "Oops! That’s not the right combination.";
+                        responseText.style.color = "red";
                     }
-                };
-                submitBtn.parentElement.appendChild(nextBtn);
-            });
+                    responseText.classList.add('pixel-font', 'result-feedback');
+                    if (data.success) {
+                        responseText.classList.add('result-correct');
+                        heartIcon.style.display = 'inline-block';
+                    } else {
+                        responseText.classList.add('result-wrong');
+                        heartIcon.style.display = 'none';
+                    }
+
+                    const nextBtn = document.createElement("button");
+                    nextBtn.className = "submit-button mt-3";
+                    nextBtn.innerText = data.finished ? "Finish Quiz" : "Next Question";
+                    nextBtn.onclick = () => {
+                        if (data.finished) {
+                            window.location.href = '/certificate';
+                        } else {
+                            fetch('/update_last_qid', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ question_id: data.next_qid })
+                            }).then(() => {
+                                window.location.href = `/quiz/${data.next_qid}`;
+                            });
+                        }
+                    };
+                    submitBtn.parentElement.appendChild(nextBtn);
+                });
         });
-    
+
         hintIcon.addEventListener('click', () => {
             const isVisible = hintText.style.display === 'block';
             hintText.style.display = isVisible ? 'none' : 'block';
@@ -295,7 +305,7 @@
             });
         });
     });
-</script>    
+</script>
 
 <!-- <script>
 const questionId = {{ current_qid }};
@@ -543,178 +553,191 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script> -->
-    
+
 
 <style>
     .professor-section {
-    width: 30%;
-}
+        width: 30%;
+    }
 
-.professor-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align everything to the left */
-}
+    .professor-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* Align everything to the left */
+    }
 
-.professor-sprite {
-    text-align: center;
-    width: 100%;
-}
+    .professor-sprite {
+        text-align: center;
+        width: 100%;
+    }
 
-.speech-bubble {
-    font-size: 12px;
-    margin-top: 10px;
-    width: 100%;
-}
+    .speech-bubble {
+        font-size: 12px;
+        margin-top: 10px;
+        width: 100%;
+    }
 
-.hint-icon-wrapper {
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-
-#hint-icon {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-}
-
-#hint-text {
-    font-size: 12px;
-    margin-top: 8px;
-    display: none;
-    background-color: #fffaf5;           /* soft light background */
-    padding: 10px 14px;
-    border: 2px solid #d78f46;           /* warm orange border */
-    border-radius: 12px;                 /* rounded corners */
-    color: #333;
-    width: fit-content;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05); /* optional soft shadow */
-}
-.result-slot {
-    width: 60px;
-    height: 60px;
-    margin: auto;
-    border: 2px solid #4a4a4a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.result-slot.empty {
-    border: 2px dashed #ccc;
-    background-color: #f8f8f8;
-}
-
-.result-correct {
-    color: #5C4033;
-}
-.result-wrong {
-    color: #FFA94D;
-}
-.result-feedback {
-    margin-top: 15px;
-    font-size: 14px;
-}
-
-.crafting-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.crafting-slot {
-  width: 60px;
-  height: 60px;
-  border: 2px solid #ccc;
-  background-color: #f3f3f3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.crafting-arrow {
-  text-align: center;
-  margin: 10px 0;
-}
-
-.crafting-arrow .arrow {
-  width: 40px;
-  height: auto;
-}
-
-.crafting-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.crafting-title {
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.hint-button {
-  background-color: #fff8c6;
-  border: 2px solid #f7c174;
-  color: #5c4b00;
-  font-weight: bold;
-  padding: 8px 20px;
-  min-width: 100px;              /* slightly wider for balance */
-  text-align: center;            /* ensures text is centered */
-  display: inline-block;         /* allows it to size naturally */
-  line-height: 1.2;              /* prevents vertical misalignment */
-  transition: background-color 0.2s ease;
-}
+    .hint-icon-wrapper {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
 
 
-.hint-button:hover {
-  background-color: #fff3a2;
-  cursor: pointer;
-}
+    #hint-icon {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
 
-.top-bar {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+    #hint-text {
+        font-size: 12px;
+        margin-top: 8px;
+        display: none;
+        background-color: #fffaf5;
+        /* soft light background */
+        padding: 10px 14px;
+        border: 2px solid #d78f46;
+        /* warm orange border */
+        border-radius: 12px;
+        /* rounded corners */
+        color: #333;
+        width: fit-content;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        /* optional soft shadow */
+    }
 
-#quiz-progress {
-  font-size: 16px;
-  color: #4a4a4a;
-  background-color: #fff8c6;
-  border: 2px solid #f7c174;
-  padding: 6px 12px;
-  border-radius: 6px;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
+    .result-slot {
+        width: 60px;
+        height: 60px;
+        margin: auto;
+        border: 2px solid #4a4a4a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.quiz-layout {
-  margin-top: 80px;  /* Adjust as needed */
-}
+    .result-slot.empty {
+        border: 2px dashed #ccc;
+        background-color: #f8f8f8;
+    }
 
-.submit-button {
-  background-color: #cc8753;  /* warm brown color */
-  border: none;
-  border-radius: 15px;
-  padding: 12px 30px;
-  font-family: 'Press Start 2P', cursive; /* or your pixel font */
-  font-size: 18px;
-  color: black;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 20px;
-  display: inline-block;
-}
+    .result-correct {
+        color: #5C4033;
+    }
+
+    .result-wrong {
+        color: #FFA94D;
+    }
+
+    .result-feedback {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .crafting-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .crafting-slot {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #ccc;
+        background-color: #f3f3f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .crafting-arrow {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .crafting-arrow .arrow {
+        width: 40px;
+        height: auto;
+    }
+
+    .crafting-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .crafting-title {
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    .hint-button {
+        background-color: #fff8c6;
+        border: 2px solid #f7c174;
+        color: #5c4b00;
+        font-weight: bold;
+        padding: 8px 20px;
+        min-width: 100px;
+        /* slightly wider for balance */
+        text-align: center;
+        /* ensures text is centered */
+        display: inline-block;
+        /* allows it to size naturally */
+        line-height: 1.2;
+        /* prevents vertical misalignment */
+        transition: background-color 0.2s ease;
+    }
 
 
+    .hint-button:hover {
+        background-color: #fff3a2;
+        cursor: pointer;
+    }
+
+    .top-bar {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    #quiz-progress {
+        font-size: 16px;
+        color: #4a4a4a;
+        background-color: #fff8c6;
+        border: 2px solid #f7c174;
+        padding: 6px 12px;
+        border-radius: 6px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .quiz-layout {
+        margin-top: 80px;
+        /* Adjust as needed */
+    }
+
+    .submit-button {
+        background-color: #cc8753;
+        /* warm brown color */
+        border: none;
+        border-radius: 15px;
+        padding: 12px 30px;
+        font-family: 'Press Start 2P', cursive;
+        /* or your pixel font */
+        font-size: 18px;
+        color: black;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 20px;
+        display: inline-block;
+    }
 </style>
-    
-    
+
+
 
 {% endblock %}
