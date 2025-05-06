@@ -23,7 +23,7 @@
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream", "milk_foam"] }            
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
         ],
         "answer_id": "mocha",
         "success_image": "mocha",
