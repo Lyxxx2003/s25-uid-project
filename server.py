@@ -84,7 +84,8 @@ def recipes():
                          game_data=game_data,
                          unlocked_recipes=game_state.recipes_unlocked,
                          caffeine_level=game_state.caffeine_level,
-                         all_unlocked=all_unlocked)
+                         all_unlocked=all_unlocked,
+                         last_qid=session.get('last_qid', 1))
 
 @app.route('/learn/<recipe_id>')
 def learn(recipe_id):
@@ -295,6 +296,12 @@ def certificate():
 
     return render_template('certificate.html', name=game_state.name, score=score, date=today)
 
+@app.route('/reset_quiz', methods=['POST'])
+def reset_quiz():
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback']:
+        session.pop(key, None)
+    session.modified = True
+    return '', 204
 
 
 if __name__ == '__main__':

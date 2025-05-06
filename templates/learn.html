@@ -16,7 +16,7 @@
     <h1 class="pixel-font intro-title">CaféCraft</h1>
     <div class="home-icon-container">
       <a href="{{ url_for('recipes') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Home" class="home-icon">
       </a>
     </div>
   </div>
@@ -32,9 +32,9 @@
       <div class="coffee-level">
         {% for i in range(6) %}
           {% if i < caffeine_level %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-bean">
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" title="Filled Bean" class="coffee-bean">
           {% else %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-bean bean-empty">
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" title="Empty Bean" class="coffee-bean bean-empty">
           {% endif %}
         {% endfor %}
       </div>
@@ -59,7 +59,7 @@
             <div class="recipe-ingredients">
               {% for ingredient in recipe.ingredients %}
               <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
-                  alt="{{ items[ingredient].name }}" class="learn-ingredient-icon">
+                  alt="{{ items[ingredient].name }}" title="{{ items[ingredient].name }}" class="learn-ingredient-icon">
               {% if not loop.last %}
               <span class="plus">+</span>
               {% endif %}

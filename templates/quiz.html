@@ -10,7 +10,7 @@
 </div> -->
 <div class="top-bar">
     <a href="{{ url_for('recipes') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" style="width: 40px; height: 40px;">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Home" style="width: 40px; height: 40px;">
     </a>
     <div id="quiz-progress" class="pixel-font">
         Question {{ current_qid }} of {{ total_questions }}
@@ -30,7 +30,7 @@
             'water'] %}
             <div class="inventory-slot" draggable="true">
                 <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon"
-                    alt="{{ item }}">
+                    alt="{{ item }}" title="{{ item }}">
             </div>
             {% endfor %}
         </div>
@@ -109,7 +109,7 @@
             <!-- <div class="hint-icon-wrapper">
                 <img id="hint-icon" src="{{ url_for('static', filename='images/hint.png') }}" alt="Hint Icon">
             </div> -->
-            <button id="hint-icon" class="pixel-button hint-button">Hint</button>
+            <button id="hint-icon" class="pixel-button hint-button" title="Show/Hide Hint">Hint</button>
 
 
             <!-- Hint Text -->

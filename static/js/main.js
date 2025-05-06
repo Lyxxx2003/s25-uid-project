@@ -81,6 +81,21 @@ $(document).ready(function () {
         showDescription(0);
     }
     
+    // $('#take-quiz-btn').click(function () {
+    //     if (!hasInProgress) {
+    //         window.location.href = "/quiz/1";
+    //         return;
+    //     }
+    
+    //     if (confirm("You have an unfinished quiz. Would you like to resume where you left off?")) {
+    //         window.location.href = `/quiz/${lastQid}`;
+    //     } else {
+    //         fetch('/reset_quiz', { method: 'POST' }).then(() => {
+    //             window.location.href = '/quiz/1';
+    //         });
+    //     }
+    // });
+    
 });
 
 /**

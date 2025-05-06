@@ -15,7 +15,7 @@
     <h1 class="pixel-font intro-title">CaféCraft</h1>
     <div class="home-icon-container">
       <a href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" class="home-icon">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Restart" class="home-icon">
       </a>
     </div>
   </div>
@@ -31,9 +31,9 @@
       <div class="coffee-level">
         {% for i in range(6) %}
           {% if i < caffeine_level %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-bean">
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" title="Filled Bean" class="coffee-bean">
           {% else %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-bean bean-empty">
+            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" title="Empty Bean" class="coffee-bean bean-empty">
           {% endif %}
         {% endfor %}
       </div>
@@ -64,7 +64,7 @@
                         <div class="recipe-ingredients">
                             {% for ingredient in game_data['recipes'][recipe_id].ingredients %}
                             <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
-                                alt="{{ game_data['items'][ingredient].name }}" class="ingredient-icon">
+                                alt="{{ game_data['items'][ingredient].name }}" title="{{ game_data['items'][ingredient].name }}" class="ingredient-icon">
                             {% if not loop.last %}
                             <span class="plus">+</span>
                             {% endif %}
@@ -89,6 +89,8 @@
       {% if all_unlocked %}
       <div class="quiz-button-container">
           <a href="{{ url_for('quiz_redirect') }}" class="continue-button">Take Quiz!</a>
+          <!-- <button id="take-quiz-btn" class="continue-button">Take Quiz</button> -->
+
       </div>
       {% endif %}
     </div>
@@ -115,4 +117,10 @@
     </div>
   </div>
 </div>
+
+<!-- <script>
+  // Handle taking the quiz button click
+  const hasInProgress = {{ 'true' if session.get('last_qid') and session.get('last_qid') != 1 else 'false' }};
+  const lastQid = {{ session.get('last_qid', 1) }};
+</script> -->
 {% endblock %}
