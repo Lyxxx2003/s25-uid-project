@@ -80,6 +80,7 @@ $(document).ready(function () {
     if (descriptions.length > 0) {
         showDescription(0);
     }
+    
 });
 
 /**
@@ -123,3 +124,5 @@ function initTypewriter() {
     // Use null for text parameter so that the typewriter function will read from data-text
     typewriter('typewriter-text', null, 50, 1000);
 } 
+
+

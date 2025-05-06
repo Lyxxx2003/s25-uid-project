@@ -36,6 +36,30 @@
         </div>
     </div>
 
-    <a href="{{ url_for('quiz', qid=1) }}" class="pixel-button mt-4">Retake Quiz</a>
+    <a href="{{ url_for('quiz', qid=1) }}" class="quiz-button mt-4">Retake Quiz</a>
 </div>
+
+<style>
+    .quiz-button {
+    background-color: #cc8b5c;
+    border-radius: 12px;
+    padding: 12px 32px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    color: black;
+    border: none;
+    box-shadow: 4px 4px 0 #00000033;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 60px; /* More gap from top */
+    margin-bottom: 60px;
+    transition: background-color 0.2s ease;
+    }
+
+    .quiz-button:hover {
+    background-color: #d89d6b;
+    cursor: pointer;
+    }
+
+</style>
 {% endblock %}

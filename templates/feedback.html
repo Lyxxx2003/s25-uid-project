@@ -54,7 +54,7 @@
         
         <div class="next-button-container">
           {% if recipe_id == "mocha" %}
-          <a href="{{ url_for('quiz', qid=1) }}" class="continue-button">Take the Quiz!</a>
+          <a href="{{ url_for('quiz', qid=1) }}" class="continue-button">Take Quiz!</a>
           {% else %}
           {% set recipe_sequence = ["espresso", "americano", "macchiato", "latte", "mocha"] %}
           {% set ns = namespace(next_recipe=None) %}
