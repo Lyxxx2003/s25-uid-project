@@ -2,7 +2,7 @@
     "questions": [
       {
         "id": 1,
-        "prompt": "You want something that keeps you alert for hours, but you find espresso a bit too intense, and you don’t like milk or anything sweet. Which drink would you craft?",
+        "prompt": "Ms.Tang wants something that keeps her alert for hours, but she finds espresso a bit too intense, and she doesn't like milk or anything sweet. Which drink would she craft?",
         "options": [
             { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
@@ -13,7 +13,18 @@
         "answer_id": "americano",
         "success_image": "americano",
         "failure_image": "warning",
-        "hint": "You want something lighter than espresso, no milk or sweetness added."
+        "hint": "You want something lighter than espresso, no milk or sweetness added.",
+        "explanations": {
+          "groups": {
+            "milk": ["milk_foam", "steamed_milk"],
+            "sweet": ["chocolate", "whipped_cream"]
+          },
+          "texts": {
+            "milk": " should NOT add milk foam or steamed milk — she doesn't like milk.",
+            "sweet": "should NOT add chocolate or whipped cream — she doesn't like sweet drinks."
+          },
+          "positive_feedback": "should add water to espresso — she wants the drink less intense than espresso."
+        }
       },
       {
         "id": 2,
