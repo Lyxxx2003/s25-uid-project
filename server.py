@@ -188,6 +188,8 @@ def quiz(qid=1):
     
     feedback_text = session.get('quiz_feedback', {}).get(str(qid))
     hint_shown = session.get('hint_clicked', {}).get(str(qid), False)
+    # result_name = session.get('result_name')
+    result_name = session.get('result_names', {}).get(str(qid))
 
 
     return render_template(
@@ -204,8 +206,8 @@ def quiz(qid=1):
         ],
         result_image = result_image,
         feedback_text=feedback_text,
-        hint_shown=hint_shown
-
+        hint_shown=hint_shown,
+        result_name=result_name
     )
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
@@ -222,6 +224,8 @@ def submit_quiz():
 
     is_correct = submitted_ingredients == correct_ingredients
 
+    result_name = correct_option['id'].capitalize()
+
     # Update session with user's progress
     session['quiz_progress'][str(qid)] = submitted_ingredients
     session['quiz_result'] = session.get('quiz_result', {})
@@ -231,6 +235,9 @@ def submit_quiz():
     session['quiz_feedback'][str(qid)] = (
         "Correct! You crafted the right drink!" if is_correct else "Oops! That's not the right combination."
     )
+    # session['result_name'] = result_name
+    session['result_names'] = session.get('result_names', {})
+    session['result_names'][str(qid)] = result_name
 
 
     # Update score
@@ -244,7 +251,8 @@ def submit_quiz():
         'result': question['success_image'] if is_correct else question['failure_image'],
         'next_qid': next_qid,
         'score': session.get('quiz_score', 0),
-        'finished': next_qid is None
+        'finished': next_qid is None,
+        'result_name': result_name
     })
 @app.route('/save_quiz_progress', methods=['POST'])
 def save_quiz_progress():
@@ -291,14 +299,14 @@ def certificate():
     today = datetime.now().strftime("%B %d, %Y")
 
     # 🧹 Clear all quiz-related session data
-    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback']:
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names']:
         session.pop(key, None)
 
     return render_template('certificate.html', name=game_state.name, score=score, date=today)
 
 @app.route('/reset_quiz', methods=['POST'])
 def reset_quiz():
-    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback']:
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names']:
         session.pop(key, None)
     session.modified = True
     return '', 204

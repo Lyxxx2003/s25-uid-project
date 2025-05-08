@@ -168,7 +168,7 @@ header h1 {
 } */
 
 /* quiz */
-#hint-icon {
+/* #hint-icon {
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -236,7 +236,7 @@ header h1 {
 .crafting-column {
   flex: 1;
   max-width: 30%;
-}
+} */
 
 /* .quiz-page {
   display: flex;

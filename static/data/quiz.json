@@ -4,7 +4,7 @@
         "id": 1,
         "prompt": "Ms.Tang wants something that keeps her alert for hours, but she finds espresso a bit too intense, and she doesn't like milk or anything sweet. Which drink would she craft?",
         "options": [
-            { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
+            { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
@@ -30,7 +30,7 @@
         "id": 2,
         "prompt": "Claudia has a sweet tooth but still needs to stay focused during a study session. What would you recommend for her?",
         "options": [
-            { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
+            { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
@@ -45,7 +45,7 @@
         "id": 3,
         "prompt": "Michael’s got 5 minutes before his shift starts and needs something very strong and fast. What’s the most efficient choice?",
         "options": [
-            { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
+            { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
@@ -60,7 +60,7 @@
         "id": 4,
         "prompt": "Lydia enjoys bold coffee but prefers it with just a slight soft touch. Nothing too creamy or sweet. What fits her taste?",
         "options": [
-            { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
+            { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
@@ -75,7 +75,7 @@
         "id": 5,
         "prompt": "Roaree is not in a rush today. He prefers creamy textures and drinks that go easy on the bitterness. What would you suggest?",
         "options": [
-            { "id": "espresso", "ingredients": ["coffee_beans", "water"] },
+            { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },

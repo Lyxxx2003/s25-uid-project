@@ -9,24 +9,25 @@
     </a>
 </div> -->
 <div class="top-bar">
-    <a href="{{ url_for('recipes') }}">
+    <!-- <a href="{{ url_for('recipes') }}">
         <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Home" style="width: 40px; height: 40px;">
-    </a>
+    </a> -->
+    <a href="{{ url_for('recipes') }}" class="recipes-button">Recipes</a>
     <div id="quiz-progress" class="pixel-font">
         Question {{ current_qid }} of {{ total_questions }}
     </div>
 </div>
 
-<div class="game-content quiz-layout" style="display: flex; gap: 40px; justify-content: center;">
+<div class="game-content quiz-layout" style="display: flex; gap:20px; justify-content: center;">
     <!-- Left: Fiona and Backpack -->
     <div class="player-section" style="width: 30%;">
         <div class="character-sprite text-center">
             <img src="{{ url_for('static', filename='images/user_happy.png') }}" width="120">
             <p class="pixel-font">{{ name }}</p>
         </div>
-        <h4 class="pixel-font text-center">Backpack</h4>
-        <div class="inventory-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
-            {% for item in ['coffee_beans', 'espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate',
+        <p class="pixel-font text-center">Backpack</p>
+        <div class="inventory-grid">
+            {% for item in ['espresso', 'steamed_milk', 'milk_foam', 'whipped_cream', 'chocolate',
             'water'] %}
             <div class="inventory-slot" draggable="true">
                 <img src="{{ url_for('static', filename='images/' + item + '.png') }}" class="item-icon"
@@ -58,9 +59,12 @@
 
             <div class="result-slot {% if result_image in ['None', 'null', '', None] %}empty{% endif %}">
                 {% if result_image not in ['None', 'null', '', None] %}
-                <img src="{{ url_for('static', filename='images/' + result_image + '.png') }}" width="50">
+                <img src="{{ url_for('static', filename='images/' + result_image + '.png') }}" class="result-image" 
+                    alt="{{ result_image }}" title="{{ result_image }}">
                 {% endif %}
             </div>
+
+            <div id="drink-name" class="pixel-font result-drink-name" style="display: none;"></div>
 
             <div id="response-text" class="pixel-font result-feedback"></div>
             <img id="heart-icon" src="{{ url_for('static', filename='images/heart.png') }}" width="30"
@@ -68,24 +72,6 @@
             <div class="text-center mt-4">
                 <button id="submit-craft" class="submit-button">Submit</button>
             </div>
-
-            <!-- Result feedback -->
-            <!-- <div id="response-text" class="pixel-font result-feedback"></div>
-            <img id="heart-icon" src="{{ url_for('static', filename='images/heart.png') }}" width="30" style="display: none; margin-top: 10px;"> -->
-
-            <!-- Submit + Hint Row -->
-            <!-- <div class="text-center mt-4">
-                <div style="display: flex; justify-content: center; gap: 20px;">
-                    <button id="submit-craft" class="pixel-button">Submit</button>
-                    <button id="hint-icon" class="pixel-button">Hint</button>
-                </div> -->
-
-            <!-- Hint Text Below -->
-            <!-- <div id="hint-text" class="pixel-font mt-2" style="display: none;">
-                    Hint: {{ question.hint }}
-                </div>
-            </div> -->
-
 
 
         </div>
@@ -127,6 +113,7 @@
 <input type="hidden" id="prefilled-result" value="{{ result_image }}">
 <input type="hidden" id="prefilled-feedback" value="{{ feedback_text }}">
 <input type="hidden" id="prefilled-hint" value="{{ 'true' if hint_shown else 'false' }}">
+<input type="hidden" id="prefilled-result-name" value="{{ result_name }}">
 
 
 <script>
@@ -170,6 +157,7 @@
         const hintIcon = document.getElementById('hint-icon');
         const hintText = document.getElementById('hint-text');
         const submitBtn = document.getElementById('submit-craft');
+        // const drinkNameDiv = document.getElementById('drink-name');
         let isSubmitted = false;
 
         // Refill from session
@@ -177,6 +165,7 @@
         const prefilledResult = document.getElementById('prefilled-result').value;
         const prefilledFeedback = document.getElementById('prefilled-feedback').value;
         const prefilledHintShown = document.getElementById('prefilled-hint').value === 'true';
+        const prefiledDrinkNameDiv = document.getElementById('drink-name');
 
         craftingSlots.forEach((slot, i) => {
             if (prefilledIngredients[i]) {
@@ -191,7 +180,10 @@
         if (prefilledResult && prefilledResult !== 'None' && prefilledResult !== 'null') {
             isSubmitted = true;
             window.quizSubmitted = true;
-            resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" width="50">`;
+            prefiledDrinkNameDiv.textContent = document.getElementById('prefilled-result-name').value;
+            prefiledDrinkNameDiv.style.display = 'block';
+            resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" class="result-image" alt="${prefilledResult}" title="${prefilledResult}">`;
+            resultSlot.classList.remove("empty");
             submitBtn.style.display = 'none';
 
             if (prefilledFeedback) {
@@ -255,8 +247,15 @@
                 .then(data => {
                     isSubmitted = true;
                     window.quizSubmitted = true;
-                    resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" width="50">`;
+                    resultSlot.innerHTML = `<img src="/static/images/${data.result}.png" class="result-image" alt="${data.result}" title="${data.result}">`;
+                    resultSlot.classList.remove("empty");
                     submitBtn.style.display = 'none';
+
+                    if (data.success && data.result_name) {
+                        const drinkNameDiv = document.getElementById('drink-name');
+                        drinkNameDiv.textContent = data.result_name;
+                        drinkNameDiv.style.display = 'block';
+                    }
 
                     if (data.success) {
                         responseText.innerText = "Correct! You crafted the right drink!";
@@ -311,6 +310,40 @@
 
 
 <style>
+    .player-section{
+        flex:none;
+        /* width: 240px; */
+        width:30%;
+    }
+    .crafting-column {
+        flex: 1;
+        max-width: 320px;  /* Or whatever fits your grid */
+        min-width: 320px;
+    }
+    /* .character-sprite {
+        flex:none;
+        width: 240px;
+    } */
+    .item-icon {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+    .inventory-grid{
+        display: grid;
+        grid-template-columns: repeat(3, 50px);  /* 3 items per row */
+        gap: 10px;                                /* small spacing between slots */
+        justify-content: center;
+    }
+    .inventory-slot {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #ccc;
+        background-color: #f3f3f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .professor-section {
         width: 30%;
     }
@@ -328,13 +361,13 @@
     }
 
     .speech-bubble {
-        font-size: 12px;
+        font-size: 14px;
         margin-top: 10px;
         width: 100%;
     }
 
     .hint-icon-wrapper {
-        margin-top: 10px;
+        margin-top: 20px;
         margin-bottom: 5px;
     }
 
@@ -346,7 +379,7 @@
     }
 
     #hint-text {
-        font-size: 12px;
+        font-size: 13px;
         margin-top: 8px;
         display: none;
         background-color: #fffaf5;
@@ -363,8 +396,8 @@
     }
 
     .result-slot {
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
         margin: auto;
         border: 2px solid #4a4a4a;
         display: flex;
@@ -377,6 +410,13 @@
         background-color: #f8f8f8;
     }
 
+    .result-slot img.result-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+
     .result-correct {
         color: green;
     }
@@ -388,6 +428,8 @@
     .result-feedback {
         margin-top: 15px;
         font-size: 14px;
+        text-align: center;
+        min-height: 24px;
     }
 
     .crafting-grid {
@@ -399,8 +441,8 @@
     }
 
     .crafting-slot {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
         border: 2px solid #ccc;
         background-color: #f3f3f3;
         display: flex;
@@ -444,6 +486,8 @@
         line-height: 1.2;
         /* prevents vertical misalignment */
         transition: background-color 0.2s ease;
+        margin-top: 20px;
+        font-size: 13px;
     }
 
 
@@ -461,18 +505,40 @@
         gap: 16px;
     }
 
-    #quiz-progress {
-        font-size: 16px;
-        color: #4a4a4a;
+    .recipes-button {
         background-color: #fff8c6;
         border: 2px solid #f7c174;
+        color: #5c4b00;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 10px;              /* smaller than submit */
+        padding: 6px 10px;            /* smaller padding */
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 2px 2px 0 #e3d49d;
+        transition: background-color 0.2s ease;
+    }
+
+    .recipes-button:hover {
+        background-color: #fff3a2;
+        cursor: pointer;
+    }
+
+
+    #quiz-progress {
+        font-size: 12px;
+        color: #4a4a4a;
+        /* background-color: #fff8c6; */
+        /* border: 2px solid #f7c174; */
         padding: 6px 12px;
         border-radius: 6px;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); */
     }
 
     .quiz-layout {
         margin-top: 80px;
+        /* margin-left: 80px;
+        margin-right: 80px; */
         /* Adjust as needed */
     }
 
