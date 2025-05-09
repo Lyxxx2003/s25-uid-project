@@ -1,91 +1,177 @@
 {
-    "questions": [
-      {
-        "id": 1,
-        "prompt": "Ms.Tang wants something that keeps her alert for hours, but she finds espresso a bit too intense, and she doesn't like milk or anything sweet. Which drink would she craft?",
-        "options": [
+  "questions": [
+    {
+      "id": 1,
+      "prompt": "Ms.Tang wants something that keeps her alert for hours, but she finds espresso a bit too intense, and she doesn't like milk or anything sweet. Which drink would she craft?",
+      "options": [
             { "id": "espresso", "ingredients": ["espresso"] },
             { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
             { "id": "americano", "ingredients": ["espresso", "water"] },
             { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
             { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
         ],
-        "answer_id": "americano",
-        "success_image": "americano",
-        "failure_image": "warning",
-        "hint": "You want something lighter than espresso, no milk or sweetness added.",
-        "explanations": {
-          "groups": {
-            "milk": ["milk_foam", "steamed_milk"],
-            "sweet": ["chocolate", "whipped_cream"]
+      "answer_id": "americano",
+      "success_image": "americano",
+      "failure_image": "warning",
+      "hint": "She wants something lighter than espresso, no milk or sweetness added.",
+      "explanations": {
+        "positive_feedback": "Americano is perfect — it's smoother than espresso, with no milk or sweetness.",
+        "negatives": {
+          "espresso": "Too intense for Ms.Tang — she finds espresso too strong.",
+          "macchiato": "Adds milk foam, which she wants to avoid.",
+          "latte": "Contains steamed milk and foam — she doesn't want milk.",
+          "mocha": "Too sweet and contains milk — both are off-limits."
+        },
+        "recipe_rules": {
+          "missing": {
+            "water": "You forgot to add water — it's what makes Americano smoother than espresso."
           },
-          "texts": {
-            "milk": " should NOT add milk foam or steamed milk — she doesn't like milk.",
-            "sweet": "should NOT add chocolate or whipped cream — she doesn't like sweet drinks."
-          },
-          "positive_feedback": "should add water to espresso — she wants the drink less intense than espresso."
+          "extra": {
+            "milk_foam": "Ms.Tang doesn't want any milk — remove milk foam.",
+            "steamed_milk": "Steamed milk is too creamy for Ms.Tang's preference.",
+            "chocolate": "Chocolate adds sweetness, which she dislikes.",
+            "whipped_cream": "Whipped cream adds unwanted sweetness and creaminess."
+          }
         }
-      },
-      {
-        "id": 2,
-        "prompt": "Claudia has a sweet tooth but still needs to stay focused during a study session. What would you recommend for her?",
-        "options": [
-            { "id": "espresso", "ingredients": ["espresso"] },
-            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
-            { "id": "americano", "ingredients": ["espresso", "water"] },
-            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
-        ],
-        "answer_id": "mocha",
-        "success_image": "mocha",
-        "failure_image": "warning",
-        "hint": "Think about a drink that's both sweet and has enough caffeine."
-      },
-      {
-        "id": 3,
-        "prompt": "Michael’s got 5 minutes before his shift starts and needs something very strong and fast. What’s the most efficient choice?",
-        "options": [
-            { "id": "espresso", "ingredients": ["espresso"] },
-            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
-            { "id": "americano", "ingredients": ["espresso", "water"] },
-            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
-        ],
-        "answer_id": "espresso",
-        "success_image": "espresso",
-        "failure_image": "warning",
-        "hint": "When you're in a rush, you want the fastest, strongest drink with no extras."
-      },
-      {
-        "id": 4,
-        "prompt": "Lydia enjoys bold coffee but prefers it with just a slight soft touch. Nothing too creamy or sweet. What fits her taste?",
-        "options": [
-            { "id": "espresso", "ingredients": ["espresso"] },
-            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
-            { "id": "americano", "ingredients": ["espresso", "water"] },
-            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
-        ],
-        "answer_id": "macchiato",
-        "success_image": "macchiato",
-        "failure_image": "warning",
-        "hint": "A bold coffee with just a small touch of softness — not overly creamy."
-      },
-      {
-        "id": 5,
-        "prompt": "Roaree is not in a rush today. He prefers creamy textures and drinks that go easy on the bitterness. What would you suggest?",
-        "options": [
-            { "id": "espresso", "ingredients": ["espresso"] },
-            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
-            { "id": "americano", "ingredients": ["espresso", "water"] },
-            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
-            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
-        ],
-        "answer_id": "latte",
-        "success_image": "latte",
-        "failure_image": "warning",
-        "hint": "Creamy and smooth, low bitterness — think milky textures."
       }
-    ]
-  }
-  
+    },
+    {
+      "id": 2,
+      "prompt": "Claudia has a sweet tooth but still needs to stay focused during a study session. What would you recommend for her?",
+      "options": [
+            { "id": "espresso", "ingredients": ["espresso"] },
+            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
+            { "id": "americano", "ingredients": ["espresso", "water"] },
+            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
+        ],
+      "answer_id": "mocha",
+      "success_image": "mocha",
+      "failure_image": "warning",
+      "hint": "Think about a drink that's both sweet and has enough caffeine.",
+      "explanations": {
+        "positive_feedback": "Mocha is sweet and energizing — perfect for Claudia's long study session.",
+        "negatives": {
+          "espresso": "Too bitter and plain for someone who likes sweetness.",
+          "macchiato": "Just a small foam topping — not sweet or rich enough.",
+          "americano": "Espresso diluted with water — no sweetness at all.",
+          "latte": "Creamy but not sweet enough — no chocolate or whipped cream."
+        },
+        "recipe_rules": {
+          "missing": {
+            "chocolate": "You forgot to add chocolate — it gives mocha its signature sweetness.",
+            "whipped_cream": "Mocha usually includes whipped cream on top for richness and flavor."
+          },
+          "extra": {
+            "milk_foam": "Milk foam is not typically part of a mocha — it's used in lattes and macchiatos.",
+            "water": "Adding water would turn this into something closer to an Americano."
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "Michael's got 5 minutes before his shift starts and needs something very strong and fast. What's the most efficient choice?",
+      "options": [
+            { "id": "espresso", "ingredients": ["espresso"] },
+            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
+            { "id": "americano", "ingredients": ["espresso", "water"] },
+            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
+        ],
+      "answer_id": "espresso",
+      "success_image": "espresso",
+      "failure_image": "warning",
+      "hint": "When you're in a rush, you want the fastest, strongest drink with no extras.",
+      "explanations": {
+        "positive_feedback": "Espresso is quick, strong, and straightforward — perfect when you're short on time.",
+        "negatives": {
+          "macchiato": "Takes extra time to prepare the foam — not ideal for a rush.",
+          "americano": "Weaker than espresso — not efficient for strong energy.",
+          "latte": "Too creamy and time-consuming.",
+          "mocha": "Too complex and sweet — not suitable when in a rush."
+        },
+        "recipe_rules": {
+          "missing": {},
+          "extra": {
+            "milk_foam": "Milk foam takes time to prepare — not suitable for a quick drink.",
+            "steamed_milk": "Adds time and creaminess — not efficient.",
+            "chocolate": "Too sweet and unnecessary when you're in a hurry.",
+            "whipped_cream": "Whipped cream makes it a dessert — too much for a quick shot.",
+            "water": "Dilutes the espresso — weakens the strength Michael needs."
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "prompt": "Lydia enjoys bold coffee but prefers it with just a slight soft touch. Nothing too creamy or sweet. What fits her taste?",
+      "options": [
+            { "id": "espresso", "ingredients": ["espresso"] },
+            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
+            { "id": "americano", "ingredients": ["espresso", "water"] },
+            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
+        ],
+      "answer_id": "macchiato",
+      "success_image": "macchiato",
+      "failure_image": "warning",
+      "hint": "A bold coffee with just a small touch of softness — not overly creamy.",
+      "explanations": {
+        "positive_feedback": "Macchiato gives bold espresso flavor with just a light foam topping.",
+        "negatives": {
+          "espresso": "Too harsh — lacks the softness Lydia prefers.",
+          "americano": "Watery and lacks texture.",
+          "latte": "Too creamy for Lydia's taste.",
+          "mocha": "Too sweet and creamy — not subtle at all."
+        },
+        "recipe_rules": {
+          "missing": {
+            "milk_foam": "You missed the milk foam — it's the soft touch Lydia needs."
+          },
+          "extra": {
+            "steamed_milk": "Too creamy — Lydia prefers less milk.",
+            "chocolate": "Adds sweetness Lydia is trying to avoid.",
+            "whipped_cream": "Too dessert-like for Lydia's taste.",
+            "water": "Dilutes the strength — not bold enough."
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "prompt": "Roaree is not in a rush today. He prefers creamy textures and drinks that go easy on the bitterness. What would you suggest?",
+      "options": [
+            { "id": "espresso", "ingredients": ["espresso"] },
+            { "id": "macchiato", "ingredients": ["espresso", "milk_foam"] },
+            { "id": "americano", "ingredients": ["espresso", "water"] },
+            { "id": "latte", "ingredients": ["espresso", "steamed_milk", "milk_foam"] },
+            { "id": "mocha", "ingredients": ["espresso", "steamed_milk", "chocolate", "whipped_cream"] }            
+        ],
+      "answer_id": "latte",
+      "success_image": "latte",
+      "failure_image": "warning",
+      "hint": "Creamy and smooth, low bitterness — think milky textures.",
+      "explanations": {
+        "positive_feedback": "Latte is smooth and mellow — perfect for someone who prefers creamy textures.",
+        "negatives": {
+          "espresso": "Too bitter and sharp — not creamy.",
+          "macchiato": "Not creamy enough — only foam on top.",
+          "americano": "Too watery and bitter — no creaminess.",
+          "mocha": "Too sweet — Roaree wants creamy, not sugary."
+        },
+        "recipe_rules": {
+          "missing": {
+            "steamed_milk": "You missed steamed milk — it's what makes a latte creamy.",
+            "milk_foam": "Milk foam gives the latte a soft, balanced top layer."
+          },
+          "extra": {
+            "chocolate": "Adds sweetness Roaree doesn't want.",
+            "whipped_cream": "Too heavy and dessert-like for this drink.",
+            "water": "Watery texture is not creamy — avoid adding water."
+          }
+        }
+      }
+    }
+  ]
+}
