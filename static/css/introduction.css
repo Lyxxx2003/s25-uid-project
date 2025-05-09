@@ -92,7 +92,6 @@
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 25px;
 }
 
 .coffee-bean, .energy-meter img {
@@ -111,7 +110,7 @@
 /* Backpack styles */
 .backpack, .backpack-container {
   border-radius: 20px;
-  padding: 15px;
+  /* padding: 15px; */
   display: inline-block;
 }
 
@@ -242,14 +241,14 @@
 .continue-button-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 2px;
 }
 
 .continue-button {
   display: inline-block;
   padding: 2rem 2rem;
   text-decoration: none;
-  margin-top: 1rem;
+  margin-top: 0px;
   background-color: var(--button-color-primary);
   border-radius: var(--border-radius);
   transition: transform 0.2s, background-color 0.2s;
@@ -479,4 +478,32 @@
 .learn-ingredient-icon {
   width: 50px;
   height: 50px;
+}
+
+.learn-recipe-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.ingredient-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-left: 5px;
+}
+
+.ingredient-name {
+  font-size: 12px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.learn-recipe-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }

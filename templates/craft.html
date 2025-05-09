@@ -28,7 +28,7 @@
       <div class="pixel-font character-name">{{ name }}</div>
       
       <!-- Coffee Level -->
-      <div class="coffee-level">
+      <div class="coffee-level mb-5">
         {% for i in range(6) %}
           {% if i < caffeine_level %}
             <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-bean">
@@ -43,7 +43,7 @@
         <div class="pixel-font backpack-title text-center">BACKPACK</div>
         <div class="backpack-grid">
           {% for ingredient in recipe.ingredients %}
-          <div class="backpack-slot">
+          <div class="backpack-slot d-flex justify-content-center align-items-center">
             <img src="{{ url_for('static', filename='images/' + items[ingredient].icon) }}"
                 alt="{{ items[ingredient].name }}" draggable="true" ondragstart="drag(event)"
                 data-ingredient="{{ ingredient }}" class="backpack-item" title="{{ items[ingredient].name }}" >
@@ -55,16 +55,19 @@
     
     <!-- Crafting Column (Middle) -->
     <div class="crafting-column">
+      <div class = "craft-coffee-name">
+        <div class="pixel-font crafting-title">{{ recipe.name }}</div>
+      </div>
       <div class="pixel-font crafting-title">CRAFTING TABLE</div>
       <div class="crafting-table">
         <div class="crafting-grid" id="craftingGrid">
           {% for i in range(9) %}
-          <div class="crafting-slot" data-slot="{{ i }}" ondrop="drop(event)"
+          <div class="crafting-slot d-flex justify-content-center align-items-center" data-slot="{{ i }}" ondrop="drop(event)"
               ondragover="allowDrop(event)">
           </div>
           {% endfor %}
         </div>
-        <div class="crafting-arrow">
+        <div class="crafting-arrow mb-3">
           <img src="{{ url_for('static', filename='images/crafting-arrow.png') }}" alt="Arrow" class="arrow">
         </div>
         <div class="result-slot" id="resultSlot"></div>
@@ -99,11 +102,50 @@
 
     function drag(ev) {
         ev.dataTransfer.setData("ingredient", ev.target.dataset.ingredient);
+        
+        // If dragging from a crafting slot, store the slot index
+        const craftingSlot = ev.target.closest('.crafting-slot');
+        if (craftingSlot) {
+            ev.dataTransfer.setData("from-slot", craftingSlot.dataset.slot);
+            
+            // Add event listener for drag end to detect if dragged outside
+            ev.target.addEventListener('dragend', function(e) {
+                // If not dropped in a valid target (detected by mouse position outside crafting grid)
+                const craftingGrid = document.getElementById('craftingGrid');
+                const gridRect = craftingGrid.getBoundingClientRect();
+                
+                // Check if mouse is outside crafting grid
+                if (e.clientX < gridRect.left || e.clientX > gridRect.right || 
+                    e.clientY < gridRect.top || e.clientY > gridRect.bottom) {
+                    
+                    // Remove the item from the original slot
+                    const oldSlot = document.querySelector(`.crafting-slot[data-slot="${craftingSlot.dataset.slot}"]`);
+                    if (oldSlot) {
+                        // Get the ingredient
+                        const ingredient = this.dataset.ingredient;
+                        
+                        // Clear the slot
+                        oldSlot.innerHTML = '';
+                        
+                        // Remove from usedIngredients
+                        const ingredientIndex = usedIngredients.indexOf(ingredient);
+                        if (ingredientIndex > -1) {
+                            usedIngredients.splice(ingredientIndex, 1);
+                        }
+                        
+                        // Clear result if recipe is no longer correct
+                        document.getElementById('resultSlot').innerHTML = '';
+                        document.getElementById('feedbackButton').style.display = 'none';
+                    }
+                }
+            }, {once: true}); // Only run once per drag
+        }
     }
 
     function drop(ev) {
         ev.preventDefault();
         const ingredient = ev.dataTransfer.getData("ingredient");
+        const fromSlot = ev.dataTransfer.getData("from-slot");
 
         // Get the crafting slot (either the slot itself or its child)
         const slot = ev.target.classList.contains('crafting-slot') ?
@@ -112,16 +154,36 @@
 
         if (!slot) return; // Not dropped in a valid slot
 
+        // If this is a drag from another crafting slot, remove the ingredient from the original slot
+        if (fromSlot) {
+            const oldSlot = document.querySelector(`.crafting-slot[data-slot="${fromSlot}"]`);
+            if (oldSlot) {
+                oldSlot.innerHTML = '';
+                // Remove the ingredient from usedIngredients array
+                const slotIndex = parseInt(fromSlot);
+                const ingredientIndex = usedIngredients.indexOf(ingredient);
+                if (ingredientIndex > -1) {
+                    usedIngredients.splice(ingredientIndex, 1);
+                }
+            }
+        }
+
         // Only allow drop if slot is empty
         if (!slot.querySelector('img')) {
             const img = document.createElement('img');
             img.src = `/static/images/${ingredient}.png`;
-            img.draggable = false;
+            img.draggable = true;
+            img.ondragstart = drag;
+            img.dataset.ingredient = ingredient;
             img.classList.add('crafting-item');
+            img.addEventListener('click', removeItem);
 
             // Clear any existing content
             slot.innerHTML = '';
             slot.appendChild(img);
+            
+            // Center the image
+            slot.classList.add('d-flex', 'justify-content-center', 'align-items-center');
 
             // Add to used ingredients
             usedIngredients.push(ingredient);
@@ -129,6 +191,28 @@
             // Check if crafting is complete
             checkRecipe();
         }
+    }
+
+    function removeItem(ev) {
+        // Get the slot containing the clicked item
+        const slot = ev.target.closest('.crafting-slot');
+        if (!slot) return;
+        
+        // Get the ingredient
+        const ingredient = ev.target.dataset.ingredient;
+        
+        // Remove the item from the slot
+        slot.innerHTML = '';
+        
+        // Remove from usedIngredients
+        const ingredientIndex = usedIngredients.indexOf(ingredient);
+        if (ingredientIndex > -1) {
+            usedIngredients.splice(ingredientIndex, 1);
+        }
+        
+        // Clear result slot if recipe is no longer correct
+        document.getElementById('resultSlot').innerHTML = '';
+        document.getElementById('feedbackButton').style.display = 'none';
     }
 
     function checkRecipe() {
@@ -147,7 +231,10 @@
                 if (data.success) {
                     // Show result
                     const resultSlot = document.getElementById('resultSlot');
-                    resultSlot.innerHTML = `<img src="/static/images/{{ recipe_id }}.png" alt="{{ recipe.name }}" class="result-item">`;
+                    resultSlot.innerHTML = `<div class="d-flex flex-column align-items-center">
+                      <img src="/static/images/{{ recipe_id }}.png" alt="{{ recipe.name }}" class="result-item">
+                      <div class="pixel-font text-center mt-2">{{ recipe.name }}</div>
+                    </div>`;
 
                     // Show the feedback button
                     document.getElementById('feedbackButton').style.display = 'block';

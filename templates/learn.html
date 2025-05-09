@@ -29,7 +29,7 @@
       <div class="pixel-font character-name">{{ name }}</div>
       
       <!-- Coffee Level -->
-      <div class="coffee-level">
+      <div class="coffee-level mb-2">
         {% for i in range(6) %}
           {% if i < caffeine_level %}
             <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" title="Filled Bean" class="coffee-bean">
@@ -54,16 +54,21 @@
     <div class="crafting-column">
       <div class="pixel-font crafting-title">{{ recipe.name }}</div>
       <div class="recipe-info">
-        <div class="recipe-item">
+        <div class="learn-recipe-item">
           <div class="recipe-row justify-content-center">
             <div class="recipe-ingredients">
-              {% for ingredient in recipe.ingredients %}
-              <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
-                  alt="{{ items[ingredient].name }}" title="{{ items[ingredient].name }}" class="learn-ingredient-icon">
-              {% if not loop.last %}
-              <span class="plus">+</span>
-              {% endif %}
-              {% endfor %}
+              <div class="ingredient-icons">
+                {% for ingredient in recipe.ingredients %}
+                <div class="d-flex flex-column align-items-center">
+                  <img src="{{ url_for('static', filename='images/' + ingredient + '.png') }}"
+                      alt="{{ items[ingredient].name }}" title="{{ items[ingredient].name }}" class="learn-ingredient-icon">
+                  <span class="ingredient-name">{{ items[ingredient].name }}</span>
+                </div>
+                {% if not loop.last %}
+                <span class="plus d-flex align-items-center">+</span>
+                {% endif %}
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>

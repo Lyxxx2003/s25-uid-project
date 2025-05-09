@@ -28,7 +28,7 @@
       <div class="pixel-font character-name">{{ name }}</div>
       
       <!-- Coffee Level -->
-      <div class="coffee-level">
+      <div class="coffee-level mb-2">
         {% for i in range(6) %}
           {% if i < caffeine_level %}
             <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" title="Filled Bean" class="coffee-bean">
