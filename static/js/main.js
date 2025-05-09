@@ -35,6 +35,10 @@ $(document).ready(function () {
     const descriptions = $('.description-slide');
     const startCraftingBtn = $('.start-crafting-btn');
     
+    // Check if we've seen this content before
+    const currentPath = window.location.pathname;
+    const hasSeenBefore = localStorage.getItem(currentPath) === 'true';
+    
     function showDescription(index) {
         // Hide all descriptions
         descriptions.removeClass('active');
@@ -43,30 +47,39 @@ $(document).ready(function () {
             const currentSlide = $(descriptions[index]);
             currentSlide.addClass('active');
             
-            // Get text content and clear the element
-            const textElement = currentSlide.find('.recipe-description');
-            const text = textElement.text();
-            textElement.text('');
-            
-            let charIndex = 0;
-            
-            // Typewriter effect for current description
-            function typeChar() {
-                if (charIndex < text.length) {
-                    textElement.text(textElement.text() + text[charIndex]);
-                    charIndex++;
-                    setTimeout(typeChar, 50);
+            if (hasSeenBefore) {
+                // Skip animation for previously viewed content
+                if (index === descriptions.length - 1) {
+                    startCraftingBtn.addClass('visible');
                 } else {
-                    // Show continue button or start crafting button
-                    if (index === descriptions.length - 1) {
-                        startCraftingBtn.addClass('visible');
+                    currentSlide.find('.continue-btn').addClass('visible');
+                }
+            } else {
+                // Get text content and clear the element
+                const textElement = currentSlide.find('.recipe-description');
+                const text = textElement.text();
+                textElement.text('');
+                
+                let charIndex = 0;
+                
+                // Typewriter effect for current description
+                function typeChar() {
+                    if (charIndex < text.length) {
+                        textElement.text(textElement.text() + text[charIndex]);
+                        charIndex++;
+                        setTimeout(typeChar, 50);
                     } else {
-                        currentSlide.find('.continue-btn').addClass('visible');
+                        // Show continue button or start crafting button
+                        if (index === descriptions.length - 1) {
+                            startCraftingBtn.addClass('visible');
+                        } else {
+                            currentSlide.find('.continue-btn').addClass('visible');
+                        }
                     }
                 }
+                
+                typeChar();
             }
-            
-            typeChar();
         }
     }
     
@@ -79,6 +92,8 @@ $(document).ready(function () {
     // Start with the first description
     if (descriptions.length > 0) {
         showDescription(0);
+        // Mark as seen for future visits
+        localStorage.setItem(currentPath, 'true');
     }
     
     // $('#take-quiz-btn').click(function () {
@@ -112,26 +127,38 @@ function typewriter(elementId = 'typewriter-text', text = null, speed = 50, dela
     // Get text from data attribute, parameter, or element content
     const textToType = text || element.getAttribute('data-text') || element.innerText;
     
-    // Clear the element's text
-    element.innerText = '';
+    // Check if we've seen this page before
+    const currentPath = window.location.pathname;
+    const hasSeenBefore = localStorage.getItem(currentPath) === 'true';
     
-    // Create cursor element
-    const cursor = document.createElement('span');
-    cursor.className = 'typewriter-cursor';
-    element.after(cursor);
-    
-    let i = 0;
-    
-    function typeWriterStep() {
-        if (i < textToType.length) {
-            element.innerText += textToType.charAt(i);
-            i++;
-            setTimeout(typeWriterStep, speed);
+    if (hasSeenBefore) {
+        // Skip animation for previously viewed content
+        element.innerText = textToType;
+    } else {
+        // Clear the element's text
+        element.innerText = '';
+        
+        // Create cursor element
+        const cursor = document.createElement('span');
+        cursor.className = 'typewriter-cursor';
+        element.after(cursor);
+        
+        let i = 0;
+        
+        function typeWriterStep() {
+            if (i < textToType.length) {
+                element.innerText += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriterStep, speed);
+            }
         }
+        
+        // Start the typewriter effect after specified delay
+        setTimeout(typeWriterStep, delay);
+        
+        // Mark as seen for future visits
+        localStorage.setItem(currentPath, 'true');
     }
-    
-    // Start the typewriter effect after specified delay
-    setTimeout(typeWriterStep, delay);
 }
 
 // Function to initialize typewriter on the introduction page

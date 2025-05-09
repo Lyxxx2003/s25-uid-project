@@ -103,6 +103,14 @@
     function drag(ev) {
         ev.dataTransfer.setData("ingredient", ev.target.dataset.ingredient);
         
+        // Check if crafting is already successful (result slot has content)
+        const resultSlot = document.getElementById('resultSlot');
+        if (resultSlot.innerHTML.trim() !== '') {
+            // Crafting is successful, don't allow dragging
+            ev.preventDefault();
+            return false;
+        }
+        
         // If dragging from a crafting slot, store the slot index
         const craftingSlot = ev.target.closest('.crafting-slot');
         if (craftingSlot) {
@@ -110,6 +118,12 @@
             
             // Add event listener for drag end to detect if dragged outside
             ev.target.addEventListener('dragend', function(e) {
+                // Check if crafting is successful (result slot has content)
+                if (resultSlot.innerHTML.trim() !== '') {
+                    // Crafting is successful, don't allow removal
+                    return;
+                }
+                
                 // If not dropped in a valid target (detected by mouse position outside crafting grid)
                 const craftingGrid = document.getElementById('craftingGrid');
                 const gridRect = craftingGrid.getBoundingClientRect();
@@ -197,6 +211,13 @@
         // Get the slot containing the clicked item
         const slot = ev.target.closest('.crafting-slot');
         if (!slot) return;
+        
+        // Check if crafting is already successful (result slot has content)
+        const resultSlot = document.getElementById('resultSlot');
+        if (resultSlot.innerHTML.trim() !== '') {
+            // Crafting is successful, don't allow removal
+            return;
+        }
         
         // Get the ingredient
         const ingredient = ev.target.dataset.ingredient;
