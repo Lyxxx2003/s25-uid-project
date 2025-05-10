@@ -190,6 +190,11 @@ def quiz(qid=1):
     hint_shown = session.get('hint_clicked', {}).get(str(qid), False)
     # result_name = session.get('result_name')
     result_name = session.get('result_names', {}).get(str(qid))
+    feedback_detail = session.get('quiz_feedback_detail', {}).get(str(qid))
+    positive_feedback = None
+    if result_image == question["success_image"]:
+        positive_feedback = question["explanations"].get("positive_feedback")
+
 
 
     return render_template(
@@ -207,7 +212,9 @@ def quiz(qid=1):
         result_image = result_image,
         feedback_text=feedback_text,
         hint_shown=hint_shown,
-        result_name=result_name
+        result_name=result_name,
+        feedback_detail=feedback_detail,
+        positive_feedback=positive_feedback
     )
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
@@ -244,6 +251,31 @@ def submit_quiz():
     if is_correct:
         session['quiz_score'] = session.get('quiz_score', 0) + 1
 
+    feedback_detail = {}
+    if not is_correct:
+        crafted_drink = None
+        for option in question['options']:
+            if sorted(option['ingredients']) == submitted_ingredients:
+                crafted_drink = option['id']
+                break
+
+        explanations = question['explanations']
+        if crafted_drink and crafted_drink in explanations.get('negatives', {}):
+            feedback_detail['crafted'] = explanations['negatives'][crafted_drink]
+        else:
+            # Ingredient-based feedback
+            correct_set = set(correct_ingredients)
+            submitted_set = set(submitted_ingredients)
+            missing = correct_set - submitted_set
+            extra = submitted_set - correct_set
+
+            feedback_detail['missing'] = [explanations['recipe_rules']['missing'].get(ing)
+                                        for ing in missing if ing in explanations['recipe_rules']['missing']]
+            feedback_detail['extra'] = [explanations['recipe_rules']['extra'].get(ing)
+                                        for ing in extra if ing in explanations['recipe_rules']['extra']]
+    
+    session.setdefault('quiz_feedback_detail', {})[str(qid)] = feedback_detail
+
     next_qid = qid + 1 if qid < len(quiz_data['questions']) else None
 
     return jsonify({
@@ -252,7 +284,9 @@ def submit_quiz():
         'next_qid': next_qid,
         'score': session.get('quiz_score', 0),
         'finished': next_qid is None,
-        'result_name': result_name
+        'result_name': result_name,
+        'positive_feedback': question['explanations'].get('positive_feedback') if is_correct else None,
+        'feedback_detail': feedback_detail
     })
 @app.route('/save_quiz_progress', methods=['POST'])
 def save_quiz_progress():
@@ -299,18 +333,28 @@ def certificate():
     today = datetime.now().strftime("%B %d, %Y")
 
     # 🧹 Clear all quiz-related session data
-    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names']:
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names', 'quiz_feedback_detail']:
         session.pop(key, None)
 
     return render_template('certificate.html', name=game_state.name, score=score, date=today)
 
 @app.route('/reset_quiz', methods=['POST'])
 def reset_quiz():
-    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names']:
+    for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names', 'quiz_feedback_detail']:
         session.pop(key, None)
     session.modified = True
     return redirect(url_for('quiz', qid=1))
     # return '', 204
+
+@app.route('/clear_quiz_question', methods=['POST'])
+def clear_quiz_question():
+    qid = str(request.json.get('question_id'))
+    for key in ['quiz_progress', 'quiz_result', 'quiz_feedback', 'result_names', 'quiz_feedback_detail']:
+        if key in session:
+            session[key].pop(qid, None)
+    session.modified = True
+    return '', 204
+
 
 
 if __name__ == '__main__':

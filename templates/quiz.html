@@ -65,13 +65,16 @@
             </div>
 
             <div id="drink-name" class="pixel-font result-drink-name" style="display: none;"></div>
-
+            <!-- <div id="positive-feedback" class="feedback-box success-box" style="display: none;"></div> -->
             <div id="response-text" class="pixel-font result-feedback"></div>
+            <!-- <div id="detailed-feedback" class="feedback-box error-box" style="display: none;"></div> -->
+
             <img id="heart-icon" src="{{ url_for('static', filename='images/heart.png') }}" width="30"
                 style="display: none; margin-top: 10px;">
             <div class="text-center mt-4">
                 <button id="submit-craft" class="submit-button">Submit</button>
             </div>
+              
 
 
         </div>
@@ -96,12 +99,13 @@
                 <img id="hint-icon" src="{{ url_for('static', filename='images/hint.png') }}" alt="Hint Icon">
             </div> -->
             <button id="hint-icon" class="pixel-button hint-button" title="Show/Hide Hint">Hint</button>
-
-
             <!-- Hint Text -->
             <div id="hint-text" class="pixel-font">
                 Hint: {{ question.hint }}
             </div>
+            <!-- Feedback  -->
+            <div id="positive-feedback" class="feedback-box success-box" style="display: none;"></div>
+            <div id="detailed-feedback" class="feedback-box error-box" style="display: none;"></div>
         </div>
     </div>
 
@@ -114,6 +118,8 @@
 <input type="hidden" id="prefilled-feedback" value="{{ feedback_text }}">
 <input type="hidden" id="prefilled-hint" value="{{ 'true' if hint_shown else 'false' }}">
 <input type="hidden" id="prefilled-result-name" value="{{ result_name }}">
+<input type="hidden" id="prefilled-feedback-detail" value='{{ feedback_detail | tojson | safe }}'>
+<input type="hidden" id="prefilled-positive-feedback" value="{{ positive_feedback }}">
 
 
 <script>
@@ -166,6 +172,8 @@
         const prefilledFeedback = document.getElementById('prefilled-feedback').value;
         const prefilledHintShown = document.getElementById('prefilled-hint').value === 'true';
         const prefiledDrinkNameDiv = document.getElementById('drink-name');
+        const feedbackDataRaw = document.getElementById("prefilled-feedback-detail")?.value;
+        const prefilledPositiveFeedback = document.getElementById('prefilled-positive-feedback')?.value;
 
         craftingSlots.forEach((slot, i) => {
             if (prefilledIngredients[i]) {
@@ -191,12 +199,87 @@
                 if (prefilledFeedback.toLowerCase().includes("correct")) {
                     prefiledDrinkNameDiv.textContent = document.getElementById('prefilled-result-name').value;
                     prefiledDrinkNameDiv.style.display = 'block';
-                    heartIcon.style.display = 'inline-block';
+                    // heartIcon.style.display = 'inline-block';
                     responseText.classList.add('result-correct');
+                    if (prefilledPositiveFeedback) {
+                        const posBox = document.getElementById('positive-feedback');
+                        posBox.textContent = prefilledPositiveFeedback;
+                        posBox.style.display = 'block';
+                    }
                 } else {
                     heartIcon.style.display = 'none';
                     responseText.classList.add('result-wrong');
                 }
+            }
+
+            if (feedbackDataRaw && !prefilledFeedback.toLowerCase().includes("correct")) {
+                const data = { feedback_detail: JSON.parse(feedbackDataRaw) };
+                const detailBox = document.getElementById('detailed-feedback');
+                detailBox.innerHTML = '';
+                detailBox.style.display = 'block';
+                const hasMissing = data.feedback_detail.missing?.length;
+                const hasExtra = data.feedback_detail.extra?.length;
+
+                if (data.feedback_detail.crafted) {
+                    const line = document.createElement('div');
+                    line.textContent = data.feedback_detail.crafted;
+                    detailBox.appendChild(line);
+                } else {
+                    if (hasMissing) {
+                        const header = document.createElement('strong');
+                        header.textContent = "Missing ingredients:";
+                        detailBox.appendChild(header);
+                        data.feedback_detail.missing.forEach(msg => {
+                            const p = document.createElement('div');
+                            p.textContent = "! " + msg;
+                            detailBox.appendChild(p);
+                        });
+                    }
+
+                    // ✅ Only add spacer if both missing & extra exist
+                    if (hasMissing && hasExtra) {
+                        const spacer = document.createElement('div');
+                        spacer.style.height = '12px';
+                        detailBox.appendChild(spacer);
+                    }
+
+                    if (hasExtra) {
+                        const header = document.createElement('strong');
+                        header.textContent = "Extra ingredients:";
+                        detailBox.appendChild(header);
+                        data.feedback_detail.extra.forEach(msg => {
+                            const p = document.createElement('div');
+                            p.textContent = "* " + msg;
+                            detailBox.appendChild(p);
+                        });
+                    }
+                }
+            }
+
+            // Create button row
+            // const buttonRow = document.createElement("div");
+            // buttonRow.style.display = "flex";
+            // buttonRow.style.gap = "12px";
+            // buttonRow.style.justifyContent = "center";
+            // buttonRow.style.flexDirection = "row-reverse";
+            // buttonRow.className = "mt-3";
+            const craftingInner = document.querySelector('.crafting-inner');
+
+            if (prefilledFeedback && !prefilledFeedback.toLowerCase().includes("correct")) {
+                const retryBtn = document.createElement("button");
+                retryBtn.className = "submit-button mt-3";
+                retryBtn.innerText = "Retry This Question";
+                retryBtn.onclick = () => {
+                    fetch('/clear_quiz_question', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ question_id: questionId })
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                };
+                craftingInner.appendChild(retryBtn);
+                // buttonRow.appendChild(retryBtn);
             }
 
             const nextBtn = document.createElement("button");
@@ -215,7 +298,13 @@
                     });
                 }
             };
-            submitBtn.parentElement.appendChild(nextBtn);
+            craftingInner.appendChild(nextBtn);
+            // buttonRow.appendChild(nextBtn);
+            // Retry button (only if previous answer was incorrect)
+        
+            // submitBtn.parentElement.appendChild(nextBtn);
+            // submitBtn.parentElement.appendChild(buttonRow);
+
         }
 
         if (prefilledHintShown) {
@@ -259,19 +348,91 @@
                     }
 
                     if (data.success) {
+                        if (data.positive_feedback) {
+                            const posBox = document.getElementById('positive-feedback');
+                            posBox.textContent = data.positive_feedback;
+                            posBox.style.display = 'block';
+                        }
                         responseText.innerText = "Correct! You crafted the right drink!";
                         // responseText.style.color = "green";
                     } else {
                         responseText.innerText = "Oops! That’s not the right combination.";
                         // responseText.style.color = "red";
+                        const detailBox = document.getElementById('detailed-feedback');
+                        detailBox.innerHTML = '';  // clear previous
+                        detailBox.style.display = 'block';
+                        const hasMissing = data.feedback_detail.missing?.length;
+                        const hasExtra = data.feedback_detail.extra?.length;
+
+                        if (data.feedback_detail.crafted) {
+                        const line = document.createElement('div');
+                        line.textContent = data.feedback_detail.crafted;
+                        detailBox.appendChild(line);
+                        } else {
+                            if (hasMissing) {
+                                const header = document.createElement('strong');
+                                header.textContent = "Missing ingredients:";
+                                detailBox.appendChild(header);
+                                data.feedback_detail.missing.forEach(msg => {
+                                const p = document.createElement('div');
+                                p.textContent = "! " + msg;
+                                detailBox.appendChild(p);
+                                });
+                            }
+
+                            // ✅ Only add spacer if both missing & extra exist
+                            if (hasMissing && hasExtra) {
+                                const spacer = document.createElement('div');
+                                spacer.style.height = '12px';
+                                detailBox.appendChild(spacer);
+                            }
+
+                            if (hasExtra) {
+                                const header = document.createElement('strong');
+                                header.textContent = "Extra ingredients:";
+                                detailBox.appendChild(header);
+                                data.feedback_detail.extra.forEach(msg => {
+                                const p = document.createElement('div');
+                                p.textContent = "* " + msg;
+                                detailBox.appendChild(p);
+                                });
+                            }
+                        }
+
                     }
                     responseText.classList.add('pixel-font', 'result-feedback');
                     if (data.success) {
                         responseText.classList.add('result-correct');
-                        heartIcon.style.display = 'inline-block';
+                        // heartIcon.style.display = 'inline-block';
                     } else {
                         responseText.classList.add('result-wrong');
                         heartIcon.style.display = 'none';
+                    }
+
+                    // Create the flex row container
+                    // const buttonRow = document.createElement("div");
+                    // buttonRow.style.display = "flex";
+                    // buttonRow.style.gap = "12px";
+                    // buttonRow.style.justifyContent = "center";
+                    // buttonRow.style.flexDirection = "row-reverse";
+                    // buttonRow.className = "mt-3";
+                    const craftingInner = document.querySelector('.crafting-inner');
+
+                    if (!data.success) {
+                        const retryBtn = document.createElement("button");
+                        retryBtn.className = "submit-button mt-3";
+                        retryBtn.innerText = "Retry This Question";
+                        retryBtn.onclick = () => {
+                            fetch('/clear_quiz_question', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ question_id: questionId })
+                            }).then(() => {
+                            window.location.reload();
+                            });
+                        };
+                        craftingInner.appendChild(retryBtn);
+                        // buttonRow.appendChild(retryBtn);
                     }
 
                     const nextBtn = document.createElement("button");
@@ -290,7 +451,12 @@
                             });
                         }
                     };
-                    submitBtn.parentElement.appendChild(nextBtn);
+                    craftingInner.appendChild(nextBtn);
+                    // buttonRow.appendChild(nextBtn);
+
+                    
+                    // submitBtn.parentElement.appendChild(nextBtn);
+                    // submitBtn.parentElement.appendChild(buttonRow);
                 });
         });
 
@@ -328,7 +494,10 @@
     .item-icon {
         width: 40px;
         height: 40px;
-        cursor: pointer;
+        cursor: grab;
+    }
+    .item-icon:active {
+        cursor: grabbing;
     }
     .inventory-grid{
         display: grid;
@@ -538,7 +707,30 @@
         text-align: center;
         margin-top: 20px;
         display: inline-block;
+        white-space: normal;        /* 👈 allow line wrapping */
+        max-width: 250px;           /* 👈 limit horizontal growth */
+        line-height: 1.5;
     }
+
+    .feedback-box {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .success-box {
+        background-color: #e7fbe9;
+        border: 2px solid #75c77f;
+        color: #2c662d;
+    }
+
+    .error-box {
+        background-color: #fff3f3;
+        border: 2px solid #e27474;
+        color: #8c2b2b;
+    }
+
 </style>
 
 

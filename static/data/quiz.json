@@ -17,20 +17,21 @@
       "explanations": {
         "positive_feedback": "Americano is perfect — it's smoother than espresso, with no milk or sweetness.",
         "negatives": {
-          "espresso": "Too intense for Ms.Tang — she finds espresso too strong.",
-          "macchiato": "Adds milk foam, which she wants to avoid.",
-          "latte": "Contains steamed milk and foam — she doesn't want milk.",
-          "mocha": "Too sweet and contains milk — both are off-limits."
+          "espresso": "Espresso: too intense for Ms.Tang — she finds espresso too strong.",
+          "macchiato": "Macchiato: adds milk foam, which she wants to avoid.",
+          "latte": "Latte: contains steamed milk and foam — she doesn't want milk.",
+          "mocha": "Mocha: too sweet and contains milk — both are off-limits."
         },
         "recipe_rules": {
           "missing": {
-            "water": "You forgot to add water — it's what makes Americano smoother than espresso."
+            "water": "Water: it's what makes Americano smoother than espresso.",
+            "espresso": "Espresso: you need espresso as the base for Americano."
           },
           "extra": {
-            "milk_foam": "Ms.Tang doesn't want any milk — remove milk foam.",
-            "steamed_milk": "Steamed milk is too creamy for Ms.Tang's preference.",
-            "chocolate": "Chocolate adds sweetness, which she dislikes.",
-            "whipped_cream": "Whipped cream adds unwanted sweetness and creaminess."
+            "milk_foam": "Milk foam: Ms.Tang doesn't want any milk.",
+            "steamed_milk": "Steamed milk: too creamy for Ms.Tang's preference.",
+            "chocolate": "Chocolate: adds sweetness, which she dislikes.",
+            "whipped_cream": "Whipped cream: adds unwanted sweetness and creaminess."
           }
         }
       }
@@ -52,19 +53,21 @@
       "explanations": {
         "positive_feedback": "Mocha is sweet and energizing — perfect for Claudia's long study session.",
         "negatives": {
-          "espresso": "Too bitter and plain for someone who likes sweetness.",
-          "macchiato": "Just a small foam topping — not sweet or rich enough.",
-          "americano": "Espresso diluted with water — no sweetness at all.",
-          "latte": "Creamy but not sweet enough — no chocolate or whipped cream."
+          "espresso": "Espresso: too bitter and plain for someone who likes sweetness.",
+          "macchiato": "Macchiato: just a small foam topping — not sweet or rich enough.",
+          "americano": "Americano: espresso diluted with water — no sweetness at all.",
+          "latte": "Latte: creamy but not sweet enough — no chocolate or whipped cream."
         },
         "recipe_rules": {
           "missing": {
-            "chocolate": "You forgot to add chocolate — it gives mocha its signature sweetness.",
-            "whipped_cream": "Mocha usually includes whipped cream on top for richness and flavor."
+            "chocolate": "Chocolate: gives mocha its signature sweetness.",
+            "whipped_cream": "Whipped cream: puts on top for richness and flavor.",
+            "steamed_milk": "Steamed milk: essential for a mocha's creamy texture.",
+            "espresso": "Espresso: the base for mocha."
           },
           "extra": {
-            "milk_foam": "Milk foam is not typically part of a mocha — it's used in lattes and macchiatos.",
-            "water": "Adding water would turn this into something closer to an Americano."
+            "milk_foam": "milk_foam: Milk foam is not typically part of a mocha — it's used in lattes and macchiatos.",
+            "water": "water: Adding water would turn this into something closer to an Americano."
           }
         }
       }
@@ -86,19 +89,21 @@
       "explanations": {
         "positive_feedback": "Espresso is quick, strong, and straightforward — perfect when you're short on time.",
         "negatives": {
-          "macchiato": "Takes extra time to prepare the foam — not ideal for a rush.",
-          "americano": "Weaker than espresso — not efficient for strong energy.",
-          "latte": "Too creamy and time-consuming.",
-          "mocha": "Too complex and sweet — not suitable when in a rush."
+          "macchiato": "Macchiato: takes extra time to prepare the foam — not ideal for a rush.",
+          "americano": "Americano: weaker than espresso — not efficient for strong energy.",
+          "latte": "Latte: too creamy and time-consuming.",
+          "mocha": "Mocha: too complex and sweet — not suitable when in a rush."
         },
         "recipe_rules": {
-          "missing": {},
+          "missing": {
+            "espresso": "Espresso: it's the quickest option."
+          },
           "extra": {
-            "milk_foam": "Milk foam takes time to prepare — not suitable for a quick drink.",
-            "steamed_milk": "Adds time and creaminess — not efficient.",
-            "chocolate": "Too sweet and unnecessary when you're in a hurry.",
-            "whipped_cream": "Whipped cream makes it a dessert — too much for a quick shot.",
-            "water": "Dilutes the espresso — weakens the strength Michael needs."
+            "milk_foam": "Milk foam: takes time to prepare — not suitable for a quick drink.",
+            "steamed_milk": "Steamed milk: adds time and creaminess — not efficient.",
+            "chocolate": "Chocolate: too sweet and unnecessary when you're in a hurry.",
+            "whipped_cream": "Whipped cream: makes it a dessert — too much for a quick shot.",
+            "water": "Water: dilutes the espresso — weakens the strength Michael needs."
           }
         }
       }
@@ -120,20 +125,21 @@
       "explanations": {
         "positive_feedback": "Macchiato gives bold espresso flavor with just a light foam topping.",
         "negatives": {
-          "espresso": "Too harsh — lacks the softness Lydia prefers.",
-          "americano": "Watery and lacks texture.",
-          "latte": "Too creamy for Lydia's taste.",
-          "mocha": "Too sweet and creamy — not subtle at all."
+          "espresso": "Espresso: too harsh — lacks the softness Lydia prefers.",
+          "americano": "Americano: watery and lacks texture.",
+          "latte": "Latte: too creamy for Lydia's taste.",
+          "mocha": "Mocha: too sweet and creamy — not subtle at all."
         },
         "recipe_rules": {
           "missing": {
-            "milk_foam": "You missed the milk foam — it's the soft touch Lydia needs."
+            "milk_foam": "Milk foam: the soft touch Lydia needs.",
+            "espresso": "Espresso: the base for macchiato."
           },
           "extra": {
-            "steamed_milk": "Too creamy — Lydia prefers less milk.",
-            "chocolate": "Adds sweetness Lydia is trying to avoid.",
-            "whipped_cream": "Too dessert-like for Lydia's taste.",
-            "water": "Dilutes the strength — not bold enough."
+            "steamed_milk": "Steamed milk: too creamy — Lydia prefers less milk.",
+            "chocolate": "Chocolate: adds sweetness Lydia is trying to avoid.",
+            "whipped_cream": "Whipped cream: too dessert-like for Lydia's taste.",
+            "water": "Water: dilutes the strength — not bold enough."
           }
         }
       }
@@ -155,20 +161,21 @@
       "explanations": {
         "positive_feedback": "Latte is smooth and mellow — perfect for someone who prefers creamy textures.",
         "negatives": {
-          "espresso": "Too bitter and sharp — not creamy.",
-          "macchiato": "Not creamy enough — only foam on top.",
-          "americano": "Too watery and bitter — no creaminess.",
-          "mocha": "Too sweet — Roaree wants creamy, not sugary."
+          "espresso": "Espresso: too bitter and sharp — not creamy.",
+          "macchiato": "Macchiato: not creamy enough — only foam on top.",
+          "americano": "Americano: too watery and bitter — no creaminess.",
+          "mocha": "Mocha: too sweet — Roaree wants creamy, not sugary."
         },
         "recipe_rules": {
           "missing": {
-            "steamed_milk": "You missed steamed milk — it's what makes a latte creamy.",
-            "milk_foam": "Milk foam gives the latte a soft, balanced top layer."
+            "steamed_milk": "Steamed milk: makes a latte creamy.",
+            "milk_foam": "Milk foam: gives the latte a soft, balanced top layer.",
+            "espresso": "Espresso: the base for latte."
           },
           "extra": {
-            "chocolate": "Adds sweetness Roaree doesn't want.",
-            "whipped_cream": "Too heavy and dessert-like for this drink.",
-            "water": "Watery texture is not creamy — avoid adding water."
+            "chocolate": "Chocolate: adds sweetness Roaree doesn't want.",
+            "whipped_cream": "Whipped cream: too heavy and dessert-like for this drink.",
+            "water": "Water: watery texture is not creamy — avoid adding water."
           }
         }
       }
