@@ -309,7 +309,8 @@ def reset_quiz():
     for key in ['quiz_progress', 'quiz_result', 'quiz_score', 'last_qid', 'hint_clicked', 'quiz_feedback', 'result_names']:
         session.pop(key, None)
     session.modified = True
-    return '', 204
+    return redirect(url_for('quiz', qid=1))
+    # return '', 204
 
 
 if __name__ == '__main__':

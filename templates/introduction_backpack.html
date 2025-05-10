@@ -10,14 +10,14 @@
   <!-- Row 1: Title and home icon -->
   <div class="row align-items-center title-row">
     <div class="col-2">
+      <a href="{{ url_for('home') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Restart" class="home-icon">
+      </a>
     </div>
     <div class="col-8 text-center">
       <h1 class="pixel-font title">CaféCraft</h1>
     </div>
     <div class="col-2 text-end">
-      <a href="{{ url_for('home') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Restart" class="home-icon">
-      </a>
     </div>
   </div>
 

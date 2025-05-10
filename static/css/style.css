@@ -146,6 +146,26 @@ header h1 {
     image-rendering: pixelated;
 }
 
+/* Recipe */
+.recipes-button {
+  background-color: #fff8c6;
+  border: 2px solid #f7c174;
+  color: #5c4b00;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;              /* smaller than submit */
+  padding: 6px 10px;            /* smaller padding */
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 2px 2px 0 #e3d49d;
+  transition: background-color 0.2s ease;
+}
+
+.recipes-button:hover {
+  background-color: #fff3a2;
+  cursor: pointer;
+}
+
 /* Quiz Styles */
 .question-card {
     background-color: var(--color-background);
@@ -158,7 +178,28 @@ header h1 {
     cursor: pointer;
 }
 
+.quiz-button-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px; /* spacing between buttons */
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
 
+.small-quiz-button {
+  font-size: 12px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.light-button {
+  background-color: #fff8c6;
+  border: 2px solid #f7c174;
+  color: #5c4b00;
+}
+.light-button:hover {
+  background-color: #fff3a2;
+}
 
 
 /* quiz */

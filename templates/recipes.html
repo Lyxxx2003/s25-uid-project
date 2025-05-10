@@ -10,13 +10,12 @@
   <!-- Top row with title and home icon -->
   <div class="intro-header-row">
     <div class="home-icon-container">
-      <!-- Empty space to balance layout -->
-    </div>
-    <h1 class="pixel-font intro-title">CaféCraft</h1>
-    <div class="home-icon-container">
       <a href="{{ url_for('home') }}">
         <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Restart" class="home-icon">
       </a>
+    </div>
+    <h1 class="pixel-font intro-title">CaféCraft</h1>
+    <div class="home-icon-container">
     </div>
   </div>
 
@@ -88,9 +87,17 @@
       <!-- Quiz Button -->
       {% if all_unlocked %}
       <div class="quiz-button-container">
-          <a href="{{ url_for('quiz_redirect') }}" class="continue-button">Take Quiz!</a>
-          <!-- <button id="take-quiz-btn" class="continue-button">Take Quiz</button> -->
-
+        <!-- <a href="{{ url_for('quiz_redirect') }}" class="continue-button">Take Quiz!</a> -->
+        {% if session.get('quiz_progress') %}
+          <div class="quiz-button-row">
+            <a href="{{ url_for('quiz_redirect') }}" class="continue-button small-quiz-button">Continue Quiz</a>
+            <form action="{{ url_for('reset_quiz') }}" method="post">
+              <button type="submit" class="continue-button small-quiz-button light-button">Start New Quiz</button>
+            </form>
+          </div>
+        {% else %}
+          <a href="{{ url_for('quiz', qid=1) }}" class="continue-button">Take Quiz!</a>
+        {% endif %}
       </div>
       {% endif %}
     </div>

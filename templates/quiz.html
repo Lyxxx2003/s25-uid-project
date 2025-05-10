@@ -180,8 +180,7 @@
         if (prefilledResult && prefilledResult !== 'None' && prefilledResult !== 'null') {
             isSubmitted = true;
             window.quizSubmitted = true;
-            prefiledDrinkNameDiv.textContent = document.getElementById('prefilled-result-name').value;
-            prefiledDrinkNameDiv.style.display = 'block';
+        
             resultSlot.innerHTML = `<img src="/static/images/${prefilledResult}.png" class="result-image" alt="${prefilledResult}" title="${prefilledResult}">`;
             resultSlot.classList.remove("empty");
             submitBtn.style.display = 'none';
@@ -190,6 +189,8 @@
                 responseText.innerText = prefilledFeedback;
                 responseText.classList.add('pixel-font', 'result-feedback');
                 if (prefilledFeedback.toLowerCase().includes("correct")) {
+                    prefiledDrinkNameDiv.textContent = document.getElementById('prefilled-result-name').value;
+                    prefiledDrinkNameDiv.style.display = 'block';
                     heartIcon.style.display = 'inline-block';
                     responseText.classList.add('result-correct');
                 } else {
@@ -503,25 +504,6 @@
         display: flex;
         align-items: center;
         gap: 16px;
-    }
-
-    .recipes-button {
-        background-color: #fff8c6;
-        border: 2px solid #f7c174;
-        color: #5c4b00;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 10px;              /* smaller than submit */
-        padding: 6px 10px;            /* smaller padding */
-        border-radius: 10px;
-        text-decoration: none;
-        display: inline-block;
-        box-shadow: 2px 2px 0 #e3d49d;
-        transition: background-color 0.2s ease;
-    }
-
-    .recipes-button:hover {
-        background-color: #fff3a2;
-        cursor: pointer;
     }
 
 

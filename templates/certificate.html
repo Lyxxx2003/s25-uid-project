@@ -3,9 +3,10 @@
 {% block content %}
 <!-- Home Button -->
 <div class="home-button" style="position: absolute; top: 20px; left: 20px;">
-    <a href="{{ url_for('recipes') }}">
+    <!-- <a href="{{ url_for('recipes') }}">
         <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Home" style="width: 40px; height: 40px;">
-    </a>
+    </a> -->
+    <a href="{{ url_for('recipes') }}" class="recipes-button">Recipes</a>
 </div>
 <!-- Main Content -->
 <div class="text-center mt-5 pixel-font">
@@ -25,7 +26,7 @@
             <p>has completed<br>CaféCraft’s training on</p>
             <p><b>{{ date }}</b></p>
             <p>with a score of <b>{{ score }}/5</b></p>
-            <p>and is now officially a<br><b>CERTIFIED COFFEE<br>CONNOISSEUR</b></p>
+            <!-- <p>and is now officially a<br><b>CERTIFIED COFFEE<br>CONNOISSEUR</b></p> -->
             <p style="margin-top: 30px;">Dr. Coffee, PhD</p>
         </div>
 
@@ -37,6 +38,7 @@
     </div>
 
     <a href="{{ url_for('quiz', qid=1) }}" class="quiz-button mt-4">Retake Quiz</a>
+    <a href="{{ url_for('recipes') }}" class="quiz-button mt-4">Back to Recipes</a>
 </div>
 
 <style>

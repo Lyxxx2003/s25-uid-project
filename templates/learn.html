@@ -11,13 +11,11 @@
   <!-- Top row with title and home icon -->
   <div class="intro-header-row">
     <div class="home-icon-container">
-      <!-- Empty space to balance layout -->
+      <a href="{{ url_for('recipes') }}" class="recipes-button">Recipes</a>
     </div>
     <h1 class="pixel-font intro-title">CaféCraft</h1>
     <div class="home-icon-container">
-      <a href="{{ url_for('recipes') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Home" title="Home" class="home-icon">
-      </a>
+      <!-- Empty space to balance layout -->
     </div>
   </div>
 
