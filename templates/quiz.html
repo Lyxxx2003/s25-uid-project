@@ -265,22 +265,22 @@
             // buttonRow.className = "mt-3";
             const craftingInner = document.querySelector('.crafting-inner');
 
-            if (prefilledFeedback && !prefilledFeedback.toLowerCase().includes("correct")) {
-                const retryBtn = document.createElement("button");
-                retryBtn.className = "submit-button mt-3";
-                retryBtn.innerText = "Retry This Question";
-                retryBtn.onclick = () => {
-                    fetch('/clear_quiz_question', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ question_id: questionId })
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                };
-                craftingInner.appendChild(retryBtn);
-                // buttonRow.appendChild(retryBtn);
-            }
+            // if (prefilledFeedback && !prefilledFeedback.toLowerCase().includes("correct")) {
+            //     const retryBtn = document.createElement("button");
+            //     retryBtn.className = "submit-button mt-3";
+            //     retryBtn.innerText = "Retry This Question";
+            //     retryBtn.onclick = () => {
+            //         fetch('/clear_quiz_question', {
+            //             method: 'POST',
+            //             headers: { 'Content-Type': 'application/json' },
+            //             body: JSON.stringify({ question_id: questionId })
+            //         }).then(() => {
+            //             window.location.reload();
+            //         });
+            //     };
+            //     craftingInner.appendChild(retryBtn);
+                
+            // }
 
             const nextBtn = document.createElement("button");
             nextBtn.className = "submit-button mt-3";
@@ -418,22 +418,21 @@
                     // buttonRow.className = "mt-3";
                     const craftingInner = document.querySelector('.crafting-inner');
 
-                    if (!data.success) {
-                        const retryBtn = document.createElement("button");
-                        retryBtn.className = "submit-button mt-3";
-                        retryBtn.innerText = "Retry This Question";
-                        retryBtn.onclick = () => {
-                            fetch('/clear_quiz_question', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ question_id: questionId })
-                            }).then(() => {
-                            window.location.reload();
-                            });
-                        };
-                        craftingInner.appendChild(retryBtn);
-                        // buttonRow.appendChild(retryBtn);
-                    }
+                    // if (!data.success) {
+                    //     const retryBtn = document.createElement("button");
+                    //     retryBtn.className = "submit-button mt-3";
+                    //     retryBtn.innerText = "Retry This Question";
+                    //     retryBtn.onclick = () => {
+                    //         fetch('/clear_quiz_question', {
+                    //         method: 'POST',
+                    //         headers: { 'Content-Type': 'application/json' },
+                    //         body: JSON.stringify({ question_id: questionId })
+                    //         }).then(() => {
+                    //         window.location.reload();
+                    //         });
+                    //     };
+                    //     craftingInner.appendChild(retryBtn);
+                    // }
 
                     const nextBtn = document.createElement("button");
                     nextBtn.className = "submit-button mt-3";
