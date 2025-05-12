@@ -313,3 +313,8 @@ header h1 {
   visibility: visible;
   opacity: 1;
 }
+
+.main-title {
+  color: #654321;
+  padding-bottom: 20px;
+}

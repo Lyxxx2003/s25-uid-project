@@ -15,7 +15,7 @@
       </a>
     </div>
     <div class="col-8 text-center">
-      <h1 class="pixel-font title">CaféCraft</h1>
+      <h1 class="main-title title">CaféCraft</h1>
     </div>
     <div class="col-2 text-end">
     </div>
@@ -46,19 +46,20 @@
     <div class="col-md-5 text-center">
       <div class="energy-meter d-flex justify-content-center">
         {% for i in range(6) %}
-          {% if i < caffeine_level %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Filled Bean" class="coffee-icon bean-filled">
+        {% if i < caffeine_level %} <img src="{{ url_for('static', filename='images/coffee_beans.png') }}"
+          alt="Filled Bean" class="coffee-icon bean-filled">
           {% else %}
-            <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean" class="coffee-icon bean-empty">
+          <img src="{{ url_for('static', filename='images/coffee_beans.png') }}" alt="Empty Bean"
+            class="coffee-icon bean-empty">
           {% endif %}
-        {% endfor %}
+          {% endfor %}
       </div>
     </div>
     <div class="col-md-5 text-center">
       <!-- Empty space to balance layout -->
     </div>
   </div>
-  
+
   <!-- Row 5: Backpack and speech bubble -->
   <div class="row justify-content-center mt-3">
     <div class="col-md-5 text-center">
@@ -66,15 +67,16 @@
         <div class="pixel-font backpack-title ">BACKPACK</div>
         <div class="backpack-grid">
           {% for i in range(8) %}
-            <div class="backpack-slot"></div>
+          <div class="backpack-slot"></div>
           {% endfor %}
         </div>
       </div>
     </div>
     <div class="col-md-5">
       <div class="speech-bubble">
-        <p class="pixel-font mb-0">
-          See this little pouch here? That’s your <strong>Backpack</strong> — where all your precious ingredients go! Think of it as your portable pantry. Whether it’s a rare vanilla pod or just your everyday espresso bean, it all fits right here.<br><br>
+        <p class="pixel-font crafting-instructions">
+          See this little pouch here? That’s your <strong>Backpack</strong> — where all your precious ingredients go!
+          Whether it’s a rare vanilla pod or just your everyday espresso bean, it all fits right here.<br><br>
         </p>
       </div>
     </div>
@@ -86,5 +88,6 @@
       <a href="{{ url_for('introduction_table') }}" class="continue-button">Continue</a>
     </div>
   </div>
+
 </div>
 {% endblock %}
