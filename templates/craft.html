@@ -97,18 +97,18 @@
 
   <script>
     let usedIngredients = [];
-
+  
     // 🍳 Restore saved grid on page load
     window.addEventListener('DOMContentLoaded', () => {
         const currentRecipeId = "{{ recipe_id }}";
-        const savedFor = localStorage.getItem('recipeId');
-
+        const savedFor = sessionStorage.getItem('recipeId');
+  
         if (savedFor !== currentRecipeId) {
-            localStorage.removeItem('craftingGrid');
-            localStorage.setItem('recipeId', currentRecipeId);
+            sessionStorage.removeItem('craftingGrid');
+            sessionStorage.setItem('recipeId', currentRecipeId);
         }
-
-        const savedState = JSON.parse(localStorage.getItem('craftingGrid'));
+  
+        const savedState = JSON.parse(sessionStorage.getItem('craftingGrid'));
         if (savedState && Array.isArray(savedState)) {
             savedState.forEach((ingredient, i) => {
                 if (ingredient) {
@@ -129,74 +129,74 @@
             checkRecipe();
         }
     });
-
-    // 💾 Save current crafting grid to localStorage
+  
+    // 💾 Save current crafting grid to sessionStorage
     function saveCraftingState() {
         const state = [];
         document.querySelectorAll('.crafting-slot').forEach(slot => {
             const img = slot.querySelector('img');
             state.push(img ? img.dataset.ingredient : null);
         });
-        localStorage.setItem('craftingGrid', JSON.stringify(state));
+        sessionStorage.setItem('craftingGrid', JSON.stringify(state));
     }
-
+  
     function allowDrop(ev) {
         ev.preventDefault();
     }
-
+  
     function drag(ev) {
         ev.dataTransfer.setData("ingredient", ev.target.dataset.ingredient);
-
+  
         const resultSlot = document.getElementById('resultSlot');
         if (resultSlot.innerHTML.trim() !== '') {
             ev.preventDefault();
             return false;
         }
-
+  
         const craftingSlot = ev.target.closest('.crafting-slot');
         if (craftingSlot) {
             ev.dataTransfer.setData("from-slot", craftingSlot.dataset.slot);
-
+  
             ev.target.addEventListener('dragend', function(e) {
                 if (resultSlot.innerHTML.trim() !== '') return;
-
+  
                 const craftingGrid = document.getElementById('craftingGrid');
                 const gridRect = craftingGrid.getBoundingClientRect();
-
+  
                 if (e.clientX < gridRect.left || e.clientX > gridRect.right ||
                     e.clientY < gridRect.top || e.clientY > gridRect.bottom) {
-
+  
                     const oldSlot = document.querySelector(`.crafting-slot[data-slot="${craftingSlot.dataset.slot}"]`);
                     if (oldSlot) {
                         const ingredient = this.dataset.ingredient;
                         oldSlot.innerHTML = '';
-
+  
                         const ingredientIndex = usedIngredients.indexOf(ingredient);
                         if (ingredientIndex > -1) {
                             usedIngredients.splice(ingredientIndex, 1);
                         }
-
+  
                         document.getElementById('resultSlot').innerHTML = '';
                         document.getElementById('feedbackButton').style.display = 'none';
-
+  
                         saveCraftingState(); // Save after item removal
                     }
                 }
             }, {once: true});
         }
     }
-
+  
     function drop(ev) {
         ev.preventDefault();
         const ingredient = ev.dataTransfer.getData("ingredient");
         const fromSlot = ev.dataTransfer.getData("from-slot");
-
+  
         const slot = ev.target.classList.contains('crafting-slot') ?
             ev.target :
             ev.target.closest('.crafting-slot');
-
+  
         if (!slot) return;
-
+  
         if (fromSlot) {
             const oldSlot = document.querySelector(`.crafting-slot[data-slot="${fromSlot}"]`);
             if (oldSlot) {
@@ -208,7 +208,7 @@
                 }
             }
         }
-
+  
         if (!slot.querySelector('img')) {
             const img = document.createElement('img');
             img.src = `/static/images/${ingredient}.png`;
@@ -217,37 +217,37 @@
             img.dataset.ingredient = ingredient;
             img.classList.add('crafting-item');
             img.addEventListener('click', removeItem);
-
+  
             slot.innerHTML = '';
             slot.appendChild(img);
             slot.classList.add('d-flex', 'justify-content-center', 'align-items-center');
-
+  
             usedIngredients.push(ingredient);
             checkRecipe();
             saveCraftingState(); // Save after drop
         }
     }
-
+  
     function removeItem(ev) {
         const slot = ev.target.closest('.crafting-slot');
         if (!slot) return;
-
+  
         const resultSlot = document.getElementById('resultSlot');
         if (resultSlot.innerHTML.trim() !== '') return;
-
+  
         const ingredient = ev.target.dataset.ingredient;
         slot.innerHTML = '';
-
+  
         const ingredientIndex = usedIngredients.indexOf(ingredient);
         if (ingredientIndex > -1) {
             usedIngredients.splice(ingredientIndex, 1);
         }
-
+  
         document.getElementById('resultSlot').innerHTML = '';
         document.getElementById('feedbackButton').style.display = 'none';
         saveCraftingState(); // Save after removal
     }
-
+  
     function checkRecipe() {
         fetch('/craft_result', {
             method: 'POST',
@@ -267,24 +267,24 @@
                       <img src="/static/images/{{ recipe_id }}.png" alt="{{ recipe.name }}" class="result-item">
                       <div class="pixel-font text-center mt-2">{{ recipe.name }}</div>
                     </div>`;
-
+  
                     document.getElementById('feedbackButton').style.display = 'block';
                     updateCaffeineLevel(data.caffeine_level);
-
+  
                     const slots = document.querySelectorAll('.crafting-slot');
                     slots.forEach(slot => {
                         slot.ondrop = null;
                         slot.ondragover = null;
                     });
-
-                    // ✅ Do NOT clear localStorage here anymore!
+  
+                    // ✅ Do NOT clear sessionStorage here
                 } else {
                     document.getElementById('resultSlot').innerHTML = '';
                     document.getElementById('feedbackButton').style.display = 'none';
                 }
             });
     }
-
+  
     function updateCaffeineLevel(level) {
         const coffeeIcons = document.querySelectorAll('.coffee-bean');
         coffeeIcons.forEach((icon, index) => {
@@ -295,13 +295,14 @@
             }
         });
     }
-
-    // ✅ Clear localStorage only when user clicks Continue
+  
+    // ✅ Clear sessionStorage only when user clicks Continue
     document.getElementById('feedbackButton').addEventListener('click', () => {
-        localStorage.removeItem('craftingGrid');
-        localStorage.removeItem('recipeId');
+        sessionStorage.removeItem('craftingGrid');
+        sessionStorage.removeItem('recipeId');
     });
-</script>
+  </script>
+  
 
 
   {% endblock %}
