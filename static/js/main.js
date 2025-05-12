@@ -35,9 +35,19 @@ $(document).ready(function () {
     const descriptions = $('.description-slide');
     const startCraftingBtn = $('.start-crafting-btn');
     
-    // Check if we've seen this content before
+    // Check if we've seen this content before using the server API
     const currentPath = window.location.pathname;
-    const hasSeenBefore = localStorage.getItem(currentPath) === 'true';
+    let hasSeenBefore = false;
+    
+    // Fetch the seen status from the server
+    $.ajax({
+        url: `/api/check_page_seen?page_path=${currentPath}`,
+        method: 'GET',
+        async: false, // Make synchronous to ensure we have the value before proceeding
+        success: function(data) {
+            hasSeenBefore = data.has_seen;
+        }
+    });
     
     function showDescription(index) {
         // Hide all descriptions
@@ -92,8 +102,14 @@ $(document).ready(function () {
     // Start with the first description
     if (descriptions.length > 0) {
         showDescription(0);
-        // Mark as seen for future visits
-        localStorage.setItem(currentPath, 'true');
+        
+        // Mark as seen for future visits via server API
+        $.ajax({
+            url: '/api/mark_page_seen',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ page_path: currentPath })
+        });
     }
     
     // $('#take-quiz-btn').click(function () {
@@ -127,9 +143,18 @@ function typewriter(elementId = 'typewriter-text', text = null, speed = 50, dela
     // Get text from data attribute, parameter, or element content
     const textToType = text || element.getAttribute('data-text') || element.innerText;
     
-    // Check if we've seen this page before
+    // Check page view status from server API
     const currentPath = window.location.pathname;
-    const hasSeenBefore = localStorage.getItem(currentPath) === 'true';
+    let hasSeenBefore = false;
+    
+    $.ajax({
+        url: `/api/check_page_seen?page_path=${currentPath}`,
+        method: 'GET',
+        async: false, // Make synchronous to ensure we have the value before proceeding
+        success: function(data) {
+            hasSeenBefore = data.has_seen;
+        }
+    });
     
     if (hasSeenBefore) {
         // Skip animation for previously viewed content
@@ -156,8 +181,13 @@ function typewriter(elementId = 'typewriter-text', text = null, speed = 50, dela
         // Start the typewriter effect after specified delay
         setTimeout(typeWriterStep, delay);
         
-        // Mark as seen for future visits
-        localStorage.setItem(currentPath, 'true');
+        // Mark as seen for future visits via server API
+        $.ajax({
+            url: '/api/mark_page_seen',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ page_path: currentPath })
+        });
     }
 }
 

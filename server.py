@@ -25,6 +25,7 @@ class GameState:
         self.name = ''
         self.current_recipe = None
         self.has_seen_intro = False  # Track if user has seen introduction
+        self.seen_pages = {}  # Track pages the user has seen for animation control
 
 # Initialize game state
 game_state = GameState()
@@ -355,7 +356,28 @@ def clear_quiz_question():
     session.modified = True
     return '', 204
 
+@app.route('/api/mark_page_seen', methods=['POST'])
+def mark_page_seen():
+    """Mark a specific page as seen by the user"""
+    data = request.json
+    page_path = data.get('page_path')
+    
+    if page_path:
+        game_state.seen_pages[page_path] = True
+        return jsonify({'success': True})
+    
+    return jsonify({'success': False, 'message': 'Invalid page path'})
 
+@app.route('/api/check_page_seen', methods=['GET'])
+def check_page_seen():
+    """Check if a specific page has been seen by the user"""
+    page_path = request.args.get('page_path')
+    
+    if page_path:
+        has_seen = game_state.seen_pages.get(page_path, False)
+        return jsonify({'has_seen': has_seen})
+    
+    return jsonify({'has_seen': False, 'message': 'Invalid page path'})
 
 if __name__ == '__main__':
     app.run(debug=True)
