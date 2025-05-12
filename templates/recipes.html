@@ -130,4 +130,20 @@
   const hasInProgress = {{ 'true' if session.get('last_qid') and session.get('last_qid') != 1 else 'false' }};
   const lastQid = {{ session.get('last_qid', 1) }};
 </script> -->
+<style>
+  /* .quiz-button-row .small-quiz-button {
+    margin-top: 6px;
+  } */
+  /* .quiz-button-row {
+    display: flex;
+    gap: 12px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    margin-top: 10px;
+  } */
+
+  .quiz-button-row .small-quiz-button {
+    margin-top: 0; /* remove extra top spacing */
+  }
+</style>
 {% endblock %}
