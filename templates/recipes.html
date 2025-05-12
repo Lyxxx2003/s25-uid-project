@@ -92,7 +92,7 @@
           <div class="quiz-button-row">
             <a href="{{ url_for('quiz_redirect') }}" class="continue-button small-quiz-button">Continue Quiz</a>
             <form action="{{ url_for('reset_quiz') }}" method="post">
-              <button type="submit" class="continue-button small-quiz-button light-button">Start New Quiz</button>
+              <button type="submit" class="continue-button small-quiz-button">Start New Quiz</button>
             </form>
           </div>
         {% else %}
@@ -131,16 +131,21 @@
   const lastQid = {{ session.get('last_qid', 1) }};
 </script> -->
 <style>
-  /* .quiz-button-row .small-quiz-button {
-    margin-top: 6px;
-  } */
-  /* .quiz-button-row {
+  .quiz-button-row {
     display: flex;
-    gap: 12px; 
-    justify-content: center; 
-    flex-wrap: wrap; 
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: nowrap;
     margin-top: 10px;
-  } */
+  }
+
+  .quiz-button-row .small-quiz-button {
+    margin-top: 0;
+  }
+
+  .quiz-button-row form {
+    margin: 0; /* remove extra spacing */
+  }
 
   .quiz-button-row .small-quiz-button {
     margin-top: 0; /* remove extra top spacing */
